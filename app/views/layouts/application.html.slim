@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    title TryRails5
+    = csrf_meta_tags
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    #header
+      = link_to 'My Books', root_path, class: 'logo'
+    #main_content
+      = yield
+    #footer None rights reserved.
