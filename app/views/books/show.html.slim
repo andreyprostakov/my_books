@@ -1,0 +1,15 @@
+#book_details
+  .book-header
+    = link_to @book.title, book_path(@book), class: 'book-title'
+    .book-author = "by #{@book.author}"
+
+  .book-details.row
+    .book-cover.col-xs-3 = image_tag @book.cover_url if @book.cover_url.present?
+    .book-annotation.col-xs-9 = simple_format @book.annotation
+
+  .edition-details
+    .edition-isbn = @book.isbn
+    .edition-cover = image_tag @image_url if @image_url.present?
+
+  div = @search_by_isbn_url
+  div = @search_by_isbn_result

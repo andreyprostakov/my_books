@@ -5,9 +5,8 @@ html
     = csrf_meta_tags
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-  body
-    #header
+  body.container
+    #nav_header
       = link_to 'My Books', root_path, class: 'logo'
-    #main_content
+    #main_content.row.col-xs-10.col-xs-offset-1.container
       = yield
-    #footer None rights reserved.

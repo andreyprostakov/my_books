@@ -1,7 +1,6 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "bootstrap/theme";
+
 @import 'layout';
 @import 'books';
-
-body {
-  margin: 0;
-  background-color: #000;
-}

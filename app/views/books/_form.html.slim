@@ -1,0 +1,9 @@
+#book_form
+  = simple_form_for @book, html: { class: 'form-horizontal' } do |f|
+    = f.input :author
+    = f.input :title
+    = f.input :isbn
+    = f.input :cover_url
+    = f.input :annotation
+
+    = f.submit 'Save'

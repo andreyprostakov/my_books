@@ -3,4 +3,10 @@
   ul
     - @books.each do |book|
       li
-        = "\"#{book.title}\" by #{book.author}"
+        => link_to "\"#{book.title}\" by #{book.author}", book_path(book)
+        | |
+        =<> link_to 'Edit', edit_book_path(book)
+        | |
+        =< link_to 'Remove', book_path(book), method: :delete
+    li
+      = link_to 'Add a book', new_book_path
