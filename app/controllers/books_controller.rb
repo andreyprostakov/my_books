@@ -2,20 +2,16 @@ class BooksController < ApplicationController
   BOOK_PARAMS = [
     :title,
     :author,
-    :isbn,
-    :cover_url,
-    :annotation
+    :editions_attributes => [:id, :title, :cover_url, :annotation]
   ].freeze
+
   before_action :fetch_book, only: %i(show edit update destroy)
 
   def index
-    @books = Book.active.ordered_by_author
+    @books = Book.ordered_by_author
   end
 
   def show
-    @search_by_isbn_url = "https://www.goodreads.com/search.xml?key=7MLQdHQSRjiF9oCevlbQ&#{{q: @book.isbn}.to_query}"
-    #@search_by_isbn_result = HTTParty.get(@search_by_isbn_url)
-    #@image_url = @search_by_isbn_result.as_json.dig(*%w(GoodreadsResponse search results work best_book image_url))
   end
 
   def new

@@ -1,0 +1,9 @@
+#edition_form
+  = simple_form_for @edition, html: { class: 'form-horizontal' } do |f|
+    = f.input :title
+    = f.input :annotation
+    = f.input :cover_url
+    = f.input :isbn
+
+    hr
+    = f.submit 'Save'

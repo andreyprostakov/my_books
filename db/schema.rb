@@ -10,17 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161205212820) do
+ActiveRecord::Schema.define(version: 20161206202814) do
+
+  create_table "book_in_editions", force: :cascade do |t|
+    t.integer "book_id",    null: false
+    t.integer "edition_id", null: false
+    t.string  "title"
+    t.string  "translator"
+    t.index ["book_id"], name: "index_book_in_editions_on_book_id"
+    t.index ["edition_id"], name: "index_book_in_editions_on_edition_id"
+  end
 
   create_table "books", force: :cascade do |t|
-    t.string   "title",                      null: false
-    t.string   "author",                     null: false
-    t.string   "isbn"
-    t.string   "cover_url"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.boolean  "removed",    default: false, null: false
-    t.text     "annotation"
+    t.string   "title",      null: false
+    t.string   "author",     null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "editions", force: :cascade do |t|
+    t.string  "isbn",          null: false
+    t.string  "title"
+    t.text    "annotation"
+    t.string  "cover_url"
+    t.string  "editor"
+    t.integer "pages_count"
+    t.string  "language_code"
   end
 
 end

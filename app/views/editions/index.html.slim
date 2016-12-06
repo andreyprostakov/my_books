@@ -1,0 +1,12 @@
+#editions_index
+  h1 Book editions:
+  .row
+    - @editions.each do |edition|
+      .edition-preview.col-xs-3
+        = link_to edit_edition_path(edition) do
+          = image_tag edition.cover_url, class: 'edition-cover'
+        => link_to edition_title(edition), edit_edition_path(edition)
+        | |
+        =< link_to 'Remove', edition_path(edition), method: :delete
+    .col-xs-12
+      = link_to 'Add an edition', new_edition_path
