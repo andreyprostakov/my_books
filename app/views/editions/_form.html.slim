@@ -1,9 +1,19 @@
-#edition_form
-  = simple_form_for @edition, html: { class: 'form-horizontal' } do |f|
-    = f.input :title
-    = f.input :annotation
-    = f.input :cover_url
-    = f.input :isbn
+= simple_form_for @edition, html: {\
+    id: 'edition_form',
+    class: 'form-horizontal'\
+  } do |f|
 
-    hr
-    = f.submit 'Save'
+  .books
+    = f.simple_fields_for :books do |book_form|
+      = render 'editions/book_fields', f: book_form
+    .new-books
+      = link_to_add_association '+ Another book in edition', f, :books,
+          data: { association_insertion_method: 'prepend' }
+
+  = f.input :title
+  = f.input :annotation
+  = f.input :cover_url
+  = f.input :isbn
+
+  hr
+  = f.submit 'Save'

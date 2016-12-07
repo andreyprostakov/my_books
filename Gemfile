@@ -10,6 +10,8 @@ gem 'bootstrap-sass'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'jquery-ui-themes'
 gem 'slim'
 gem 'turbolinks', '~> 5' # !
 
@@ -18,6 +20,7 @@ gem 'annotate'
 gem 'simple_form'
 gem 'nokogiri'
 gem 'httparty'
+gem 'cocoon'
 
 group :development, :test do
   gem 'byebug', platform: :mri

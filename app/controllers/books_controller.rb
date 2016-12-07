@@ -7,6 +7,14 @@ class BooksController < ApplicationController
 
   before_action :fetch_book, only: %i(show edit update destroy)
 
+  def titles
+    render json: Book.pluck(:title).sort
+  end
+
+  def authors
+    render json: Book.pluck(:author).sort
+  end
+
   def index
     @books = Book.ordered_by_author
   end

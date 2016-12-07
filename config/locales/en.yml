@@ -21,3 +21,12 @@
 
 en:
   hello: "Hello world"
+  simple_form:
+    labels:
+      edition:
+        title: Edition title (optional)
+    placeholders:
+      edition:
+        books:
+          title: Title
+          author: Author

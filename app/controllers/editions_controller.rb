@@ -1,6 +1,7 @@
 class EditionsController < ApplicationController
   EDITION_PARAMS = [
-    :title, :cover_url, :annotation, :isbn
+    :title, :cover_url, :annotation, :isbn,
+    :books_attributes => [:id, :title, :author, :_destroy]
   ].freeze
 
   before_action :fetch_edition, only: %i(edit update)
@@ -11,11 +12,12 @@ class EditionsController < ApplicationController
 
   def new
     @edition = Edition.new
+    @edition.books.build
   end
 
   def create
     if Edition.create(edition_params)
-      redirect_to :index
+      redirect_to root_path
     else
       render :new
     end
@@ -26,7 +28,7 @@ class EditionsController < ApplicationController
 
   def update
     if @edition.update_attributes(edition_params)
-      redirect_to :index
+      redirect_to root_path
     else
       render :edit
     end
@@ -34,9 +36,9 @@ class EditionsController < ApplicationController
 
   def destroy
     if @edition.destroy
-      redirect_to :index
+      redirect_to root_path, error: "Could not destroy Edition #{@edition.id}"
     else
-      redirect_to :index
+      redirect_to root_path, message: "Destroyed Edition #{@edition.id}"
     end
   end
 

@@ -2,6 +2,10 @@
 @import "bootstrap";
 @import "bootstrap/theme";
 
+@import 'jquery-ui';
+@import 'jquery-ui/autocomplete';
+@import 'jquery-ui/start';
+
 @import 'layout';
 @import 'books';
 @import 'editions';

@@ -8,14 +8,23 @@
     display: inline-block;
     float: none;
     vertical-align: top;
+    margin-bottom: 20px;
 
-    .edition-cover {
-      max-width: 100%;
-      background-color: #fff;
+    .edition-cover-link {
+      .edition-cover {
+        max-width: 100%;
+        background-color: #fff;
+      }
     }
   }
 }
 
 #edition_form {
   padding: 30px 50px 50px;
+
+  .books {
+    .book-fields {
+      
+    }
+  }
 }
