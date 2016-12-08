@@ -4,7 +4,7 @@ class EditionsController < ApplicationController
     :books_attributes => [:id, :title, :author, :_destroy]
   ].freeze
 
-  before_action :fetch_edition, only: %i(edit update)
+  before_action :fetch_edition, only: %i(edit update destroy)
 
   def index
     @editions = Edition.all

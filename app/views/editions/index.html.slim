@@ -5,8 +5,13 @@
       .edition-preview.col-xs-3
         = link_to edit_edition_path(edition), class: 'edition-cover-link' do
           = image_tag edition.cover_url, class: 'edition-cover'
-        => link_to edition_title(edition), edit_edition_path(edition)
-        | |
-        =< link_to 'Remove', edition_path(edition), method: :delete
+        => link_to edit_edition_path(edition) do
+          = edition_title(edition)
+          br
+          = edition_author(edition)
+        br
+        =< link_to 'Remove', edition_path(edition),
+            method: :delete,
+            class: 'remove-link'
     .col-xs-12
       = link_to 'Add an edition', new_edition_path

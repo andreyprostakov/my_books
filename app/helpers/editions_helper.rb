@@ -1,13 +1,10 @@
 module EditionsHelper
   def edition_title(edition)
-    edition.title.presence || edition_title_by_books(edition)
+    edition.title.presence ||
+      edition.books.map { |b| "\"#{b.title}\"" }.join(', ')
   end
 
-  private
-
-  def edition_title_by_books(edition)
-    books = edition.books
-    books.map { |b| "\"#{b.title}\"" }.join(', ') + ' ' +
-      books.map(&:author).join(', ')
+  def edition_author(edition)
+    edition.books.map(&:author).uniq.join(', ')
   end
 end
