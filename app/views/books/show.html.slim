@@ -1,7 +1,7 @@
 #book_details
   .book-header
     = link_to @book.title, book_path(@book), class: 'book-title'
-    .book-author = "by #{@book.author}"
+    .book-author = "by #{@book.author.name}"
 
   - @book.editions.each do |edition|
     .edition-details

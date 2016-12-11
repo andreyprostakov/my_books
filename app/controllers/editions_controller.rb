@@ -1,9 +1,4 @@
 class EditionsController < ApplicationController
-  EDITION_PARAMS = [
-    :title, :cover_url, :annotation, :isbn,
-    :books_attributes => [:id, :title, :author, :_destroy]
-  ].freeze
-
   before_action :fetch_edition, only: %i(edit update destroy)
 
   def index
@@ -16,7 +11,8 @@ class EditionsController < ApplicationController
   end
 
   def create
-    if Edition.create(edition_params)
+    @edition = form_handler.create_edition
+    if @edition.valid?
       redirect_to root_path
     else
       render :new
@@ -27,7 +23,7 @@ class EditionsController < ApplicationController
   end
 
   def update
-    if @edition.update_attributes(edition_params)
+    if form_handler.update_edition(@edition)
       redirect_to root_path
     else
       render :edit
@@ -48,7 +44,7 @@ class EditionsController < ApplicationController
     @edition = Edition.find(params[:id])
   end
 
-  def edition_params
-    params.require(:edition).permit(*EDITION_PARAMS)
+  def form_handler
+    @form_handler ||= EditionFormHandler.new(params)
   end
 end

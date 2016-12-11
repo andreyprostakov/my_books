@@ -19,4 +19,12 @@ class Edition < ApplicationRecord
   accepts_nested_attributes_for :books, allow_destroy: true
 
   validates_presence_of :isbn, :books
+
+  def build_book(parameters)
+    byebug
+  end
+
+  def build_books(parameters)
+    byebug
+  end
 end

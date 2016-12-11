@@ -7,16 +7,8 @@ class BooksController < ApplicationController
 
   before_action :fetch_book, only: %i(show edit update destroy)
 
-  def titles
-    render json: Book.pluck(:title).sort
-  end
-
-  def authors
-    render json: Book.pluck(:author).sort
-  end
-
   def index
-    @books = Book.ordered_by_author
+    @authors = Author.preload(:books).all
   end
 
   def show
@@ -47,7 +39,7 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    if @book.update_attributes(removed: true)
+    if @book.destroy
       redirect_to books_path
     else
       redirect_to book_path(@book)
