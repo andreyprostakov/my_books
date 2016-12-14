@@ -1,4 +1,5 @@
 class EditionFormHandler
+  BOOKS_PARAMS = [:id, :title, :_destroy, author_ids: []].freeze
   EDITION_PARAMS = [
     :title,
     :cover_url,
@@ -6,7 +7,6 @@ class EditionFormHandler
     :isbn,
     books_attributes: BOOKS_PARAMS
   ].freeze
-  BOOKS_PARAMS = %i(id title author_name _destroy).freeze
 
   def initialize(params)
     @params = params
@@ -23,7 +23,7 @@ class EditionFormHandler
   private
 
   def edition_params
-    params.
+    @params.
       require(:edition).
       permit(*EDITION_PARAMS)
   end

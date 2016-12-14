@@ -14,6 +14,7 @@ gem 'jquery-ui-rails'
 gem 'jquery-ui-themes'
 gem 'slim'
 gem 'turbolinks', '~> 5' # !
+gem 'font-awesome-rails'
 
 gem 'russian'
 gem 'annotate'
@@ -21,6 +22,9 @@ gem 'simple_form'
 gem 'nokogiri'
 gem 'httparty'
 gem 'cocoon'
+
+source 'https://rails-assets.org' do
+end
 
 group :development, :test do
   gem 'byebug', platform: :mri

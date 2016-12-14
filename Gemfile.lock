@@ -1,5 +1,6 @@
 GEM
   remote: https://rubygems.org/
+  remote: https://rails-assets.org/
   specs:
     actioncable (5.0.0.1)
       actionpack (= 5.0.0.1)
@@ -69,6 +70,8 @@ GEM
       railties (>= 3.0.0)
     ffaker (2.3.0)
     ffi (1.9.14)
+    font-awesome-rails (4.7.0.1)
+      railties (>= 3.2, < 5.1)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     httparty (0.14.0)
@@ -212,6 +215,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   factory_girl_rails
   ffaker
+  font-awesome-rails
   httparty
   jquery-rails
   jquery-ui-rails

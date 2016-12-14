@@ -5,6 +5,6 @@ module EditionsHelper
   end
 
   def edition_author(edition)
-    edition.books.map(&:author).uniq.join(', ')
+    edition.authors.map(&:name).uniq.join(', ')
   end
 end

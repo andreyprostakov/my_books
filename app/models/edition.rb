@@ -15,6 +15,7 @@
 class Edition < ApplicationRecord
   has_many :book_in_editions
   has_many :books, through: :book_in_editions
+  has_many :authors, through: :books
 
   accepts_nested_attributes_for :books, allow_destroy: true
 

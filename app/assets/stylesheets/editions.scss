@@ -26,6 +26,12 @@
 #edition_form {
   padding: 30px 50px 50px;
 
+  .book-fields {
+    .link-to-remove-book {
+      font-size: 24px;
+    }
+  }
+
   .edition_annotation textarea {
     max-width: 100%;
     min-height: 100px;

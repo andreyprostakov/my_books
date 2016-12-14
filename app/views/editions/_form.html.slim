@@ -1,8 +1,9 @@
-= simple_form_for @edition, html: {\
-    id: 'edition_form',
-    class: 'form-horizontal'\
-  } do |f|
-
+= simple_form_for(@edition, 
+    defaults: { label: false },
+    html: { id: 'edition_form' }\
+  ) do |f|
+  
+  = f.input :isbn
   .books
     = f.simple_fields_for :books do |book_form|
       = render 'editions/book_fields', f: book_form
@@ -13,7 +14,6 @@
   = f.input :title
   = f.input :annotation, class: 'edition-annotation'
   = f.input :cover_url
-  = f.input :isbn
 
   hr
   = f.submit 'Save'

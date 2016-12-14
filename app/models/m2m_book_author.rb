@@ -8,8 +8,9 @@
 #
 # Indexes
 #
-#  index_m2m_book_authors_on_author_id  (author_id)
-#  index_m2m_book_authors_on_book_id    (book_id)
+#  index_m2m_book_authors_on_author_id              (author_id)
+#  index_m2m_book_authors_on_author_id_and_book_id  (author_id,book_id) UNIQUE
+#  index_m2m_book_authors_on_book_id                (book_id)
 #
 
 class M2mBookAuthor < ActiveRecord::Base

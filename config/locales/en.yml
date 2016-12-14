@@ -24,9 +24,12 @@ en:
   simple_form:
     labels:
       edition:
-        title: Edition title (optional)
     placeholders:
       edition:
+        isbn: ISBN
+        title: Edition title (optional)
+        annotation: Annotation
+        cover_url: Cover
         books:
           title: Title
           author: Author

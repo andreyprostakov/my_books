@@ -6,7 +6,6 @@
 #  title      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  author     :string           not null
 #
 
 class Book < ApplicationRecord
@@ -24,5 +23,14 @@ class Book < ApplicationRecord
 
   def author
     authors.first
+  end
+
+  def author_names
+    authors.map(&:name).join(', ')
+  end
+
+  def author_names=(names)
+    authors_to_remove = author_names - names
+    authors_to_add = names - author_names
   end
 end
