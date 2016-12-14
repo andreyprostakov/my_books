@@ -1,15 +1,6 @@
 #book_form
-  = simple_form_for @book, html: { class: 'form-horizontal' } do |f|
-    = f.input :author
-    = f.input :title
-
-    hr
-    | Editions
-    = f.simple_fields_for :editions do |edition_f|
-      = edition_f.input :title
-      = edition_f.input :cover_url
-      = edition_f.input :annotation
-      = edition_f.input :isbn
+  = simple_form_for @book do |f|
+    = render 'editions/book_fields', f: f
 
     hr
     = f.submit 'Save'

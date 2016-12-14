@@ -17,20 +17,4 @@ class Book < ApplicationRecord
   accepts_nested_attributes_for :editions, allow_destroy: true
 
   validates :title, presence: true
-  validates :authors, presence: true
-
-  scope :ordered_by_author, -> { all }
-
-  def author
-    authors.first
-  end
-
-  def author_names
-    authors.map(&:name).join(', ')
-  end
-
-  def author_names=(names)
-    authors_to_remove = author_names - names
-    authors_to_add = names - author_names
-  end
 end

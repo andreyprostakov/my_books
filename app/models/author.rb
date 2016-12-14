@@ -14,7 +14,5 @@ class Author < ActiveRecord::Base
   has_many :m2m_book_authors
   has_many :books, through: :m2m_book_authors
 
-  def author_name
-    author.try(:name)
-  end
+  validates_presence_of :name
 end

@@ -1,9 +1,8 @@
 .book-fields.nested-fields.row
   = f.association :authors,
       collection: Author.all,
-      label: false,
       wrapper_html: { class: 'col-xs-3' }
-  = f.input :title, label: false,
+  = f.input :title,
     input_html: {\
       data: { autocomplete: true, values: all_book_titles }\
     }, wrapper_html: { class: 'col-xs-8' }

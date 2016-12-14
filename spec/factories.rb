@@ -1,7 +1,11 @@
 FactoryGirl.define do
+  factory :author do
+    name { FFaker::Book.author }
+  end
+
   factory :book do
     title { FFaker::Book.title }
-    author { FFaker::Book.author }
+    authors { build_list(:author, 1) }
   end
 
   factory :edition do

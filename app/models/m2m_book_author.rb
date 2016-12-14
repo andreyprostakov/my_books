@@ -16,4 +16,7 @@
 class M2mBookAuthor < ActiveRecord::Base
   belongs_to :author
   belongs_to :book
+
+  validates_presence_of :author
+  validates :book, presence: true, uniqueness: { scope: :author_id }
 end

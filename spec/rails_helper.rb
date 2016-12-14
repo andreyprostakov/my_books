@@ -32,6 +32,7 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
   config.include FactoryGirl::Syntax::Methods
+  config.render_views
 end
 
 Shoulda::Matchers.configure do |config|

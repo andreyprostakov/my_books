@@ -1,8 +1,7 @@
 class BooksController < ApplicationController
   BOOK_PARAMS = [
     :title,
-    :author,
-    :editions_attributes => [:id, :title, :cover_url, :annotation]
+    author_ids: []
   ].freeze
 
   before_action :fetch_book, only: %i(show edit update destroy)
