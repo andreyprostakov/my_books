@@ -5,6 +5,7 @@ class EditionFormHandler
     :cover_url,
     :annotation,
     :isbn,
+    :edition_category_id,
     books_attributes: BOOKS_PARAMS
   ].freeze
 

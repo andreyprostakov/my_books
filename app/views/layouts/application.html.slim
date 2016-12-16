@@ -7,6 +7,11 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   body.container
     #nav_header
-      = link_to 'My Books', root_path, class: 'logo'
+      = link_to 'Books', root_path, class: 'logo'
+      .categories-links
+        - EditionCategory.find_each do |category|
+          = link_to category.code, editions_path(category: category.code)
+      .other-links
+        = link_to 'authors', books_path
     #main_content.row.col-xs-10.col-xs-offset-1.container
       = yield

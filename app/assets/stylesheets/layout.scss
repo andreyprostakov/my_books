@@ -3,7 +3,7 @@ body {
 }
 
 #nav_header {
-  a {
+  a.logo {
     $radius: 150px;
     font-size: 24px;
     background-color: red;
@@ -23,6 +23,30 @@ body {
 
     &:hover {
       text-decoration: none;
+    }
+  }
+
+  .categories-links {
+    width: 150px;
+    position: absolute;
+    top: 200px;
+    left: 10px;
+
+    a {
+      display: block;
+      text-align: center;
+    }
+  }
+
+  .other-links {
+    width: 150px;
+    position: absolute;
+    top: 300px;
+    left: 10px;
+
+    a {
+      display: block;
+      text-align: center;
     }
   }
 }

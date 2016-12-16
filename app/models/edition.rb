@@ -25,6 +25,10 @@ class Edition < ApplicationRecord
   has_many :books, through: :book_in_editions
   has_many :authors, through: :books
 
+  scope :with_category_code, lambda { |code|
+    joins(:category).where(edition_categories: { code: code })
+  }
+
   accepts_nested_attributes_for :books, allow_destroy: true
 
   validates_presence_of :isbn, :books

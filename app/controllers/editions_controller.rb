@@ -3,6 +3,7 @@ class EditionsController < ApplicationController
 
   def index
     @editions = Edition.all
+    @editions = @editions.with_category_code(params[:category]) if params[:category]
   end
 
   def new
