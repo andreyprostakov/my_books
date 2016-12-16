@@ -17,4 +17,16 @@ class Book < ApplicationRecord
   accepts_nested_attributes_for :editions, allow_destroy: true
 
   validates :title, presence: true
+
+  def author_names
+    authors.map(&:name)
+  end
+
+  def author_names=(names)
+    names = names.select(&:present?)
+    existing_authors = Author.where(name: names)
+    new_author_names = names - existing_authors.map(&:name)
+    new_authors = new_author_names.map { |name| Author.create!(name: name) }
+    self.authors = existing_authors + new_authors
+  end
 end

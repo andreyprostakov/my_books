@@ -8,6 +8,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'bootstrap-sass'
 
 gem 'uglifier', '>= 1.3.0'
+gem 'therubyracer'
 gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -24,6 +25,7 @@ gem 'httparty'
 gem 'cocoon'
 
 source 'https://rails-assets.org' do
+  gem 'rails-assets-tagsinput'
 end
 
 group :development, :test do

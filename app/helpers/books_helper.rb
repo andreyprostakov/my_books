@@ -4,6 +4,6 @@ module BooksHelper
   end
 
   def all_book_authors
-    @all_book_authors ||= Book.pluck(:author).sort
+    @all_book_authors ||= Author.pluck(:name).sort
   end
 end

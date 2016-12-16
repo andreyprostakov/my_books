@@ -15,5 +15,6 @@
 //= require jquery-ui
 //= require turbolinks
 //= require cocoon
+//= require tagsinput
 //
 //= require_tree .

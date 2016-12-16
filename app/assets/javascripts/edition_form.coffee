@@ -2,6 +2,7 @@ class EditionForm
   constructor: (form) ->
     @$form = $(form)
     @_initAutocompletes()
+    @_prepareTagsInputFields()
 
   _initAutocompletes: ->
     for input in @$form.find('[data-autocomplete]')
@@ -18,6 +19,12 @@ class EditionForm
       source: $input.data('values'),
       minLength: 2
     )
+
+  _prepareTagsInputFields: ->
+    for input in @$form.find('[data-tagsinput]')
+      $input = $(input)
+      console.log $input
+      $input.tagsinput()
 
 $ ->
   form = $('#edition_form')

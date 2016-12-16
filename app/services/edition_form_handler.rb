@@ -1,5 +1,5 @@
 class EditionFormHandler
-  BOOKS_PARAMS = [:id, :title, :_destroy, author_ids: []].freeze
+  BOOKS_PARAMS = [:id, :title, :_destroy, author_names: []].freeze
   EDITION_PARAMS = [
     :title,
     :cover_url,
