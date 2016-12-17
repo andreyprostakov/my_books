@@ -10,8 +10,8 @@ html
       = link_to 'Books', root_path, class: 'logo'
       .categories-links
         - EditionCategory.find_each do |category|
-          = link_to category.code, editions_path(category: category.code)
+          = link_to t(category.code, scope: 'categories'), editions_path(category: category.code)
       .other-links
-        = link_to 'authors', books_path
+        = link_to 'Authors', books_path
     #main_content.row.col-xs-10.col-xs-offset-1.container
       = yield

@@ -21,15 +21,9 @@
 
 en:
   hello: "Hello world"
-  simple_form:
-    labels:
-      edition:
-    placeholders:
-      edition:
-        isbn: ISBN
-        title: Edition title (optional)
-        annotation: Annotation
-        cover_url: Cover
-        books:
-          title: Title
-          author: Author
+  categories:
+    fiction: Fiction
+    non_fiction: Non-Fiction
+    comics: Comic books
+    encyclopedia: Encyclopedia
+    media: Magazines

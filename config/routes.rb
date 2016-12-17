@@ -3,5 +3,5 @@ Rails.application.routes.draw do
 
   resources :books
 
-  resources :editions, expect: :show
+  resources :editions, except: :show
 end
