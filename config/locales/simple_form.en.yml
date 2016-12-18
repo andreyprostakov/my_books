@@ -10,6 +10,17 @@ en:
       # html: '<abbr title="required">*</abbr>'
     error_notification:
       default_message: "Please review the problems below:"
+    labels:
+      edition:
+    placeholders:
+      edition:
+        isbn: ISBN
+        title: Edition title (optional)
+        annotation: Annotation
+        cover_url: Cover
+        books:
+          title: Title
+          author: Author
     # Examples
     # labels:
     #   defaults:

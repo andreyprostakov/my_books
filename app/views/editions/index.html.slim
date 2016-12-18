@@ -1,5 +1,5 @@
 #editions_index
-  h1 Book editions:
+  h1 EDITIONS
   .row
     - @editions.each do |edition|
       .edition-preview.col-xs-3
@@ -13,5 +13,7 @@
         =< link_to 'Remove', edition_path(edition),
             method: :delete,
             class: 'remove-link'
+    - if @editions.blank?
+      | Nothing here
     .col-xs-12
       = link_to 'Add an edition', new_edition_path

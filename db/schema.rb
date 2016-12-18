@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161208210503) do
+ActiveRecord::Schema.define(version: 20161216212216) do
 
   create_table "authors", force: :cascade do |t|
     t.string "name", null: false
@@ -32,14 +32,21 @@ ActiveRecord::Schema.define(version: 20161208210503) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "edition_categories", force: :cascade do |t|
+    t.string "code", null: false
+    t.index ["code"], name: "index_edition_categories_on_code", unique: true
+  end
+
   create_table "editions", force: :cascade do |t|
-    t.string  "isbn",          null: false
+    t.string  "isbn",                null: false
     t.string  "title"
     t.text    "annotation"
     t.string  "cover_url"
     t.string  "editor"
     t.integer "pages_count"
     t.string  "language_code"
+    t.integer "edition_category_id"
+    t.index ["edition_category_id"], name: "index_editions_on_edition_category_id"
   end
 
   create_table "m2m_book_authors", force: :cascade do |t|
