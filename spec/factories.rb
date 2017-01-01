@@ -26,4 +26,8 @@ FactoryGirl.define do
     book
     edition
   end
+
+  factory :publisher do
+    sequence(:name) { |n| "Publisher #{n}" }
+  end
 end

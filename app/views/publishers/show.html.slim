@@ -1,0 +1,6 @@
+.publisher-info
+  h1.publisher-name = @publisher.name
+  
+ul.publisher-editions
+  - @publisher.editions.each do |edition|
+    li = link_to edition_title(edition), edit_edition_path(edition)

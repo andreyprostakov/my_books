@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216212216) do
+ActiveRecord::Schema.define(version: 20170101174117) do
 
   create_table "authors", force: :cascade do |t|
     t.string "name", null: false
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20161216212216) do
   end
 
   create_table "editions", force: :cascade do |t|
-    t.string  "isbn",                null: false
+    t.string  "isbn",                               null: false
     t.string  "title"
     t.text    "annotation"
     t.string  "cover_url"
@@ -46,7 +46,10 @@ ActiveRecord::Schema.define(version: 20161216212216) do
     t.integer "pages_count"
     t.string  "language_code"
     t.integer "edition_category_id"
+    t.integer "publisher_id"
+    t.integer "publication_year",    default: 1999
     t.index ["edition_category_id"], name: "index_editions_on_edition_category_id"
+    t.index ["publisher_id"], name: "index_editions_on_publisher_id"
   end
 
   create_table "m2m_book_authors", force: :cascade do |t|
@@ -55,6 +58,12 @@ ActiveRecord::Schema.define(version: 20161216212216) do
     t.index ["author_id", "book_id"], name: "index_m2m_book_authors_on_author_id_and_book_id", unique: true
     t.index ["author_id"], name: "index_m2m_book_authors_on_author_id"
     t.index ["book_id"], name: "index_m2m_book_authors_on_book_id"
+  end
+
+  create_table "publishers", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

@@ -1,0 +1,11 @@
+#publishers_index
+  h1 Publishers:
+  ul.publishers-list
+    - @publishers.each do |publisher|
+      li.publishers-list-item
+        = link_to publisher.name, publisher_path(publisher)
+        =<> '|'
+        = link_to 'Edit', edit_publisher_path(publisher)
+        =<> '|'
+        = link_to 'X', publisher_path(publisher), method: :delete
+  = link_to 'Add another publisher', new_publisher_path

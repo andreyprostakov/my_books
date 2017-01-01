@@ -18,6 +18,8 @@ en:
         title: Edition title (optional)
         annotation: Annotation
         cover_url: Cover
+        publication_year: Publication year
+        pages_count: '# Pages'
         books:
           title: Title
           author: Author
