@@ -4,7 +4,9 @@ RSpec.describe EditionsController do
   describe 'GET index' do
     context 'without :category parameter' do
       let(:all_editions) { [build(:edition, id: 13)] }
-      before { allow(Edition).to receive(:all).and_return(all_editions) }
+      before do
+        allow(Edition).to receive(:by_book_titles).and_return(all_editions)
+      end
 
       it 'renders all Editions' do
         get :index
@@ -17,8 +19,8 @@ RSpec.describe EditionsController do
       let(:category_code) { 'category_12' }
       let(:editions_by_category) { [build(:edition, id: 11)] }
       before do
-        allow(Edition).to receive(:with_category_code).
-          with(category_code).
+        allow(Edition).to receive_message_chain(:with_category_code, :by_book_titles).
+          with(category_code).with(no_args).
           and_return(editions_by_category)
       end
 

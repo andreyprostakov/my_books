@@ -17,4 +17,6 @@ class Book < ApplicationRecord
   accepts_nested_attributes_for :editions, allow_destroy: true
 
   validates :title, presence: true
+
+  scope :by_titles, -> { order :title }
 end

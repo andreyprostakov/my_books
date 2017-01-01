@@ -2,7 +2,7 @@ class EditionsController < ApplicationController
   before_action :fetch_edition, only: %i(edit update destroy)
 
   def index
-    @editions = find_editions
+    @editions = find_editions.by_book_titles
   end
 
   def new

@@ -28,6 +28,9 @@ class Edition < ApplicationRecord
   scope :with_category_code, lambda { |code|
     joins(:category).where(edition_categories: { code: code })
   }
+  scope :by_book_titles, lambda {
+    includes(:books).order('books.title').group('editions.id')
+  }
 
   accepts_nested_attributes_for :books, allow_destroy: true
 
