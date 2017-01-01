@@ -2,21 +2,18 @@ require 'rails_helper'
 
 RSpec.describe BooksController do
   describe 'GET index' do
-    let(:authors) do
-      build_list(:author, 2, books: build_stubbed_list(:book, 2, authors: []))
+    let(:books) do
+      build_stubbed_list(:book, 2, authors: build_stubbed_list(:author, 1))
     end
-
     before do
-      allow(Author).to receive_message_chain(:preload, :all).
-        with(:books).with(no_args).
-        and_return(authors)
+      allow(Book).to receive(:by_titles).and_return(books)
     end
 
     it 'returns all books' do
       get :index
       expect(response).to be_success
       expect(response).to render_template 'index'
-      expect(assigns :authors).to match_array(authors)
+      expect(assigns :books).to match_array(books)
     end
   end
 

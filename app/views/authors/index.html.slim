@@ -1,0 +1,11 @@
+#authors_index
+  h1 Authors:
+  ul.authors-list
+    - @authors.each do |author|
+      li.authors-list-item
+        = link_to author.name, author_path(author)
+        =<> '|'
+        = link_to 'Edit', edit_author_path(author)
+        =<> '|'
+        = link_to 'X', author_path(author), method: :delete
+  = link_to 'Add another author', new_author_path

@@ -1,0 +1,6 @@
+.author-info
+  h1.author-name = @author.name
+  
+ul.author-editions
+  - @author.editions.each do |edition|
+    li = link_to edition_title(edition), edit_edition_path(edition)

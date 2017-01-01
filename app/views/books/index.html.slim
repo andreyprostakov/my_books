@@ -1,13 +1,13 @@
 #books_index
   h1 Books:
-  - @authors.each do |author|
-    = author.name
-    ul
-      - author.books.each do |book|
-        li
-          => link_to "\"#{book.title}\"", book_path(book)
-          | |
-          =<> link_to 'Edit', edit_book_path(book)
-          | |
-          =< link_to 'Remove', book_path(book), method: :delete
+  ul
+    - @books.each do |book|
+      li
+        = link_to "\"#{book.title}\"", book_path(book)
+        =<> 'by' 
+        = links_to_authors(book.authors)
+        | |
+        =<> link_to 'Edit', edit_book_path(book)
+        | |
+        =< link_to 'Remove', book_path(book), method: :delete
   = link_to 'Add a book', new_book_path

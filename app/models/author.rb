@@ -13,6 +13,9 @@
 class Author < ActiveRecord::Base
   has_many :m2m_book_authors
   has_many :books, through: :m2m_book_authors
+  has_many :editions, through: :books
 
-  validates_presence_of :name
+  validates :name, presence: true, uniqueness: true
+
+  scope :by_names, -> { order(:name) }
 end

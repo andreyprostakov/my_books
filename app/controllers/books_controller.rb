@@ -7,7 +7,7 @@ class BooksController < ApplicationController
   before_action :fetch_book, only: %i(show edit update destroy)
 
   def index
-    @authors = Author.preload(:books).all
+    @books = Book.by_titles
   end
 
   def show
