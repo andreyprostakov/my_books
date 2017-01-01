@@ -11,16 +11,20 @@
 #  pages_count         :integer
 #  language_code       :string
 #  edition_category_id :integer
+#  publisher_id        :integer
+#  publication_year    :integer          default(1999)
 #
 # Indexes
 #
 #  index_editions_on_edition_category_id  (edition_category_id)
+#  index_editions_on_publisher_id         (publisher_id)
 #
 
 class Edition < ApplicationRecord
   belongs_to :category,
     class_name: EditionCategory,
     foreign_key: :edition_category_id
+  belongs_to :publisher, optional: true
   has_many :book_in_editions
   has_many :books, through: :book_in_editions
   has_many :authors, through: :books

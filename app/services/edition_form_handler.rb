@@ -6,6 +6,9 @@ class EditionFormHandler
     :annotation,
     :isbn,
     :edition_category_id,
+    :publisher_id,
+    :publication_year,
+    :pages_count,
     books_attributes: BOOKS_PARAMS
   ].freeze
 

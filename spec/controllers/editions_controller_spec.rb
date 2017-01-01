@@ -102,7 +102,7 @@ RSpec.describe EditionsController do
     before { allow(Edition).to receive(:find).with('14').and_return(edition) }
 
     it 'renders Edition form' do
-      get :edit, id: edition.id
+      get :edit, params: { id: edition.id }
       expect(response).to render_template 'edit'
       expect(assigns :edition).to eq edition
     end
