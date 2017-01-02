@@ -1,8 +1,8 @@
 #editions_index
-  h1 EDITIONS
+  h1= t('editions.index')
   .row
     .col-xs-12
-      = link_to 'Add an edition', new_edition_path
+      = link_to t('editions.add_new'), new_edition_path
     - @editions.each do |edition|
       .edition-preview.col-xs-3
         = link_to '', edition_path(edition),
@@ -12,10 +12,10 @@
         br
         = links_to_authors edition.authors
         br
-        = link_to 'Edit', edit_edition_path(edition), class: 'edit-link'
+        = link_to t('actions.edit'), edit_edition_path(edition), class: 'edit-link'
         br
-        = link_to 'Remove', edition_path(edition),
+        = link_to t('actions.remove'), edition_path(edition),
             method: :delete,
             class: 'remove-link'
     - if @editions.blank?
-      | Nothing here
+      = t('status.nothing_here')

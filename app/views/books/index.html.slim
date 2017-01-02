@@ -1,5 +1,5 @@
 #books_index
-  h1 Books:
+  h1= t('books.index')
   ul
     - @books.each do |book|
       li
@@ -7,7 +7,7 @@
         =<> 'by' 
         = links_to_authors(book.authors)
         | |
-        =<> link_to 'Edit', edit_book_path(book)
+        =<> link_to t('actions.edit'), edit_book_path(book)
         | |
-        =< link_to 'Remove', book_path(book), method: :delete
-  = link_to 'Add a book', new_book_path
+        =< link_to t('actions.remove'), book_path(book), method: :delete
+  = link_to t('books.add_new'), new_book_path

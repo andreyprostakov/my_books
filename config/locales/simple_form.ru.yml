@@ -1,0 +1,35 @@
+ru:
+  helpers:
+    submit:
+      create: 'Сохранить'
+      update: 'Сохранить'
+  simple_form:
+    "yes": 'Да'
+    "no": 'Нет'
+    required:
+      text: 'обязательное поле'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "Please review the problems below:"
+    labels:
+      defaults:
+        name: Название
+        title: Название
+      author:
+        name: Имя
+      book:
+        authors: Авторы
+    placeholders:
+      edition:
+        isbn: ISBN
+        title: Название издания (опционально)
+        annotation: Аннотация
+        cover_url: Обложка
+        publication_year: Год издания
+        pages_count: 'Кол-во страниц'
+        books:
+          title: Название
+          author: Автор

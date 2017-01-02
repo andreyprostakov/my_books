@@ -1,0 +1,26 @@
+ru:
+  actions:
+    edit: Редактировать
+    remove: Удалить
+  authors:
+    index: Авторы
+    add_new: Добавить автора
+  books:
+    index: Произведения
+    add_new: Добавить книгу
+  categories:
+    all_categories: Все издания
+    fiction: Беллетристика
+    non_fiction: Документалистика
+    comics: Комиксы
+    encyclopedia: Энциклопедии
+    media: Периодика
+  editions:
+    index: Издания
+    add_new: Добавить издание
+  publishers:
+    index: Издательства
+    add_new: Добавить издательство
+  status:
+    nothing_here: Пусто
+  title: Книги

@@ -8,7 +8,7 @@
     = f.simple_fields_for :books do |book_form|
       = render 'editions/book_fields', f: book_form
     .new-books
-      = link_to_add_association '+ Another book in edition', f, :books,
+      = link_to_add_association t('books.add_new'), f, :books,
           data: { association_insertion_method: 'prepend' }
 
   = f.input :title
