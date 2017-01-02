@@ -1,6 +1,8 @@
 .author-info
-  h1.author-name = @author.name
+  h1
+    = link_to t('authors.index'), authors_path
+    =<> '/'
+    = @author.name
   
-ul.author-editions
-  - @author.editions.each do |edition|
-    li = link_to edition_title(edition), edition_path(edition)
+.author-editions
+  = render 'editions/list', editions: @author.editions

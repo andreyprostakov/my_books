@@ -1,6 +1,8 @@
 .publisher-info
-  h1.publisher-name = @publisher.name
+  h1
+    = link_to t('publishers.index'), publishers_path
+    =<> '/'
+    = @publisher.name
   
-ul.publisher-editions
-  - @publisher.editions.each do |edition|
-    li = link_to edition_title(edition), edition_path(edition)
+.publisher-editions
+  = render 'editions/list', editions: @publisher.editions

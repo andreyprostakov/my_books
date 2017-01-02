@@ -1,5 +1,5 @@
 #authors_index
-  h1= t('authors.index')
+  h1 = t('authors.index')
   ul.authors-list
     - @authors.each do |author|
       li.authors-list-item
@@ -8,4 +8,3 @@
         = link_to t('actions.edit'), edit_author_path(author)
         =<> '|'
         = link_to 'X', author_path(author), method: :delete
-  = link_to t('authors.add_new'), new_author_path

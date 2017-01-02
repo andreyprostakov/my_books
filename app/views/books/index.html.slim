@@ -1,13 +1,10 @@
 #books_index
-  h1= t('books.index')
+  h1 = t('books.index')
   ul
     - @books.each do |book|
       li
-        = link_to "\"#{book.title}\"", book_path(book)
-        =<> 'by' 
-        = links_to_authors(book.authors)
-        | |
-        =<> link_to t('actions.edit'), edit_book_path(book)
-        | |
+        => link_to "\"#{book.title}\"", edit_book_path(book)
+        == "(#{links_to_authors(book.authors)})" if book.authors.present?
+        =<> '|'
         =< link_to t('actions.remove'), book_path(book), method: :delete
   = link_to t('books.add_new'), new_book_path

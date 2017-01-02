@@ -1,21 +1,3 @@
 #editions_index
-  h1= t('editions.index')
-  .row
-    .col-xs-12
-      = link_to t('editions.add_new'), new_edition_path
-    - @editions.each do |edition|
-      .edition-preview.col-xs-3
-        = link_to '', edition_path(edition),
-            class: 'edition-cover-link',
-            style: "background-image: url(#{edition.cover_url})"
-        = link_to edition_title(edition), edition_path(edition)
-        br
-        = links_to_authors edition.authors
-        br
-        = link_to t('actions.edit'), edit_edition_path(edition), class: 'edit-link'
-        br
-        = link_to t('actions.remove'), edition_path(edition),
-            method: :delete,
-            class: 'remove-link'
-    - if @editions.blank?
-      = t('status.nothing_here')
+  h1 = t('editions.index')
+  = render 'list', editions: @editions

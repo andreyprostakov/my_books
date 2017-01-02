@@ -100,16 +100,4 @@ RSpec.describe BooksController do
       end
     end
   end
-
-  describe 'GET show' do
-    let(:book) { build_stubbed(:book, id: 13) }
-    before { allow(Book).to receive(:find).with('13').and_return(book) }
-
-    it 'renders Post' do
-      get :show, params: { id: book.id }
-      expect(response).to be_success
-      expect(response).to render_template 'show'
-      expect(assigns :book).to eq book
-    end
-  end
 end

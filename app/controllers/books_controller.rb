@@ -4,13 +4,10 @@ class BooksController < ApplicationController
     author_ids: []
   ].freeze
 
-  before_action :fetch_book, only: %i(show edit update destroy)
+  before_action :fetch_book, only: %i(edit update destroy)
 
   def index
-    @books = Book.by_titles
-  end
-
-  def show
+    @books = Book.preload(:authors).by_titles
   end
 
   def new

@@ -1,23 +1,31 @@
 #edition_details
   .edition-books
     - @edition.books.each do |book|
-      .edition-book
-        h2
-          = link_to book.title, book_path(book)
-          =<> 'by'
-          = links_to_authors(book.authors)
+      = link_to book.title, edit_book_path(book), class: 'edition-book'
   .edition-header
     .cover style="background-image: url(#{@edition.cover_url})"
     .info
+      - if @edition.authors.present?
+        .attribute
+          = t('editions.attributes.author')
+          => ':'
+          = links_to_authors(@edition.authors)
       .attribute
-        = "Category:"
-        =< link_to @edition.category.code, editions_path(category: @edition.category.code)
+        = t('editions.attributes.category')
+        => ':'
+        = link_to t(@edition.category.code, scope: 'categories'), category_path(@edition.category.code)
       - if @edition.publisher.present?
         .attribute
-          = "Publisher:"
+          = t('editions.attributes.publisher')
+          => ':'
           =< link_to @edition.publisher.name, publisher_url(@edition.publisher)
-      .attribute = "Year of publishing: #{@edition.publication_year}"
+      .attribute
+        = t('editions.attributes.publication_year')
+        => ':'
+        = @edition.publication_year
       - if @edition.pages_count.present?
         .attribute
-          = "Pages: #{@edition.pages_count}"
+          = t('editions.attributes.pages_count')
+          => ':'
+          = @edition.pages_count
       .annotation = simple_format(@edition.annotation)

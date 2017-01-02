@@ -4,23 +4,54 @@
   box-sizing: border-box;
   padding: 20px 20px 50px;
 
+  .add-edition-link {
+    display: inline-block;
+    margin-bottom: 30px;
+  }
+}
+
+.editions-list {
+  .edition {
+    height: 300px;
+    margin-bottom: 40px;
+  }
+
   .edition-preview {
     display: inline-block;
-    float: none;
+    position: relative;
+    width: 100%;
     vertical-align: top;
     margin-bottom: 20px;
+    border-radius: 2px;
+    overflow: hidden;
 
-    .edition-cover-link {
+    .edition-cover {
       display: inline-block;
       width: 100%;
-      height: 300px;
+      max-height: 300px;
       background-size: contain;
       background-repeat: no-repeat;
-      background-position: 50% 50%;
+      background-position: 50% 0%;
     }
 
-    .edit-link, .remove-link {
-      color: black;
+    .edition-links {
+      display: none;
+    }
+
+    &:hover {
+      .edition-links {
+        display: block;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        padding: 40px 20px;
+        background-color: rgba(0,0,0,0.8);
+
+        &, & a {
+          color: white;
+        }
+      }
     }
   }
 }
@@ -29,7 +60,12 @@
   padding: 50px 30px;
 
   .edition-books {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+
+    .edition-book {
+      display: block;
+      font-size: 24px;
+    }
   }
 
   .edition-header {

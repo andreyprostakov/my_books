@@ -3,9 +3,11 @@ Rails.application.routes.draw do
 
   resources :authors
 
-  resources :books
+  resources :books, except: :show
 
   resources :editions
 
   resources :publishers
+
+  get 'categories/:code' => 'edition_categories#show', as: :category
 end

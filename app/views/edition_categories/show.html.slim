@@ -1,0 +1,6 @@
+#editions_index
+  h1
+    = link_to t('editions.index'), editions_path
+    =<> '/'
+    = t(@category.code, scope: 'categories')
+  = render 'editions/list', editions: @editions

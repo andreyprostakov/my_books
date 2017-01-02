@@ -2,7 +2,7 @@ class EditionsController < ApplicationController
   before_action :fetch_edition, only: %i(show edit update destroy)
 
   def index
-    @editions = find_editions.by_book_titles
+    @editions = Edition.by_book_titles
   end
 
   def show
@@ -42,14 +42,6 @@ class EditionsController < ApplicationController
   end
 
   private
-
-  def find_editions
-    if params[:category]
-      Edition.with_category_code(params[:category])
-    else
-      Edition.all
-    end
-  end
 
   def fetch_edition
     @edition = Edition.find(params[:id])

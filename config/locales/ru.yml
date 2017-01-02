@@ -16,8 +16,14 @@ ru:
     encyclopedia: Энциклопедии
     media: Периодика
   editions:
-    index: Издания
-    add_new: Добавить издание
+    index: Книги
+    add_new: Добавить книгу
+    attributes:
+      author: Автор
+      category: Категория
+      publisher: Издательство
+      publication_year: Год издания
+      pages_count: Кол-во страниц
   publishers:
     index: Издательства
     add_new: Добавить издательство

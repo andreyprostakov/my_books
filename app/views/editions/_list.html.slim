@@ -1,0 +1,18 @@
+.editions-list.row
+  - editions.each do |edition|
+    .edition.col-xs-3
+      .edition-preview
+        = image_tag edition.cover_url, class: 'edition-cover'
+        .edition-links
+          = link_to edition_title(edition), edition_path(edition)
+          br
+          = links_to_authors edition.authors
+          hr
+          = link_to t('actions.edit'), edit_edition_path(edition),
+              class: 'edit-link'
+          br
+          = link_to t('actions.remove'), edition_path(edition),
+              method: :delete,
+              class: 'remove-link'
+  - if editions.blank?
+    = t('status.nothing_here')

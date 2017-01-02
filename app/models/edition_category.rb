@@ -14,4 +14,8 @@ class EditionCategory < ApplicationRecord
   has_many :editions, foreign_key: :edition_category_id, inverse_of: :category
 
   validates :code, presence: true, uniqueness: true
+
+  def to_param
+    code
+  end
 end

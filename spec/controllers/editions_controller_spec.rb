@@ -2,33 +2,16 @@ require 'rails_helper'
 
 RSpec.describe EditionsController do
   describe 'GET index' do
-    context 'without :category parameter' do
-      let(:all_editions) { [build(:edition, id: 13)] }
-      before do
-        allow(Edition).to receive(:by_book_titles).and_return(all_editions)
-      end
-
-      it 'renders all Editions' do
-        get :index
-        expect(response).to render_template 'index'
-        expect(assigns :editions).to eq all_editions
-      end
+    let(:ordered_editions) { [build(:edition, id: 13)] }
+    before do
+      allow(Edition).to receive(:by_book_titles).
+        and_return(ordered_editions)
     end
 
-    context 'with :category parameter' do
-      let(:category_code) { 'category_12' }
-      let(:editions_by_category) { [build(:edition, id: 11)] }
-      before do
-        allow(Edition).to receive_message_chain(:with_category_code, :by_book_titles).
-          with(category_code).with(no_args).
-          and_return(editions_by_category)
-      end
-
-      it 'renders all Editions' do
-        get :index, params: { category: category_code }
-        expect(response).to render_template 'index'
-        expect(assigns :editions).to eq editions_by_category
-      end
+    it 'renders all Editions' do
+      get :index
+      expect(response).to render_template 'index'
+      expect(assigns :editions).to eq ordered_editions
     end
   end
 
