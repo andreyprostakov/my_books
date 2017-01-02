@@ -1,8 +1,11 @@
 class EditionsController < ApplicationController
-  before_action :fetch_edition, only: %i(edit update destroy)
+  before_action :fetch_edition, only: %i(show edit update destroy)
 
   def index
     @editions = find_editions.by_book_titles
+  end
+
+  def show
   end
 
   def new

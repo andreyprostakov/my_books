@@ -9,6 +9,7 @@ html
     #nav_header
       = link_to 'Books', root_path, class: 'logo'
       .categories-links
+        = link_to 'All editions', editions_path
         - EditionCategory.find_each do |category|
           = link_to t(category.code, scope: 'categories'), editions_path(category: category.code)
       .other-links

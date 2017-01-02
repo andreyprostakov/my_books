@@ -19,8 +19,41 @@
       background-position: 50% 50%;
     }
 
-    .remove-link {
+    .edit-link, .remove-link {
       color: black;
+    }
+  }
+}
+
+#edition_details {
+  padding: 50px 30px;
+
+  .edition-books {
+    margin-bottom: 20px;
+  }
+
+  .edition-header {
+    .cover {
+      display: inline-block;
+      vertical-align: top;
+      width: 200px;
+      height: 300px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: 50% 0%;
+    }
+
+    .info {
+      display: inline-block;
+      padding-left: 20px;
+      vertical-align: top;
+      width: calc(100% - 200px);
+
+      .annotation {
+        padding: 20px 10px;
+        font-size: 12px;
+        font-style: italic;
+      }
     }
   }
 }

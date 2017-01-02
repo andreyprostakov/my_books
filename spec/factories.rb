@@ -6,6 +6,10 @@ FactoryGirl.define do
   factory :book do
     title { FFaker::Book.title }
     authors { build_list(:author, 1) }
+
+    trait :with_stubbed_relations do
+      authors { build_stubbed_list(:author, 1) }
+    end
   end
 
   factory :edition do
@@ -16,6 +20,12 @@ FactoryGirl.define do
     isbn { FFaker::Book.isbn }
     cover_url { FFaker::Book.cover }
     annotation { FFaker::Book.description }
+
+    trait :with_stubbed_relations do
+      books { build_stubbed_list(:book, 1, :with_stubbed_relations) }
+      category { build_stubbed(:edition_category) }
+      publisher { build_stubbed(:publisher) }
+    end
   end
 
   factory :edition_category do

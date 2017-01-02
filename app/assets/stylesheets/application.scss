@@ -9,3 +9,9 @@
 @import 'layout';
 @import 'books';
 @import 'editions';
+
+form {
+  input[type=submit] {
+    color: black;
+  }
+}

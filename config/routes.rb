@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   resources :books
 
-  resources :editions, except: :show
+  resources :editions
 
   resources :publishers
 end

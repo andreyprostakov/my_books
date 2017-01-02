@@ -32,6 +32,19 @@ RSpec.describe EditionsController do
     end
   end
 
+  describe 'GET show' do
+    let(:edition) { build_stubbed(:edition, :with_stubbed_relations) }
+    before do
+      allow(Edition).to receive(:find).with(edition.id.to_s).and_return(edition)
+    end
+
+    it 'renders details of given edition' do
+      get :show, params: { id: edition.id }
+      expect(response).to render_template('show')
+      expect(assigns :edition).to eq(edition)
+    end
+  end
+
   describe 'GET new' do
     it 'renders Edition form' do
       get :new

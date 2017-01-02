@@ -3,4 +3,4 @@
   
 ul.publisher-editions
   - @publisher.editions.each do |edition|
-    li = link_to edition_title(edition), edit_edition_path(edition)
+    li = link_to edition_title(edition), edition_path(edition)
