@@ -2,7 +2,7 @@ class EditionFormHandler
   BOOKS_PARAMS = [:id, :title, :_destroy, author_ids: []].freeze
   EDITION_PARAMS = [
     :title,
-    :cover_url,
+    :remote_cover_url,
     :annotation,
     :isbn,
     :edition_category_id,

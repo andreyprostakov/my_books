@@ -27,7 +27,7 @@ ru:
         isbn: ISBN
         title: Название издания (опционально)
         annotation: Аннотация
-        cover_url: Обложка
+        remote_cover_url: Обложка
         publication_year: Год издания
         pages_count: 'Кол-во страниц'
         books:

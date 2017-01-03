@@ -2,7 +2,7 @@
   - editions.each do |edition|
     .edition.col-xs-3
       .edition-preview
-        = image_tag edition.cover_url, class: 'edition-cover'
+        = image_tag edition.cover.url(:thumb), class: 'edition-cover'
         .edition-links
           = link_to edition_title(edition), edition_path(edition)
           br

@@ -13,10 +13,12 @@
 
   = f.input :title
   = f.input :annotation, class: 'edition-annotation'
-  = f.input :cover_url
+  .cover
+    = image_tag(@edition.cover_url)
+    = f.input :remote_cover_url
   = f.input :publication_year
   = f.input :pages_count
-  = f.association :category, label_method: :code, include_blank: false
+  = f.association :category, label_method: :title, include_blank: false
   = f.association :publisher, label_method: :name, include_blank: false
 
   hr

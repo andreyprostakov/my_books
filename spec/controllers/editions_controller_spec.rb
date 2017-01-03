@@ -46,7 +46,6 @@ RSpec.describe EditionsController do
           isbn: '975-XXX',
           title: 'Edition title',
           annotation: 'annotation',
-          cover_url: 'example.com',
           edition_category_id: category.id,
           books_attributes: [
             { title: 'Book title', author_ids: [author.id] }
@@ -66,7 +65,6 @@ RSpec.describe EditionsController do
           expect(new_edition.title).to eq 'Edition title'
           expect(new_edition.isbn).to eq '975-XXX'
           expect(new_edition.annotation).to eq 'annotation'
-          expect(new_edition.cover_url).to eq 'example.com'
           expect(new_edition.books).to be_present
           expect(new_edition.books.first.title).to eq 'Book title'
           expect(new_edition.authors).to match_array [author]
@@ -78,8 +76,7 @@ RSpec.describe EditionsController do
       let(:edition_params) do
         {
           title: 'Edition title',
-          annotation: 'annotation',
-          cover_url: 'example.com'
+          annotation: 'annotation'
         }
       end
 

@@ -15,6 +15,10 @@ class EditionCategory < ApplicationRecord
 
   validates :code, presence: true, uniqueness: true
 
+  def title
+    I18n.t(code, scope: 'categories')
+  end
+
   def to_param
     code
   end

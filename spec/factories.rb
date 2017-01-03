@@ -18,7 +18,6 @@ FactoryGirl.define do
 
     title { FFaker::Book.title }
     isbn { FFaker::Book.isbn }
-    cover_url { FFaker::Book.cover }
     annotation { FFaker::Book.description }
 
     trait :with_stubbed_relations do

@@ -107,4 +107,21 @@
     max-width: 100%;
     min-height: 100px;
   }
+
+  .cover {
+    margin-bottom: 15px;
+
+    img {
+      display: inline-block;
+      width: 130px;
+      max-height: 300px;
+    }
+
+    .form-group {
+      display: inline-block;
+      width: calc(100% - 130px);
+      vertical-align: top;
+      padding-left: 15px;
+    }
+  }
 }

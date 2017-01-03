@@ -6,13 +6,13 @@
 #  isbn                :string           not null
 #  title               :string
 #  annotation          :text
-#  cover_url           :string
 #  editor              :string
 #  pages_count         :integer
 #  language_code       :string
 #  edition_category_id :integer
 #  publisher_id        :integer
 #  publication_year    :integer          default(1999)
+#  cover               :string
 #
 # Indexes
 #
@@ -39,4 +39,6 @@ class Edition < ApplicationRecord
   accepts_nested_attributes_for :books, allow_destroy: true
 
   validates_presence_of :isbn, :books
+
+  mount_uploader :cover, ::BookCoverUploader
 end

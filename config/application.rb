@@ -1,6 +1,7 @@
 require_relative 'boot'
 
 require 'rails/all'
+#require 'carrierwave/orm/activerecord'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -12,5 +13,7 @@ module TryRails5
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     I18n.default_locale = :ru
+
+    config.autoload_paths += %W(#{config.root}/app/uploaders)
   end
 end

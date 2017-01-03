@@ -22,6 +22,8 @@ gem 'simple_form'
 gem 'nokogiri'
 gem 'httparty'
 gem 'cocoon'
+gem 'carrierwave', '~> 1.0'
+gem 'mini_magick'
 
 source 'https://rails-assets.org' do
 end
