@@ -11,6 +11,14 @@
 #
 
 class EditionCategory < ApplicationRecord
+  CODES = [
+    FICTION = 'fiction'.freeze,
+    COMICS = 'comics'.freeze,
+    ENCYCLIPEDIA = 'encyclopedia'.freeze,
+    MEDIA = 'media'.freeze,
+    NON_FICTION = 'non_fiction'.freeze
+  ].freeze
+
   has_many :editions, foreign_key: :edition_category_id, inverse_of: :category
 
   validates :code, presence: true, uniqueness: true

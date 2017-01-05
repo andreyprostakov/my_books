@@ -13,4 +13,13 @@ module EditionsHelper
       link_to(author.name, author_path(author), options)
     end.join(', ').html_safe
   end
+
+  def edition_categories_codes
+    [
+      EditionCategory::FICTION,
+      EditionCategory::NON_FICTION,
+      EditionCategory::COMICS,
+      EditionCategory::ENCYCLIPEDIA
+    ]
+  end
 end

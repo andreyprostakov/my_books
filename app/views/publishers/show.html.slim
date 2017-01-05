@@ -1,3 +1,8 @@
+- content_for :user_actions do
+  = link_to t('actions.edit'), edit_publisher_path(@publisher)
+  = link_to t('actions.remove'), publisher_path(@publisher), method: :delete
+  hr
+
 .publisher-info
   h1
     = link_to t('publishers.index'), publishers_path

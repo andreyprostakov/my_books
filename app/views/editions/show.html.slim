@@ -1,3 +1,8 @@
+- content_for :user_actions do
+  = link_to t('actions.edit'), edit_edition_path(@edition)
+  = link_to t('actions.remove'), edition_path(@edition), method: :delete
+  hr
+
 #edition_details
   .edition-books
     - @edition.books.each do |book|
@@ -13,12 +18,16 @@
       .attribute
         = t('editions.attributes.category')
         => ':'
-        = link_to t(@edition.category.code, scope: 'categories'), category_path(@edition.category.code)
+        = link_to category_path(@edition.category.code) do
+          = t(@edition.category.code, scope: 'categories')
+          =< "(#{@edition.category.editions.count})"
       - if @edition.publisher.present?
         .attribute
           = t('editions.attributes.publisher')
           => ':'
-          =< link_to @edition.publisher.name, publisher_url(@edition.publisher)
+          =< link_to publisher_url(@edition.publisher) do
+            = @edition.publisher.name
+            =< "(#{@edition.publisher.editions.count})"
       .attribute
         = t('editions.attributes.publication_year')
         => ':'

@@ -18,8 +18,13 @@
     = f.input :remote_cover_url
   = f.input :publication_year
   = f.input :pages_count
-  = f.association :category, label_method: :title, include_blank: false
-  = f.association :publisher, label_method: :name, include_blank: false
+  = f.association :category,
+      label_method: :title,
+      include_blank: false
+  = f.association :publisher,
+      label_method: :name,
+      include_blank: false,
+      collection: Publisher.by_names
 
   hr
   = f.submit 'Save'

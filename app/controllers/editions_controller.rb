@@ -2,7 +2,7 @@ class EditionsController < ApplicationController
   before_action :fetch_edition, only: %i(show edit update destroy)
 
   def index
-    @editions = Edition.by_book_titles
+    @editions = Edition.preload(:authors).by_book_titles
   end
 
   def show
@@ -34,11 +34,8 @@ class EditionsController < ApplicationController
   end
 
   def destroy
-    if @edition.destroy
-      redirect_to editions_path, error: "Could not destroy Edition #{@edition.id}"
-    else
-      redirect_to editions_path, message: "Destroyed Edition #{@edition.id}"
-    end
+    @edition.destroy
+    redirect_to :back
   end
 
   private

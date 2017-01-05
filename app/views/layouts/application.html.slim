@@ -10,8 +10,8 @@ html
       = link_to t('title'), root_path, class: 'logo'
       .categories-links
         = link_to t('categories.all_categories'), editions_path
-        - EditionCategory.find_each do |category|
-          = link_to t(category.code, scope: 'categories'), category_path(category)
+        - edition_categories_codes.each do |category_code|
+          = link_to t(category_code, scope: 'categories'), category_path(category_code)
       .other-links
         = link_to t('books.index'), books_path
         = link_to t('authors.index'), authors_path
@@ -19,6 +19,7 @@ html
     #main_content.row.col-xs-10.col-xs-offset-1.container
       = yield
     #actions_bar
+      = content_for :user_actions
       = link_to t('authors.add_new'), new_author_path
       = link_to t('publishers.add_new'), new_publisher_path
       = link_to t('editions.add_new'), new_edition_path

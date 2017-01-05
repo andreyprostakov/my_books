@@ -6,6 +6,7 @@ class AuthorsController < ApplicationController
   end
 
   def show
+    @editions = @author.editions.by_book_titles
   end
 
   def new

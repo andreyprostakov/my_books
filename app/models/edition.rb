@@ -13,6 +13,8 @@
 #  publisher_id        :integer
 #  publication_year    :integer          default(1999)
 #  cover               :string
+#  created_at          :datetime
+#  updated_at          :datetime
 #
 # Indexes
 #
@@ -21,6 +23,8 @@
 #
 
 class Edition < ApplicationRecord
+  EMPTY_ISBN = 'unknown'.freeze
+
   belongs_to :category,
     class_name: EditionCategory,
     foreign_key: :edition_category_id
