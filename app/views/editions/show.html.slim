@@ -1,9 +1,10 @@
 - content_for :user_actions do
   = link_to t('actions.edit'), edit_edition_path(@edition)
   = link_to t('actions.remove'), edition_path(@edition), method: :delete
+  = edition_status_read_control(@edition)
   hr
 
-#edition_details
+#edition_details class=('read' if @edition.read?)
   .edition-books
     - @edition.books.each do |book|
       = link_to book.title, edit_book_path(book), class: 'edition-book'

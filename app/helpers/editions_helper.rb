@@ -22,4 +22,16 @@ module EditionsHelper
       EditionCategory::ENCYCLIPEDIA
     ]
   end
+
+  def edition_status_read_control(edition, options = {})
+    if edition.read?
+      link_to t('books.actions.mark_as_not_read'),
+        edition_status_read_path(edition),
+        options.merge(method: :delete)
+    else
+      link_to t('books.actions.mark_as_read'),
+        edition_status_read_path(edition),
+        options.merge(method: :post)
+    end
+  end
 end

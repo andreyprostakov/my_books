@@ -1,7 +1,7 @@
 .editions-list.row
   - editions.each do |edition|
     .edition.col-xs-3
-      .edition-preview
+      .edition-preview class=('read' if edition.read?)
         = image_tag edition.cover.url(:thumb), class: 'edition-cover'
         .edition-links
           = link_to edition_title(edition), edition_path(edition)
@@ -10,6 +10,8 @@
           hr
           = link_to t('actions.edit'), edit_edition_path(edition),
               class: 'edit-link'
+          br
+          = edition_status_read_control(edition)
           br
           = link_to t('actions.remove'), edition_path(edition),
               method: :delete,

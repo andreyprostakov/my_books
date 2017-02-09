@@ -5,7 +5,11 @@ Rails.application.routes.draw do
 
   resources :books, except: :show
 
-  resources :editions
+  resources :editions do
+    resource :status_read,
+      controller: 'editions/status_read',
+      only: %i(create destroy)
+  end
 
   resources :publishers
 

@@ -16,7 +16,7 @@ class EditionsController < ApplicationController
   def create
     @edition = form_handler.create_edition
     if @edition.valid?
-      redirect_to editions_path
+      redirect_to edition_path(@edition)
     else
       render :new
     end
@@ -27,7 +27,7 @@ class EditionsController < ApplicationController
 
   def update
     if form_handler.update_edition(@edition)
-      redirect_to editions_path
+      redirect_to edition_path(@edition)
     else
       render :edit
     end

@@ -1,3 +1,17 @@
+@mixin read_edition_mark {
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 30px solid green;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+  }
+}
+
 #editions_index {
   display: inline-block;
   width: 100%;
@@ -53,6 +67,10 @@
         }
       }
     }
+
+    &.read {
+      @include read_edition_mark;
+    }
   }
 }
 
@@ -90,6 +108,12 @@
         font-size: 12px;
         font-style: italic;
       }
+    }
+  }
+
+  &.read {
+    .edition-header .cover {
+      @include read_edition_mark;
     }
   }
 }

@@ -15,6 +15,7 @@
 #  cover               :string
 #  created_at          :datetime
 #  updated_at          :datetime
+#  read                :boolean          default(FALSE)
 #
 # Indexes
 #

@@ -8,6 +8,9 @@ ru:
   books:
     index: Произведения
     add_new: Добавить книгу
+    actions:
+      mark_as_read: Отметить как прочитанную
+      mark_as_not_read: Отметить как непрочитанную
   categories:
     all_categories: Все издания
     fiction: Беллетристика
