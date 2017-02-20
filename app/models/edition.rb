@@ -40,6 +40,14 @@ class Edition < ApplicationRecord
   scope :by_book_titles, lambda {
     includes(:books).order('books.title').group('editions.id')
   }
+  scope :old_first, lambda { order(:publication_year) }
+  scope :new_first, lambda { order(publication_year: :desc) }
+  scope :by_updated_at, lambda { order(:updated_at) }
+  scope :by_author, lambda {
+    joins(:authors).
+      order('authors.name').
+      group('editions.id')
+  }
 
   accepts_nested_attributes_for :books, allow_destroy: true
 

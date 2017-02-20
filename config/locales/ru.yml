@@ -27,6 +27,12 @@ ru:
       publisher: Издательство
       publication_year: Год издания
       pages_count: Кол-во страниц
+    orders:
+      title: По заглавию
+      author: По автору
+      old_first: Сначала старые
+      new_first: Сначала новые
+      last_updated: По последнему обновлению
   publishers:
     index: Издательства
     add_new: Добавить издательство

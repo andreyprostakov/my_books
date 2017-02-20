@@ -1,3 +1,8 @@
+- content_for :user_actions do
+  - edition_orders.each do |order|
+    = link_to_order_editions(order)
+  hr
+
 #editions_index
   h1 = t('editions.index')
   = render 'list', editions: @editions

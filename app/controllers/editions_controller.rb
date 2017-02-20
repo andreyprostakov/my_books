@@ -1,8 +1,11 @@
 class EditionsController < ApplicationController
   before_action :fetch_edition, only: %i(show edit update destroy)
 
+  helper_method :current_editions_order
+
   def index
-    @editions = Edition.preload(:authors).by_book_titles
+    editions = Edition.preload(:authors)
+    @editions = EditionsOrderer.apply_to(editions, current_editions_order)
   end
 
   def show
@@ -46,5 +49,9 @@ class EditionsController < ApplicationController
 
   def form_handler
     @form_handler ||= EditionFormHandler.new(params)
+  end
+
+  def current_editions_order
+    params.fetch(:order, EditionsOrderer::LAST_UPDATED).to_sym
   end
 end

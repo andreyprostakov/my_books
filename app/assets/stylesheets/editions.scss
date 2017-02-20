@@ -149,3 +149,10 @@
     }
   }
 }
+
+.editions-order {
+  &.active {
+    text-decoration: underline;
+    font-weight: bold;
+  }
+}

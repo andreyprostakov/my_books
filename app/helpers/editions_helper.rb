@@ -24,6 +24,22 @@ module EditionsHelper
     ]
   end
 
+  def edition_orders
+    [
+      EditionsOrderer::BY_TITLE,
+      EditionsOrderer::NEW_FIRST,
+      EditionsOrderer::OLD_FIRST,
+      EditionsOrderer::LAST_UPDATED,
+      EditionsOrderer::BY_AUTHOR
+    ]
+  end
+
+  def link_to_order_editions(order)
+    link_to t(order, scope: 'editions.orders'),
+      url_for(order: order),
+      class: "editions-order #{'active' if current_editions_order == order}"
+  end
+
   def edition_status_read_control(edition, options = {})
     if edition.read?
       link_to t('books.actions.mark_as_not_read'),

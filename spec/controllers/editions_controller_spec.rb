@@ -2,16 +2,35 @@ require 'rails_helper'
 
 RSpec.describe EditionsController do
   describe 'GET index' do
+    let(:editions_scope) { double :editions_scope }
     let(:ordered_editions) { [build(:edition, id: 13)] }
     before do
-      allow(Edition).to receive(:by_book_titles).
+      allow(Edition).to receive(:preload).
+        with(:authors).
+        and_return(editions_scope)
+      allow(EditionsOrderer).to receive(:apply_to).
+        with(editions_scope, :some_order).
         and_return(ordered_editions)
     end
 
     it 'renders all Editions' do
-      get :index
+      get :index, order: 'some_order'
       expect(response).to render_template 'index'
       expect(assigns :editions).to eq ordered_editions
+    end
+
+    context 'with no :order given' do
+      before do
+        allow(EditionsOrderer).to receive(:apply_to).
+          with(editions_scope, :last_updated).
+          and_return(ordered_editions)
+      end
+
+      it 'orders by "last_updated"' do
+        get :index
+        expect(response).to render_template 'index'
+        expect(assigns :editions).to eq ordered_editions
+      end
     end
   end
 
