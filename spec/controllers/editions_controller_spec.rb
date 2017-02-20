@@ -53,12 +53,12 @@ RSpec.describe EditionsController do
         }
       end
 
-      it 'created Edition and redirects to index' do
+      it 'creates Edition and redirects to it' do
         expect do
           post :create, params: { edition: edition_params }
         end.to change { Edition.count }.by(1)
-        expect(response).to redirect_to editions_path
         new_edition = assigns :edition
+        expect(response).to redirect_to edition_path(new_edition)
         expect(new_edition).to be_a Edition
         expect(new_edition).to be_persisted
         aggregate_failures do

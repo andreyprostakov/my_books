@@ -19,7 +19,8 @@ module EditionsHelper
       EditionCategory::FICTION,
       EditionCategory::NON_FICTION,
       EditionCategory::COMICS,
-      EditionCategory::ENCYCLIPEDIA
+      EditionCategory::ENCYCLIPEDIA,
+      EditionCategory::MEDIA
     ]
   end
 
