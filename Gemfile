@@ -25,6 +25,7 @@ gem 'httparty'
 gem 'cocoon'
 gem 'carrierwave', '~> 1.0'
 gem 'mini_magick'
+gem 'active_model_serializers', '~> 0.10.0'
 
 source 'https://rails-assets.org' do
 end

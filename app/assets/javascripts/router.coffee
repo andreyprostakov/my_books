@@ -1,5 +1,5 @@
 # For more information see: http://emberjs.com/guides/routing/
 
-TryRails5.Router.map ()->
-  # @resource('posts')
-
+App.Router.map ->
+  @route('index', path: '/')
+  @route('editions', path: '/editions')

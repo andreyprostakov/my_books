@@ -3,6 +3,14 @@ class EditionsController < ApplicationController
 
   def index
     @editions = current_editions_scope
+    respond_to do |format|
+      format.json do
+        render json: {
+          editions: ActiveModelSerializers::SerializableResource.new(@editions).as_json
+        }
+      end
+      format.html
+    end
   end
 
   def show

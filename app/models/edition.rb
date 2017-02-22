@@ -62,4 +62,8 @@ class Edition < ApplicationRecord
   validates_presence_of :isbn, :books
 
   mount_uploader :cover, ::BookCoverUploader
+
+  def full_title
+    title.presence || books.map { |b| "\"#{b.title}\"" }.join('; ')
+  end
 end

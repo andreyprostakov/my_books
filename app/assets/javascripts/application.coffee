@@ -1,12 +1,13 @@
 #= require jquery
 #= require jquery_ujs
+#= require jquery-ui
+#= require turbolinks
+#= require cocoon
 #= require ./environment
 #= require ember
 #= require ember-data
 #= require active-model-adapter
 #= require_self
-#= require ./try-rails5
+#= require ./app
 
-# for more details see: http://emberjs.com/guides/application/
-window.TryRails5 = Ember.Application.create()
-
+window.App = Ember.Application.create()
