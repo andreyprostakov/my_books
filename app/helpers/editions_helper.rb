@@ -10,7 +10,10 @@ module EditionsHelper
 
   def links_to_authors(authors, options = {})
     authors.uniq.map do |author|
-      link_to(author.name, author_path(author), options)
+      link_to(author.name,
+        edition_path_with(author: author.name),
+        options
+      )
     end.join(', ').html_safe
   end
 
@@ -24,20 +27,28 @@ module EditionsHelper
     ]
   end
 
+  def link_to_edition_category(category_code)
+    is_active = current_editions_category == category_code
+    link_to t(category_code, scope: 'categories'),
+      edition_path_with(category: category_code),
+      class: "editions-category-link #{'active' if is_active}"
+  end
+
   def edition_orders
     [
-      EditionsOrderer::BY_TITLE,
-      EditionsOrderer::NEW_FIRST,
-      EditionsOrderer::OLD_FIRST,
       EditionsOrderer::LAST_UPDATED,
+      EditionsOrderer::NEW_FIRST,
+      EditionsOrderer::BY_TITLE,
+      EditionsOrderer::OLD_FIRST,
       EditionsOrderer::BY_AUTHOR
     ]
   end
 
   def link_to_order_editions(order)
+    is_active = current_editions_order == order
     link_to t(order, scope: 'editions.orders'),
-      url_for(order: order),
-      class: "editions-order #{'active' if current_editions_order == order}"
+      edition_path_with(order: order),
+      class: "editions-order-link #{'active' if is_active}"
   end
 
   def edition_status_read_control(edition, options = {})

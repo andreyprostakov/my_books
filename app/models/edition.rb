@@ -37,6 +37,14 @@ class Edition < ApplicationRecord
   scope :with_category_code, lambda { |code|
     joins(:category).where(edition_categories: { code: code })
   }
+  scope :with_author, lambda { |author|
+    if author.is_a? Author
+      joins(:authors).where('authors.id = ?', author)
+    else
+      joins(:authors).where('authors.name = ?', author.to_s)
+    end
+  }
+
   scope :by_book_titles, lambda {
     includes(:books).order('books.title').group('editions.id')
   }
@@ -44,7 +52,7 @@ class Edition < ApplicationRecord
   scope :new_first, lambda { order(publication_year: :desc) }
   scope :by_updated_at, lambda { order(:updated_at) }
   scope :by_author, lambda {
-    joins(:authors).
+    includes(:authors).
       order('authors.name').
       group('editions.id')
   }

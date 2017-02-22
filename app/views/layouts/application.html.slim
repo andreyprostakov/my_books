@@ -11,7 +11,7 @@ html
       .categories-links
         = link_to t('categories.all_categories'), editions_path
         - edition_categories_codes.each do |category_code|
-          = link_to t(category_code, scope: 'categories'), category_path(category_code)
+          = link_to_edition_category category_code
       .other-links
         = link_to t('books.index'), books_path
         = link_to t('authors.index'), authors_path
@@ -22,4 +22,4 @@ html
       = content_for :user_actions
       = link_to t('authors.add_new'), new_author_path
       = link_to t('publishers.add_new'), new_publisher_path
-      = link_to t('editions.add_new'), new_edition_path
+      = link_to t('editions.add_new'), new_edition_path(editions_scope_params)

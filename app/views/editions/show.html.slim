@@ -19,9 +19,8 @@
       .attribute
         = t('editions.attributes.category')
         => ':'
-        = link_to category_path(@edition.category.code) do
-          = t(@edition.category.code, scope: 'categories')
-          =< "(#{@edition.category.editions.count})"
+        = link_to_edition_category @edition.category.code
+        =< "(#{@edition.category.editions.count})"
       - if @edition.publisher.present?
         .attribute
           = t('editions.attributes.publisher')

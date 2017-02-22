@@ -150,7 +150,7 @@
   }
 }
 
-.editions-order {
+.editions-order-link, .editions-category-link {
   &.active {
     text-decoration: underline;
     font-weight: bold;

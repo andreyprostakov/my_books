@@ -1,19 +1,17 @@
 class EditionsController < ApplicationController
   before_action :fetch_edition, only: %i(show edit update destroy)
 
-  helper_method :current_editions_order
-
   def index
-    editions = Edition.preload(:authors)
-    @editions = EditionsOrderer.apply_to(editions, current_editions_order)
+    @editions = current_editions_scope
   end
 
   def show
   end
 
   def new
-    @edition = Edition.new
-    @edition.books.build
+    @edition = current_editions_scope.new
+    author = Author.find_by(name: current_author_name) if current_author_name
+    @edition.books.build(authors: [author].compact)
   end
 
   def create
@@ -51,7 +49,12 @@ class EditionsController < ApplicationController
     @form_handler ||= EditionFormHandler.new(params)
   end
 
-  def current_editions_order
-    params.fetch(:order, EditionsOrderer::LAST_UPDATED).to_sym
+  def current_editions_scope
+    editions = Edition.preload(:authors)
+    if current_editions_category
+      editions = editions.with_category_code(current_editions_category)
+    end
+    editions = editions.with_author(current_author_name) if current_author_name
+    EditionsOrderer.apply_to(editions, current_editions_order)
   end
 end

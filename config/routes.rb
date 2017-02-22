@@ -12,6 +12,4 @@ Rails.application.routes.draw do
   end
 
   resources :publishers
-
-  get 'categories/:code' => 'edition_categories#show', as: :category
 end

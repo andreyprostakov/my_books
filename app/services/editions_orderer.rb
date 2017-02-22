@@ -15,6 +15,6 @@ class EditionsOrderer
   }.freeze
 
   def self.apply_to(editions_scope, order)
-    editions_scope.send(ORDER_SCOPES.fetch(order.to_sym))
+    editions_scope.send(ORDER_SCOPES.fetch(order.to_sym)).by_book_titles
   end
 end
