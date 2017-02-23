@@ -64,6 +64,6 @@ class Edition < ApplicationRecord
   mount_uploader :cover, ::BookCoverUploader
 
   def full_title
-    title.presence || books.map { |b| "\"#{b.title}\"" }.join('; ')
+    title.presence || books.map(&:title).join('; ')
   end
 end
