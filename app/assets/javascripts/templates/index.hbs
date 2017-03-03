@@ -1,12 +1,4 @@
-<div id='ember-app-content'>
+<div id='editions_index'>
   INDEX TEMPLATE
-  <ul>
-  {{#each model as |edition|}}
-    <li>
-      <button {{action 'select' edition}}>{{edition.title}}</button>
-    </li>
-  {{else}}
-    No editions
-  {{/each}}
-</ul>
+  {{editions-list editions=model}}
 </div>

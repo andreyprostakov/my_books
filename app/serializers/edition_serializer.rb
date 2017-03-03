@@ -5,4 +5,7 @@ class EditionSerializer < ActiveModel::Serializer
     object.full_title
   end
 
+  def author
+  	object.authors.uniq.map(&:name).sort.join(', ')
+  end
 end

@@ -1,0 +1,20 @@
+<div class='editions-list row'>
+	{{#each editions as |edition|}}
+		<div class='edition col-xs-3'>
+			<div class='edition-preview {{if edition.read 'read'}}'>
+				<img src={{edition.cover_url}} class='edition-cover'/>
+				<div class='edition-links'>
+					{{#link-to 'edition' edition}}{{edition.title}}{{/link-to}}
+					<br/>
+					{{#link-to 'author' edition.author_id}}{{edition.author}}{{/link-to}}
+					<br/>
+					{{#link-to 'edition.edit' edition}}Редактировать{{/link-to}}
+					<br/>
+					{{#link-to 'edition.remove' edition}}Удалить{{/link-to}}
+				</div>
+			</div>
+		</div>
+  {{else}}
+    Нет изданий
+  {{/each}}
+</div>
