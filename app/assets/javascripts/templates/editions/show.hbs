@@ -1,0 +1,10 @@
+<div id='edition_details' class={{if model.read 'read'}}>
+  SHOW EDITION {{model.id}}
+  <div class='edition-books'>
+    {{model.title}}
+  </div>
+  <div class='edition-header'>
+    <div class='cover' style='background-image: url({{model.cover_url}})'></div>
+  </div>
+  {{#link-to 'editions'}}К списку{{/link-to}}
+</div>

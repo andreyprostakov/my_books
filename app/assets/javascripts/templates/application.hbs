@@ -3,11 +3,11 @@
 </div>
 
 <div id='main_content' class='row col-xs-10 col-xs-offset-1 container'>
+  APPLICATION TEMPLATE
   {{outlet}}
 </div>
 
 <div id='actions_bar'>
-  = content_for :user_actions
   {{#link-to 'authors.new'}}Добавить автора{{/link-to}}
   {{#link-to 'publishers.new'}}Добавить издателя{{/link-to}}
   {{#link-to 'editions.new'}}Добавить издание{{/link-to}}

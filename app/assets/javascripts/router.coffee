@@ -6,10 +6,10 @@ App.Router.map ->
   @route 'books', ->
     @route 'new'
   @route 'index', path: '/'
-  @route 'edition', path: '/editions/:edition_id', ->
-    @route 'edit'
-    @route 'remove'
-  @route 'editions', path: '/editions', ->
+  @route 'editions', ->
     @route 'new'
+    @route 'show', path: '/:edition_id', ->
+      @route 'edit'
+      @route 'remove'
   @route 'publishers', ->
     @route 'new'

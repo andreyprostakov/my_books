@@ -14,6 +14,14 @@ class EditionsController < ApplicationController
   end
 
   def show
+    respond_to do |format|
+      format.json do
+        render json: {
+          edition: ActiveModelSerializers::SerializableResource.new(@edition).as_json
+        }
+      end
+      format.html
+    end
   end
 
   def new
