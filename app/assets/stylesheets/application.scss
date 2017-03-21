@@ -1,7 +1,5 @@
 @import "font-awesome";
-@import "bootstrap-sprockets";
-@import "bootstrap";
-@import "bootstrap/theme";
+@import 'bulma';
 @import 'jquery-ui';
 @import 'jquery-ui/autocomplete';
 @import 'jquery-ui/start';
@@ -9,9 +7,3 @@
 @import 'layout';
 @import 'books';
 @import 'editions';
-
-form {
-  input[type=submit] {
-    color: black;
-  }
-}

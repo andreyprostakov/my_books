@@ -3,13 +3,16 @@ $ ->
     el: '#editions_index'
 
 Vue.component 'editions-index',
-  props: [
-    'sourceUrl'
-  ]
-
   data: => {
     editions: []
+    currentOrder: null
+    currentCategory: null
   }
+
+  computed:
+    filteredEditions: ->
+      return @editions if !@currentCategory
+      @editions.filter((e) => e.edition_category == @currentCategory)
 
   methods:
     changeReadStatus: (edition) ->
@@ -35,7 +38,6 @@ Vue.component 'editions-index',
         url: Routes.edition_path(edition.id)
         dataType: 'json'
         success: =>
-          console.log 'removed'
           @editions.splice(@editions.indexOf(edition), 1)
         error: @handleErrorResponse
       )
@@ -44,7 +46,20 @@ Vue.component 'editions-index',
       console.log('OOPS')
       console.log(response)
 
+    switchToCategory: (categoryCode) ->
+      @currentCategory = categoryCode
+
+    currentCategoryIs: (categoryToCheck) ->
+      @currentCategory == categoryToCheck
+
+    switchToOrder: (orderCode) ->
+      @currentOrder = orderCode
+      $.getJSON(Routes.editions_path(order: orderCode), (data) => @editions = data)
+
+    currentOrderIs: (orderToCheck) ->
+      @currentOrder == orderToCheck
+
   mounted: ->
-    $.getJSON(@sourceUrl, (data) =>
+    $.getJSON(Routes.editions_path(), (data) =>
       @editions = data
     )

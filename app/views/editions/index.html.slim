@@ -5,24 +5,40 @@
 
 #editions_index
   editions-index source-url=(editions_path) inline-template=(true)
-    div.editions-list.row
-      h1 = t('editions.index')
-      .edition.col-xs-3 v-for='edition in editions'
-        .edition-preview :class='{"read": edition.read}'
-          - edition= Edition.last
-          img :src='edition.cover.url' class='edition-cover'
-          .edition-links
-            a :href='editionUrl(edition)'
-              |{{edition.title}}
-            br
-            = links_to_authors edition.authors
-            hr
-            a :href='editEditionUrl(edition)' class='edit-link' = t('actions.edit')
-            br
-            a @click='changeReadStatus(edition)'
-              template v-if='edition.read'
-                = t('books.actions.mark_as_not_read')
-              template v-else=(true)
-                = t('books.actions.mark_as_read')
-            br
-            a @click='removeEdition(edition)' class='remove-link' = t('actions.remove')
+    div
+      nav#editions_nav.level
+        .level-left
+          - edition_orders.each do |order|
+            .level-item
+              a @click=("switchToOrder('#{order}')") = t(order, scope: 'editions.orders')
+        .level-right
+          .level-item
+            = link_to t('editions.add_new'), new_edition_path, class: 'button'
+      #edition_categories.tabs
+        ul
+          li :class=("{'is-active': currentCategoryIs(null)}")
+            a @click='switchToCategory(null)' Все
+          - edition_categories_codes.each do |category_code|
+            li :class=("{'is-active': currentCategoryIs('#{category_code}')}")
+              a @click=("switchToCategory('#{category_code}')")
+                = t(category_code, scope: 'categories')
+      .editions-list.columns.is-multiline
+        .edition.column.is-2 v-for='edition in filteredEditions'
+          .edition-preview :class='{"read": edition.read}'
+            - edition= Edition.last
+            img :src='edition.cover_url' class='edition-cover'
+            .edition-links
+              a :href='editionUrl(edition)'
+                |{{edition.title}}
+              br
+              = links_to_authors edition.authors
+              hr
+              a :href='editEditionUrl(edition)' class='edit-link' = t('actions.edit')
+              br
+              a @click='changeReadStatus(edition)'
+                template v-if='edition.read'
+                  = t('books.actions.mark_as_not_read')
+                template v-else=(true)
+                  = t('books.actions.mark_as_read')
+              br
+              a @click='removeEdition(edition)' class='remove-link' = t('actions.remove')
