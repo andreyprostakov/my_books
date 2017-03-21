@@ -9,6 +9,7 @@ class EditionFormHandler
     :publisher_id,
     :publication_year,
     :pages_count,
+    :read,
     books_attributes: BOOKS_PARAMS
   ].freeze
 

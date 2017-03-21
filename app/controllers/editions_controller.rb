@@ -3,6 +3,10 @@ class EditionsController < ApplicationController
 
   def index
     @editions = current_editions_scope
+    respond_to do |format|
+      format.json { render json: @editions }
+      format.html
+    end
   end
 
   def show
@@ -28,9 +32,15 @@ class EditionsController < ApplicationController
 
   def update
     if form_handler.update_edition(@edition)
-      redirect_to edition_path(@edition)
+      respond_to do |format|
+        format.json { render json: @edition }
+        format.html { redirect_to edition_path(@edition) }
+      end
     else
-      render :edit
+      respond_to do |format|
+        format.json { render json: @edition.errors }
+        format.html { render :edit }
+      end
     end
   end
 

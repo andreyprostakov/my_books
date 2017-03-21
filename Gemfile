@@ -15,6 +15,7 @@ gem 'jquery-ui-themes'
 gem 'slim'
 gem 'turbolinks', '~> 5' # !
 gem 'font-awesome-rails'
+gem 'js-routes'
 
 gem 'russian'
 gem 'annotate'

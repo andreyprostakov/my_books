@@ -4,5 +4,28 @@
   hr
 
 #editions_index
-  h1 = t('editions.index')
-  = render 'list', editions: @editions
+  editions-index source-url=(editions_path) inline-template=(true)
+    div.editions-list.row
+      h1 = t('editions.index')
+      .edition.col-xs-3 v-for='edition in editions'
+        .edition-preview :class='{"read": edition.read}'
+          - edition= Edition.last
+          img :src='edition.cover.url' class='edition-cover'
+          .edition-links
+            a
+              |{{edition.title}}
+            br
+            = links_to_authors edition.authors
+            hr
+            = link_to t('actions.edit'), edit_edition_path(edition),
+                class: 'edit-link'
+            br
+            a @click='changeReadStatus(edition)'
+              template v-if='edition.read'
+                = t('books.actions.mark_as_not_read')
+              template v-else=(true)
+                = t('books.actions.mark_as_read')
+            br
+            = link_to t('actions.remove'), edition_path(edition),
+                method: :delete,
+                class: 'remove-link'
