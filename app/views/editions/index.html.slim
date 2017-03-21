@@ -12,13 +12,12 @@
           - edition= Edition.last
           img :src='edition.cover.url' class='edition-cover'
           .edition-links
-            a
+            a :href='editionUrl(edition)'
               |{{edition.title}}
             br
             = links_to_authors edition.authors
             hr
-            = link_to t('actions.edit'), edit_edition_path(edition),
-                class: 'edit-link'
+            a :href='editEditionUrl(edition)' class='edit-link' = t('actions.edit')
             br
             a @click='changeReadStatus(edition)'
               template v-if='edition.read'
@@ -26,6 +25,4 @@
               template v-else=(true)
                 = t('books.actions.mark_as_read')
             br
-            = link_to t('actions.remove'), edition_path(edition),
-                method: :delete,
-                class: 'remove-link'
+            a @click='removeEdition(edition)' class='remove-link' = t('actions.remove')

@@ -46,7 +46,10 @@ class EditionsController < ApplicationController
 
   def destroy
     @edition.destroy
-    redirect_to :back
+    respond_to do |format|
+      format.json { render json: {} }
+      format.html { redirect_to :back }
+    end
   end
 
   private
