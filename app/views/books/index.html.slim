@@ -1,10 +1,15 @@
 #books_index
-  h1 = t('books.index')
+  table.books-list.table.is-striped.is-narrow
+    thead
+      tr
+        th Авторы
+        th Название
+        th Действия
+    tbody
+      - @books.each do |book|
+        tr
+          td == links_to_authors(book.authors)
+          td => link_to "\"#{book.title}\"", edit_book_path(book)
+          td = link_to t('actions.remove'), book_path(book), method: :delete
   ul
-    - @books.each do |book|
-      li
-        => link_to "\"#{book.title}\"", edit_book_path(book)
-        == "(#{links_to_authors(book.authors)})" if book.authors.present?
-        =<> '|'
-        =< link_to t('actions.remove'), book_path(book), method: :delete
   = link_to t('books.add_new'), new_book_path

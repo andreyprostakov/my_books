@@ -1,10 +1,16 @@
 #authors_index
-  h1 = t('authors.index')
-  ul.authors-list
-    - @authors.each do |author|
-      li.authors-list-item
-        = link_to author.name, author_path(author)
-        =<> '|'
-        = link_to t('actions.edit'), edit_author_path(author)
-        =<> '|'
-        = link_to 'X', author_path(author), method: :delete
+  table.authors-list.table.is-striped.is-narrow
+    thead
+      tr
+        th Автор
+        th # книг
+        th Действия
+    tbody
+      - @authors.each do |author|
+        tr.authors-list-item
+          td = link_to author.name, editions_path(author: author.name)
+          td = author.editions.count
+          td
+            = link_to t('actions.edit'), edit_author_path(author)
+            =<> '|'
+            = link_to 'X', author_path(author), method: :delete

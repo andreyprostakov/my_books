@@ -156,3 +156,27 @@
     font-weight: bold;
   }
 }
+
+#authors_nav {
+  .panel-block {
+    max-height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  .authors-list-item {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+
+    .details {
+      display: none;
+    }
+
+    &:hover {
+      .details {
+        display: inline;
+      }
+    }
+  }
+}
