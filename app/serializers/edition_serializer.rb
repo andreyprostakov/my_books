@@ -1,7 +1,11 @@
 class EditionSerializer < ActiveModel::Serializer
-  attributes :id, :title, :cover_url, :edition_category, :read
+  attributes :id,
+  	:title,
+  	:authors,
+  	:cover_url,
+  	:read
 
-  def edition_category
-  	object.category.code
+  def authors
+  	object.authors.map(&:name)
   end
 end

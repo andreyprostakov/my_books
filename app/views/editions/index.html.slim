@@ -4,13 +4,14 @@
   hr
 
 #editions_index
-  editions-index source-url=(editions_path) inline-template=(true)
+  editions-index[initial-order=(current_editions_order) initial-category=(current_editions_category)
+    author=(current_author_name) inline-template]
+
     div
       nav#editions_nav.level
         .level-left
-          - edition_orders.each do |order|
-            .level-item
-              a @click=("switchToOrder('#{order}')") = t(order, scope: 'editions.orders')
+          .level-item.select
+            = select_tag 'order', options_for_order_select, 'v-model' => 'currentOrder'
         .level-right
           .level-item
             = link_to t('editions.add_new'), new_edition_path, class: 'button'
@@ -20,25 +21,20 @@
             a @click='switchToCategory(null)' Все
           - edition_categories_codes.each do |category_code|
             li :class=("{'is-active': currentCategoryIs('#{category_code}')}")
-              a @click=("switchToCategory('#{category_code}')")
-                = t(category_code, scope: 'categories')
+              a @click=("switchToCategory('#{category_code}')") = t(category_code, scope: 'categories')
       .editions-list.columns.is-multiline
         .edition.column.is-2 v-for='edition in filteredEditions'
           .edition-preview :class='{"read": edition.read}'
-            - edition= Edition.last
             img :src='edition.cover_url' class='edition-cover'
             .edition-links
-              a :href='editionUrl(edition)'
-                |{{edition.title}}
+              a :href='editionUrl(edition)' = '{{edition.title}}'
               br
-              = links_to_authors edition.authors
+              a :href='authorUrl(author)' v-for='author in edition.authors' = '{{author}}'
               hr
               a :href='editEditionUrl(edition)' class='edit-link' = t('actions.edit')
               br
               a @click='changeReadStatus(edition)'
-                template v-if='edition.read'
-                  = t('books.actions.mark_as_not_read')
-                template v-else=(true)
-                  = t('books.actions.mark_as_read')
+                template v-if='edition.read' = t('books.actions.mark_as_not_read')
+                template v-else=(true) = t('books.actions.mark_as_read')
               br
               a @click='removeEdition(edition)' class='remove-link' = t('actions.remove')

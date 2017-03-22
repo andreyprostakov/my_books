@@ -11,7 +11,7 @@ module EditionsHelper
   def links_to_authors(authors, options = {})
     authors.uniq.map do |author|
       link_to(author.name,
-        edition_path_with(author: author.name),
+        editions_path(author: author.name),
         options
       )
     end.join(', ').html_safe
@@ -60,6 +60,12 @@ module EditionsHelper
       link_to t('books.actions.mark_as_read'),
         edition_status_read_path(edition),
         options.merge(method: :post)
+    end
+  end
+
+  def options_for_order_select
+    options_for_select edition_orders.map do |code|
+      [t(code, scope: 'editions.orders'), code]
     end
   end
 end

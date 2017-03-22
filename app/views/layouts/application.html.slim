@@ -7,5 +7,7 @@ html
     = javascript_include_tag 'https://unpkg.com/vue'
     = javascript_include_tag 'application'
   body.container
+    #site_header
+      = link_to t('title'), editions_path, class: 'logo'
     #main_content.row.col-xs-10.col-xs-offset-1.container
       = yield

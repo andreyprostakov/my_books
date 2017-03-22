@@ -3,6 +3,18 @@ $ ->
     el: '#editions_index'
 
 Vue.component 'editions-index',
+  props:
+    initialOrder: { required: true }
+    initialCategory: {}
+    author: {}
+
+  mounted: ->
+    @currentOrder = @initialOrder
+    @currentCategory = @initialCategory || null
+    @reloadEditions()
+    @$watch 'currentOrder', @reloadEditions
+    @$watch 'currentCategory', @reloadEditions
+
   data: => {
     editions: []
     currentOrder: null
@@ -11,8 +23,7 @@ Vue.component 'editions-index',
 
   computed:
     filteredEditions: ->
-      return @editions if !@currentCategory
-      @editions.filter((e) => e.edition_category == @currentCategory)
+      @editions
 
   methods:
     changeReadStatus: (edition) ->
@@ -31,6 +42,9 @@ Vue.component 'editions-index',
 
     editEditionUrl: (edition) ->
       Routes.edit_edition_path(edition.id)
+
+    authorUrl: (author) ->
+      Routes.editions_path(author: author)
 
     removeEdition: (edition) ->
       $.ajax(
@@ -54,12 +68,16 @@ Vue.component 'editions-index',
 
     switchToOrder: (orderCode) ->
       @currentOrder = orderCode
-      $.getJSON(Routes.editions_path(order: orderCode), (data) => @editions = data)
 
     currentOrderIs: (orderToCheck) ->
       @currentOrder == orderToCheck
 
-  mounted: ->
-    $.getJSON(Routes.editions_path(), (data) =>
-      @editions = data
-    )
+    reloadEditions: ->
+      $.getJSON(
+        Routes.editions_path(
+          order: @currentOrder
+          category: @currentCategory
+          author: @author
+        ),
+        (data) => @editions = data
+      )
