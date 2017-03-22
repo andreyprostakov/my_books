@@ -64,8 +64,6 @@ module EditionsHelper
   end
 
   def options_for_order_select
-    options_for_select edition_orders.map do |code|
-      [t(code, scope: 'editions.orders'), code]
-    end
+    options_for_select(edition_orders.map { |code| [t(code, scope: 'editions.orders'), code] })
   end
 end

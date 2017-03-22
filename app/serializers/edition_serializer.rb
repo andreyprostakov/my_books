@@ -5,6 +5,11 @@ class EditionSerializer < ActiveModel::Serializer
   	:cover_url,
   	:read
 
+  def title
+    object.title.presence ||
+      object.books.map { |b| "\"#{b.title}\"" }.join(', ')
+  end
+
   def authors
   	object.authors.map(&:name)
   end

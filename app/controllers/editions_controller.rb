@@ -4,6 +4,7 @@ class EditionsController < ApplicationController
   def index
     @editions = current_editions_scope
     @authors = Author.by_names
+    @publishers = Publisher.by_names
     respond_to do |format|
       format.json { render json: @editions }
       format.html

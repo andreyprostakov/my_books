@@ -1,5 +1,5 @@
 #authors_index
-  table.authors-list.table.is-striped.is-narrow
+  table.authors-list.table.index-table.is-striped.is-narrow.is-bordered
     thead
       tr
         th Автор
@@ -14,3 +14,8 @@
             = link_to t('actions.edit'), edit_author_path(author)
             =<> '|'
             = link_to 'X', author_path(author), method: :delete
+    tfoot
+      tr
+        th Автор
+        th # книг
+        th Действия

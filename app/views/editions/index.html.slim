@@ -8,25 +8,40 @@
     author=(current_author_name) inline-template]
 
     div.columns.is-multiline
-      .panel.column.is-3
-        #order_control
-          .panel-heading Сортировка
-          .panel-block
+      .column.is-3
+        #order_control.side-block
+          .side-block-heading = t('editions.orders.ordering')
+          .side-block-content
             .select
               = select_tag 'order', options_for_order_select, 'v-model' => 'currentOrder'
-        #authors_nav
-          .panel-heading Авторы
-          .panel-block
+        #authors_nav.side-block
+          .side-block-heading
+            = t('authors.index')
+            = link_to new_author_path, class: 'add-list-item' do
+              i.fa.fa-plus-circle
+          .side-block-content
             - @authors.each do |author|
-              .authors-list-item
+              .side-block-list-item
                 = link_to author.name, editions_path(author: author.name)
                 .details
                   =<> '|'
-                  = author.editions.count
-                  =<> '|'
-                  = link_to 'e', edit_author_path(author)
+                  = link_to 'E', edit_author_path(author)
                   =<> '|'
                   = link_to 'X', author_path(author), method: :delete
+        #publishers_nav.side-block
+          .side-block-heading
+            = t('publishers.index')
+            = link_to new_publisher_path, class: 'add-list-item' do
+              i.fa.fa-plus-circle
+          .side-block-content
+            - @publishers.each do |publisher|
+              .side-block-list-item
+                = link_to publisher.name, editions_path(publisher: publisher.name)
+                .details
+                  =<> '|'
+                  = link_to 'E', edit_publisher_path(publisher)
+                  =<> '|'
+                  = link_to 'X', publisher_path(publisher), method: :delete
       .column.is-9
         #edition_categories.tabs
           ul
@@ -36,6 +51,9 @@
               li :class=("{'is-active': currentCategoryIs('#{category_code}')}")
                 a @click=("switchToCategory('#{category_code}')") = t(category_code, scope: 'categories')
         .editions-list.columns.is-multiline
+          .edition.column.is-3
+            .edition-preview.add-new-edition
+              = link_to t('editions.add_new'), new_edition_path
           .edition.column.is-3 v-for='edition in filteredEditions'
             .edition-preview :class='{"read": edition.read}'
               img :src='edition.cover_url' class='edition-cover'

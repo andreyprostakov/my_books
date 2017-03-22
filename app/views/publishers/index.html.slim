@@ -1,5 +1,5 @@
 #publishers_index
-  table.publishers-list.table.is-striped.is-narrow
+  table.publishers-list.table.index-table.is-striped.is-narrow.is-bordered
     thead
       tr
         th Имя
@@ -14,3 +14,8 @@
           = link_to t('actions.edit'), edit_publisher_path(publisher)
           =<> '|'
           = link_to 'X', publisher_path(publisher), method: :delete
+    tfoot
+      tr
+        th Имя
+        th # книг
+        th Действия

@@ -25,6 +25,8 @@
 }
 
 .editions-list {
+  $preview-height: 300px;
+
   .edition {
     height: 300px;
     margin-bottom: 40px;
@@ -42,7 +44,7 @@
     .edition-cover {
       display: inline-block;
       width: 100%;
-      max-height: 300px;
+      max-height: $preview-height;
       background-size: contain;
       background-repeat: no-repeat;
       background-position: 50% 0%;
@@ -70,6 +72,25 @@
 
     &.read {
       @include read_edition_mark;
+    }
+  }
+
+  .add-new-edition {
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+
+    a {
+      display: block;
+      height: $preview-height;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 20px 10px;
+      text-align: center;
+      background-color: #363636;
+
+      &:hover {
+        background-color: rgba(255,255,255,0.3);
+      }
     }
   }
 }
@@ -157,14 +178,31 @@
   }
 }
 
-#authors_nav {
-  .panel-block {
+#order_control {
+  .side-block-content {
+    padding: 10px 0;
+    text-align: center;
+  }
+}
+
+#authors_nav, #publishers_nav {
+  .side-block-heading {
+    .add-list-item {
+      float: right;
+
+      i {
+        font-size: 28px;
+      }
+    }
+  }
+
+  .side-block-content {
     max-height: 200px;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
   }
 
-  .authors-list-item {
+  .side-block-list-item {
     display: inline-block;
     width: 100%;
     padding: 10px;

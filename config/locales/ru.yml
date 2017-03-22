@@ -28,6 +28,7 @@ ru:
       publication_year: Год издания
       pages_count: Кол-во страниц
     orders:
+      ordering: Сортировка
       title: По заглавию
       author: По автору
       old_first: Сначала старые
