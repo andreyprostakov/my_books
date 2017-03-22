@@ -14,41 +14,55 @@
           .side-block-content
             .select
               = select_tag 'order', options_for_order_select, 'v-model' => 'currentOrder'
+
         #authors_nav.side-block
           .side-block-heading
             = t('authors.index')
             = link_to new_author_path, class: 'add-list-item' do
               i.fa.fa-plus-circle
           .side-block-content
+            .side-block-list-item
+              a @click='switchToAuthor(null)' :class=("{'is-active': currentAuthorIs(null)}")
+                | Любой
             - @authors.each do |author|
               .side-block-list-item
-                = link_to author.name, editions_path(author: author.name)
+                a @click=("switchToAuthor('#{author.name}')") :class=("{'is-active': currentAuthorIs('#{author.name}')}")
+                  = author.name
                 .details
                   =<> '|'
                   = link_to 'E', edit_author_path(author)
                   =<> '|'
                   = link_to 'X', author_path(author), method: :delete
+
         #publishers_nav.side-block
           .side-block-heading
             = t('publishers.index')
             = link_to new_publisher_path, class: 'add-list-item' do
               i.fa.fa-plus-circle
           .side-block-content
+            .side-block-list-item
+              a @click='switchToPublisher(null)' :class=("{'is-active': currentPublisherIs(null)}")
+                | Любой
             - @publishers.each do |publisher|
               .side-block-list-item
-                = link_to publisher.name, editions_path(publisher: publisher.name)
+                a @click=("switchToPublisher('#{publisher.name}')") :class=("{'is-active': currentPublisherIs('#{publisher.name}')}")
+                  = publisher.name
                 .details
                   =<> '|'
                   = link_to 'E', edit_publisher_path(publisher)
                   =<> '|'
                   = link_to 'X', publisher_path(publisher), method: :delete
+
       .column.is-9
         #edition_categories.tabs
           ul
             li :class=("{'is-active': currentCategoryIs(null)}")
               a @click='switchToCategory(null)' Все
             - edition_categories_codes.each do |category_code|
-              li :class=("{'is-active': currentCategoryIs('#{category_code}')}")
+              li[:class=("{\
+                'is-active': currentCategoryIs('#{category_code}'),\
+                'is-disabled': !anyEditionsOfCategory('#{category_code}')\
+              }")]
                 a @click=("switchToCategory('#{category_code}')") = t(category_code, scope: 'categories')
         .editions-list.columns.is-multiline
           .edition.column.is-3

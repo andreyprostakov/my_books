@@ -2,24 +2,27 @@ Vue.component 'editions-index',
   props:
     initialOrder: { required: true }
     initialCategory: {}
-    author: {}
 
   mounted: ->
     @currentOrder = @initialOrder
     @currentCategory = @initialCategory || null
     @reloadEditions()
     @$watch 'currentOrder', @reloadEditions
-    @$watch 'currentCategory', @reloadEditions
+    @$watch 'currentAuthor', @reloadEditions
+    @$watch 'currentPublisher', @reloadEditions
 
   data: => {
     editions: []
+    currentAuthor: null
+    currentPublisher: null
     currentOrder: null
     currentCategory: null
   }
 
   computed:
     filteredEditions: ->
-      @editions
+      return @editions if !@currentCategory
+      @editionsOfCategory(@currentCategory)
 
   methods:
     changeReadStatus: (edition) ->
@@ -62,18 +65,36 @@ Vue.component 'editions-index',
     currentCategoryIs: (categoryToCheck) ->
       @currentCategory == categoryToCheck
 
+    editionsOfCategory: (categoryCode) ->
+      @editions.filter((e) => e.category == categoryCode)
+
+    anyEditionsOfCategory: (categoryToCheck) ->
+      !!@editionsOfCategory(categoryToCheck).length
+
     switchToOrder: (orderCode) ->
       @currentOrder = orderCode
 
     currentOrderIs: (orderToCheck) ->
       @currentOrder == orderToCheck
 
+    switchToAuthor: (author) ->
+      @currentAuthor = author
+
+    currentAuthorIs: (authorToCheck) ->
+      @currentAuthor == authorToCheck
+
+    switchToPublisher: (publisher) ->
+      @currentPublisher = publisher
+
+    currentPublisherIs: (publisherToCheck) ->
+      @currentPublisher == publisherToCheck
+
     reloadEditions: ->
       $.getJSON(
         Routes.editions_path(
           order: @currentOrder
-          category: @currentCategory
-          author: @author
+          author: @currentAuthor
+          publisher: @currentPublisher
         ),
         (data) => @editions = data
       )

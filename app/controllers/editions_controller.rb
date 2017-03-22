@@ -70,6 +70,7 @@ class EditionsController < ApplicationController
       editions = editions.with_category_code(current_editions_category)
     end
     editions = editions.with_author(current_author_name) if current_author_name
+    editions = editions.with_publisher(current_publisher_name) if current_publisher_name
     EditionsOrderer.apply_to(editions, current_editions_order)
   end
 end

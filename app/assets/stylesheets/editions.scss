@@ -144,7 +144,9 @@
 
   .book-fields {
     .link-to-remove-book {
-      font-size: 24px;
+      i {
+        font-size: 32px;
+      }
     }
   }
 
@@ -178,6 +180,14 @@
   }
 }
 
+#edition_categories {
+  li.is-disabled {
+    a {
+      color: darkgrey;
+    }
+  }
+}
+
 #order_control {
   .side-block-content {
     padding: 10px 0;
@@ -206,6 +216,12 @@
     display: inline-block;
     width: 100%;
     padding: 10px;
+
+    a.is-active {
+      font-weight: bold;
+      text-decoration: underline;
+      color: #4a4a4a;
+    }
 
     .details {
       display: none;

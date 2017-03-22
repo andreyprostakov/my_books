@@ -28,4 +28,8 @@ class ApplicationController < ActionController::Base
   def current_author_name
     params[:author]
   end
+
+  def current_publisher_name
+    params[:publisher]
+  end
 end

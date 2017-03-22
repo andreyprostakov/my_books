@@ -2,6 +2,14 @@ body {
   background-image: image-url('skulls.png');
 }
 
+#site_header {
+  background-color: #363636;
+
+  a:hover {
+    color: whitesmoke;
+  }
+}
+
 #main_content {
   min-height: 100vh;
 

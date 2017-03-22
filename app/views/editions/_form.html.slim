@@ -1,9 +1,9 @@
 = simple_form_for(@edition, 
-    defaults: { label: false },
+    defaults: { label: false, wrapper_html: { class: 'field' } },
     html: { id: 'edition_form' }\
   ) do |f|
   
-  = f.input :isbn
+  = f.input :isbn, input_html: { class: 'input' }
   .books
     = f.simple_fields_for :books do |book_form|
       = render 'editions/book_fields', f: book_form
@@ -11,20 +11,22 @@
       = link_to_add_association t('books.add_new'), f, :books,
           data: { association_insertion_method: 'prepend' }
 
-  = f.input :title
-  = f.input :annotation, class: 'edition-annotation'
+  = f.input :title, input_html: { class: 'input' }
+  = f.input :annotation, input_html: { class: 'edition-annotation textarea' }
   .cover
     = image_tag(@edition.cover_url)
-    = f.input :remote_cover_url
-  = f.input :publication_year
-  = f.input :pages_count
+    = f.input :remote_cover_url, input_html: { class: 'input' }
+  = f.input :publication_year, input_html: { class: 'input' }
+  = f.input :pages_count, input_html: { class: 'input' }
   = f.association :category,
       label_method: :title,
-      include_blank: false
+      include_blank: false,
+      class: 'select'
   = f.association :publisher,
       label_method: :name,
       include_blank: false,
-      collection: Publisher.by_names
+      collection: Publisher.by_names,
+      class: 'select'
 
   hr
-  = f.submit 'Save'
+  = f.submit class: 'button is-primary'

@@ -3,6 +3,7 @@ class EditionSerializer < ActiveModel::Serializer
   	:title,
   	:authors,
   	:cover_url,
+  	:category,
   	:read
 
   def title
@@ -12,5 +13,9 @@ class EditionSerializer < ActiveModel::Serializer
 
   def authors
   	object.authors.map(&:name)
+  end
+
+  def category
+  	object.category.try(:code)
   end
 end

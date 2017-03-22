@@ -44,6 +44,13 @@ class Edition < ApplicationRecord
       joins(:authors).where('authors.name = ?', author.to_s)
     end
   }
+  scope :with_publisher, lambda { |publisher|
+    if publisher.is_a? Publisher
+      joins(:publisher).where('publishers.id = ?', publisher)
+    else
+      joins(:publisher).where('publishers.name = ?', publisher.to_s)
+    end
+  }
 
   scope :by_book_titles, lambda {
     includes(:books).order('books.title').group('editions.id')

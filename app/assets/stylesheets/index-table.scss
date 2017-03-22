@@ -1,11 +1,20 @@
 table.index-table {
-	background-color: transparent;
+  background-color: transparent;
 
-	thead, tfoot {
-		background-color: whitesmoke;
-	}
+  thead, tfoot {
+    background-color: whitesmoke;
+  }
 
-	tbody {
-			background-color: rgba(255,255,255,0.3);
-	}
+  tbody {
+    background-color: rgba(255,255,255,0.3);
+
+    tr:hover {
+      background-color: #7a7a7a !important;
+      color: whitesmoke;
+
+      a {
+        color: whitesmoke;
+      }
+    }
+  }
 }
