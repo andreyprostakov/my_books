@@ -12,6 +12,10 @@ class EditionsController < ApplicationController
   end
 
   def show
+    respond_to do |format|
+      format.json { render json: @edition }
+      format.html
+    end
   end
 
   def new

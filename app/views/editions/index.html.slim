@@ -1,9 +1,12 @@
+- content_for :javascript do
+  = javascript_include_tag 'editions_index'
+
+= render 'editions/vue_templates/side_list'
+
 #editions_index
   editions-index[
       initial-order=(current_editions_order)
       initial-category=(current_editions_category)
-      initial-author=(current_author_name)
-      initial-publisher=(current_publisher_name)
       inline-template
     ]
 
@@ -15,55 +18,34 @@
             .select
               = select_tag 'order', options_for_order_select, 'v-model' => 'currentOrder'
 
-        #authors_nav.side-block
-          .side-block-heading
-            = t('authors.index')
-            .actions
-              = link_to new_author_path, class: 'add-list-item' do
-                i.fa.fa-plus-circle
-              a.see-more v-if='!authorsPanelExpanded' @click='expandAuthors'
-                i.fa.fa-chevron-circle-down
-              a.see-less v-if='authorsPanelExpanded' @click='hideAuthors'
-                i.fa.fa-chevron-circle-up
-          .side-block-content v-if='authorsPanelExpanded'
-            .side-block-list-item
-              a @click='switchToAuthor(null)' :class=("{'is-active': currentAuthorIs(null)}")
-                | Любой
-            - @authors.each do |author|
-              .side-block-list-item
-                a @click=("switchToAuthor('#{author.name}')") :class=("{'is-active': currentAuthorIs('#{author.name}')}")
-                  = author.name
-                .details
-                  =<> '|'
-                  = link_to 'E', edit_author_path(author)
-                  =<> '|'
-                  = link_to 'X', author_path(author), method: :delete
+        side-list[
+          title=(t('authors.index'))
+          :items=(@authors.to_json)
+          selected-item-name='author'
+          mutation-for-select='setAuthor'
+          preselected-item=(current_author_name)
+          :new-item-url='routes.new_author_path'
+          :edit-item-url='routes.edit_author_path'
+          :remove-item-url='routes.author_path'
+        ]
 
-        #publishers_nav.side-block
-          .side-block-heading
-            = t('publishers.index')
-            .actions
-              = link_to new_publisher_path, class: 'add-list-item' do
-                i.fa.fa-plus-circle
-              a.see-more v-if='!publishersPanelExpanded' @click='expandPublishers'
-                i.fa.fa-chevron-circle-down
-              a.see-less v-if='publishersPanelExpanded' @click='hidePublishers'
-                i.fa.fa-chevron-circle-up
-          .side-block-content v-if='publishersPanelExpanded'
-            .side-block-list-item
-              a @click='switchToPublisher(null)' :class=("{'is-active': currentPublisherIs(null)}")
-                | Любой
-            - @publishers.each do |publisher|
-              .side-block-list-item
-                a @click=("switchToPublisher('#{publisher.name}')") :class=("{'is-active': currentPublisherIs('#{publisher.name}')}")
-                  = publisher.name
-                .details
-                  =<> '|'
-                  = link_to 'E', edit_publisher_path(publisher)
-                  =<> '|'
-                  = link_to 'X', publisher_path(publisher), method: :delete
+        side-list[
+          title=(t('publishers.index'))
+          :items=(@publishers.to_json)
+          selected-item-name='publisher'
+          mutation-for-select='setPublisher'
+          preselected-item=(current_publisher_name)
+          :new-item-url='routes.new_publisher_path'
+          :edit-item-url='routes.edit_publisher_path'
+          :remove-item-url='routes.publisher_path'
+        ]
 
       .column.is-9
+        #details v-if='editionDetails'
+          .details-header
+            .category Издание:
+            |{{editionDetails.title}}
+
         #edition_categories.tabs
           ul
             li :class=("{'is-active': currentCategoryIs(null)}")
@@ -82,11 +64,11 @@
             .edition-preview :class='{"read": edition.read}'
               img :src='edition.cover_url' class='edition-cover'
               .edition-links
-                a :href='editionUrl(edition)' = '{{edition.title}}'
+                a @click='showEditionDetails(edition)' = '{{edition.title}}'
                 br
-                a :href='authorUrl(author)' v-for='author in edition.authors' = '{{author}}'
+                a @click='switchToAuthor(author)' v-for='author in edition.authors' = '{{author}}'
                 hr
-                a :href='editEditionUrl(edition)' class='edit-link' = t('actions.edit')
+                a :href='routes.edit_edition_path(edition)' class='edit-link' = t('actions.edit')
                 br
                 a @click='changeReadStatus(edition)'
                   template v-if='edition.read' = t('books.actions.mark_as_not_read')

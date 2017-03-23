@@ -4,8 +4,8 @@ html
     title = t('title')
     = csrf_meta_tags
     = stylesheet_link_tag 'application', media: 'all'
-    = javascript_include_tag 'https://unpkg.com/vue'
     = javascript_include_tag 'application'
+    = yield :javascript
   body.container
     nav#site_header.nav
       .nav-center

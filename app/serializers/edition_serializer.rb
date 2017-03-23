@@ -1,10 +1,10 @@
 class EditionSerializer < ActiveModel::Serializer
   attributes :id,
-  	:title,
-  	:authors,
-  	:cover_url,
-  	:category,
-  	:read
+    :title,
+    :authors,
+    :cover_url,
+    :category,
+    :read
 
   def title
     object.title.presence ||
@@ -12,10 +12,10 @@ class EditionSerializer < ActiveModel::Serializer
   end
 
   def authors
-  	object.authors.map(&:name)
+    object.authors.map(&:name)
   end
 
   def category
-  	object.category.try(:code)
+    object.category.try(:code)
   end
 end

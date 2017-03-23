@@ -15,5 +15,7 @@
 //= require jquery-ui
 //= require cocoon
 //= require js-routes
+//= require vue@2.2.4
+//= require vuex@2.2.1
 //
-//= require_tree .
+//= require edition_form
