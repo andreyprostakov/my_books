@@ -2,6 +2,7 @@
   = javascript_include_tag 'editions_index'
 
 = render 'editions/vue_templates/side_list'
+= render 'editions/vue_templates/edition_details'
 
 #editions_index
   editions-index[
@@ -42,9 +43,7 @@
 
       .column.is-9
         #details v-if='editionDetails'
-          .details-header
-            .category Издание:
-            |{{editionDetails.title}}
+          edition-details :edition='editionDetails'
 
         #edition_categories.tabs
           ul

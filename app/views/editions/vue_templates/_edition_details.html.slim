@@ -1,0 +1,37 @@
+script#edition_details_template type='text/x-document'
+  #edition_details :class='{"read": edition.read}'
+    .edition-books
+      a.edition-book
+        | {{edition.title}}
+    .edition-header
+      .cover :style='coverStyle'
+      .info
+        .attribute v-if='edition.authors'
+          = t('editions.attributes.author')
+          => ':'
+          a @click='switchToAuthor(author)' v-for='author in edition.authors'
+            | {{author}}
+        .attribute
+          = t('editions.attributes.category')
+          => ':'
+          a @click='switchToCategory(edition.category)'
+            | {{edition.category}}
+        .attribute v-if='edition.publisher'
+          = t('editions.attributes.publisher')
+          => ':'
+          a @click='switchToPublisher(edition.publisher)'
+            | {{edition.publisher.name}}
+        .attribute v-if='edition.publication_year'
+          = t('editions.attributes.publication_year')
+          => ':'
+          | {{edition.publication_year}}
+        .attribute v-if='edition.isbn'
+          = t('editions.attributes.isbn')
+          => ':'
+          | {{edition.isbn}}
+        .attribute v-if='edition.pages_count'
+          = t('editions.attributes.pages_count')
+          => ':'
+          | {{edition.pages_count}}
+        .annotation
+          | {{edition.annotation}}

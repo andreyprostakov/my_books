@@ -4,6 +4,10 @@ class EditionSerializer < ActiveModel::Serializer
     :authors,
     :cover_url,
     :category,
+    :publisher,
+    :publication_year,
+    :pages_count,
+    :isbn,
     :read
 
   def title

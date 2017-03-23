@@ -1,0 +1,26 @@
+script#side_list_template type='text/x-document'
+  .side-block.side-list
+    .side-block-heading
+      | {{title}}
+      .actions
+        a.add-list-item :href='newItemUrl()' v-if='newItemUrl'
+          i.fa.fa-plus-circle
+        a.see-more v-if='!expanded' @click='expand'
+          i.fa.fa-chevron-circle-down
+        a.see-less v-if='expanded' @click='hide'
+          i.fa.fa-chevron-circle-up
+
+    .side-block-content v-if='expanded'
+      table.table.is-striped.is-narrow
+        tr :class='{"is-active": currentItemIs(null)}'
+          td
+            a.name @click='select(null)'
+              | Любой
+        tr v-for='item in items' :class='{"is-active": currentItemIs(item)}'
+          td
+            a.name @click=('select(item)')
+              | {{item.name}}
+          td v-if='editItemUrl'
+            a.details :href='editItemUrl(item)' E
+          td v-if='removeItemUrl'
+            a.details :href='removeItemUrl(item)' data-method='delete' X
