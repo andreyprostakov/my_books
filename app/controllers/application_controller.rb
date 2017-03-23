@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
     :editions_scope_params,
     :current_editions_order,
     :current_editions_category,
-    :current_author_name
+    :current_author_name,
+    :current_publisher_name
 
   private
 

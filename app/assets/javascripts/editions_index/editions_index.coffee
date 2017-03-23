@@ -2,10 +2,14 @@ Vue.component 'editions-index',
   props:
     initialOrder: { required: true }
     initialCategory: {}
+    initialAuthor: {}
+    initialPublisher: {}
 
   mounted: ->
     @currentOrder = @initialOrder
     @currentCategory = @initialCategory || null
+    @currentAuthor = @initialAuthor
+    @currentPublisher = @initialPublisher    
     @reloadEditions()
     @$watch 'currentOrder', @reloadEditions
     @$watch 'currentAuthor', @reloadEditions
@@ -17,6 +21,8 @@ Vue.component 'editions-index',
     currentPublisher: null
     currentOrder: null
     currentCategory: null
+    authorsPanelExpanded: false
+    publishersPanelExpanded: false
   }
 
   computed:
@@ -83,11 +89,25 @@ Vue.component 'editions-index',
     currentAuthorIs: (authorToCheck) ->
       @currentAuthor == authorToCheck
 
+    expandAuthors: ->
+      @authorsPanelExpanded = true
+      @hidePublishers()
+
+    hideAuthors: ->
+      @authorsPanelExpanded = false
+
     switchToPublisher: (publisher) ->
       @currentPublisher = publisher
 
     currentPublisherIs: (publisherToCheck) ->
       @currentPublisher == publisherToCheck
+
+    expandPublishers: ->
+      @publishersPanelExpanded = true
+      @hideAuthors()
+
+    hidePublishers: ->
+      @publishersPanelExpanded = false
 
     reloadEditions: ->
       $.getJSON(

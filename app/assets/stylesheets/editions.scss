@@ -197,12 +197,19 @@
 
 #authors_nav, #publishers_nav {
   .side-block-heading {
-    .add-list-item {
+    .actions {
       float: right;
+    }
 
+    .add-list-item, .see-more, .see-less {
       i {
-        font-size: 28px;
+        padding-left: 10px;
+        font-size: 32px;
       }
+    }
+
+    .see-more {
+      color: #4a4a4a;
     }
   }
 

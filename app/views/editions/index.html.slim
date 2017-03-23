@@ -4,8 +4,13 @@
   hr
 
 #editions_index
-  editions-index[initial-order=(current_editions_order) initial-category=(current_editions_category)
-    author=(current_author_name) inline-template]
+  editions-index[
+      initial-order=(current_editions_order)
+      initial-category=(current_editions_category)
+      initial-author=(current_author_name)
+      initial-publisher=(current_publisher_name)
+      inline-template
+    ]
 
     div.columns.is-multiline
       .column.is-3
@@ -18,9 +23,14 @@
         #authors_nav.side-block
           .side-block-heading
             = t('authors.index')
-            = link_to new_author_path, class: 'add-list-item' do
-              i.fa.fa-plus-circle
-          .side-block-content
+            .actions
+              = link_to new_author_path, class: 'add-list-item' do
+                i.fa.fa-plus-circle
+              a.see-more v-if='!authorsPanelExpanded' @click='expandAuthors'
+                i.fa.fa-chevron-circle-down
+              a.see-less v-if='authorsPanelExpanded' @click='hideAuthors'
+                i.fa.fa-chevron-circle-up
+          .side-block-content v-if='authorsPanelExpanded'
             .side-block-list-item
               a @click='switchToAuthor(null)' :class=("{'is-active': currentAuthorIs(null)}")
                 | Любой
@@ -37,9 +47,14 @@
         #publishers_nav.side-block
           .side-block-heading
             = t('publishers.index')
-            = link_to new_publisher_path, class: 'add-list-item' do
-              i.fa.fa-plus-circle
-          .side-block-content
+            .actions
+              = link_to new_publisher_path, class: 'add-list-item' do
+                i.fa.fa-plus-circle
+              a.see-more v-if='!publishersPanelExpanded' @click='expandPublishers'
+                i.fa.fa-chevron-circle-down
+              a.see-less v-if='publishersPanelExpanded' @click='hidePublishers'
+                i.fa.fa-chevron-circle-up
+          .side-block-content v-if='publishersPanelExpanded'
             .side-block-list-item
               a @click='switchToPublisher(null)' :class=("{'is-active': currentPublisherIs(null)}")
                 | Любой
