@@ -14,11 +14,13 @@ FactoryGirl.define do
 
   factory :edition do
     books { build_list(:book, 1) }
-    category { build(:edition_category) }
+    category { EditionCategory.first || build(:edition_category) }
+    publisher
 
     title { FFaker::Book.title }
     isbn { FFaker::Book.isbn }
     annotation { FFaker::Book.description }
+    cover { FFaker::Book.cover(size: '200x300') }
 
     trait :with_stubbed_relations do
       books { build_stubbed_list(:book, 1, :with_stubbed_relations) }
