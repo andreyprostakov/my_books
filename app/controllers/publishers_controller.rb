@@ -1,13 +1,5 @@
 class PublishersController < ApplicationController
-  before_action :fetch_publisher, only: %i(show edit update destroy)
-
-  def index
-    @publishers = Publisher.by_names
-  end
-
-  def show
-    @editions = @publisher.editions.by_book_titles
-  end
+  before_action :fetch_publisher, only: %i(edit update destroy)
 
   def new
     @publisher = Publisher.new
@@ -16,7 +8,7 @@ class PublishersController < ApplicationController
   def create
     @publisher = Publisher.new(publisher_params)
     if @publisher.save
-      redirect_to publishers_path
+      redirect_to root_path(publisher: @publisher.name)
     else
       render :new
     end
@@ -27,7 +19,7 @@ class PublishersController < ApplicationController
 
   def update
     if @publisher.update_attributes(publisher_params)
-      redirect_to publishers_path
+      redirect_to root_path(publisher: @publisher.name)
     else
       render :edit
     end
@@ -35,7 +27,7 @@ class PublishersController < ApplicationController
 
   def destroy
     @publisher.destroy
-    redirect_to publishers_path
+    redirect_to root_path
   end
 
   private

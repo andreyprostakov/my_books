@@ -14,6 +14,10 @@ Vue.component 'editions-index',
     @$watch 'currentOrder', @reloadEditions
     @$watch 'currentAuthor', @reloadEditions
     @$watch 'currentPublisher', @reloadEditions
+    if @currentAuthor
+      @expandAuthors()
+    else if @currentPublisher
+      @expandPublishers()
 
   data: => {
     editions: []

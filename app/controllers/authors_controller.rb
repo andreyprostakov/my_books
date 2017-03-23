@@ -1,13 +1,5 @@
 class AuthorsController < ApplicationController
-  before_action :fetch_author, only: %i(show edit update destroy)
-
-  def index
-    @authors = Author.by_names
-  end
-
-  def show
-    @editions = @author.editions.by_book_titles
-  end
+  before_action :fetch_author, only: %i(edit update destroy)
 
   def new
     @author = Author.new
@@ -16,7 +8,7 @@ class AuthorsController < ApplicationController
   def create
     @author = Author.new(author_params)
     if @author.save
-      redirect_to authors_path
+      redirect_to root_path(author: @author.name)
     else
       render :new
     end
@@ -27,7 +19,7 @@ class AuthorsController < ApplicationController
 
   def update
     if @author.update_attributes(author_params)
-      redirect_to authors_path
+      redirect_to root_path(author: @author.name)
     else
       render :edit
     end
@@ -35,7 +27,7 @@ class AuthorsController < ApplicationController
 
   def destroy
     @author.destroy
-    redirect_to authors_path
+    redirect_to root_path
   end
 
   private

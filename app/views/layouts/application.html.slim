@@ -10,8 +10,6 @@ html
     nav#site_header.nav
       .nav-center
         .nav-item = link_to t('title'), editions_path
-        .nav-item = link_to t('authors.index'), authors_path
         .nav-item = link_to t('books.index'), books_path
-        .nav-item = link_to t('publishers.index'), publishers_path
     #main_content.container
       = yield

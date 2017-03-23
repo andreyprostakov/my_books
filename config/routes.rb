@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'editions#index'
 
-  resources :authors
+  resources :authors, except: %i(index show)
 
   resources :books, except: :show
 
@@ -11,5 +11,5 @@ Rails.application.routes.draw do
       only: %i(create destroy)
   end
 
-  resources :publishers
+  resources :publishers, except: %i(index show)
 end
