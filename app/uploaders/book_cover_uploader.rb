@@ -11,7 +11,7 @@ class BookCoverUploader < CarrierWave::Uploader::Base
   end
 
   version :thumb do
-     process resize_to_fit: [250, 370]
+     process resize_and_pad: [255, 300, '#F5F5F5', 'North']
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

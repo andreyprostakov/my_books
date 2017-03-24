@@ -13,7 +13,7 @@ class EditionsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.json { render json: @edition }
+      format.json { render json: @edition, serializer: EditionDetailsSerializer }
       format.html
     end
   end

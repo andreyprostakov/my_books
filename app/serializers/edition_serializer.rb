@@ -4,10 +4,6 @@ class EditionSerializer < ActiveModel::Serializer
     :authors,
     :cover_url,
     :category,
-    :publisher,
-    :publication_year,
-    :pages_count,
-    :isbn,
     :read
 
   def title
@@ -21,5 +17,9 @@ class EditionSerializer < ActiveModel::Serializer
 
   def category
     object.category.try(:code)
+  end
+
+  def cover_url
+    object.cover.url(:thumb)
   end
 end

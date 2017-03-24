@@ -6,9 +6,7 @@ Vue.component 'edition-details',
     edition: null
 
   mounted: ->
-    console.log('mounting edition-details')
     EventsDispatcher.$on 'showEditionDetails', (edition) =>
-      console.log(edition)
       @edition = edition
       @show()
 
