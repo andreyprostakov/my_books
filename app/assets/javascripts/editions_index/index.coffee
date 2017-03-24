@@ -7,7 +7,6 @@ Vue.component 'editions-index',
     editions: []
     currentOrder: null
     currentCategory: null
-    editionDetails: null
   }
 
   mounted: ->
@@ -47,7 +46,8 @@ Vue.component 'editions-index',
     showEditionDetails: (edition) ->
       $.getJSON(
         Routes.edition_path(edition.id),
-        (data) => @editionDetails = data
+        (data) =>
+          EventsDispatcher.$emit('showEditionDetails', data)
       )
 
     removeEdition: (edition) ->
