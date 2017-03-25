@@ -3,28 +3,32 @@ script#edition_details_template type='text/x-document'
     .modal-background
     .modal-content v-if='edition'
       #edition_details :class='{"read": edition.read}'
-        .edition-header
-          .cover :style='coverStyle'
-          .info
-            .attribute
-              a @click='switchToAuthor(author)' v-for='author in edition.authors'
-                | {{author}}
-              = '. - '
+        .cover-page :style='coverStyle'
+        .info-page
+          .attribute
+            .header-author
+              template v-for='(author, i) in edition.authors'
+                a @click='switchToAuthor(author)'
+                  | {{author}}
+                template v-if='i != (edition.authors.length - 1)'
+                  = ', '
+            .header-title
               | {{edition.title}}
-              = '. - '
-              | {{edition.pages_count}}
-              = ' с. - '
-              a @click='switchToPublisher(edition.publisher)'
-                | {{edition.publisher.name}}
-              = ', '
-              | {{edition.publication_year}}
-            .annotation
-              | {{edition.annotation}}
-            .attribute
-              a @click='switchToCategory(edition.category)'
-                | {{edition.category}}
-            .attribute v-if='edition.isbn'
-              = t('editions.attributes.isbn')
-              => ':'
-              | {{edition.isbn}}
+          .attribute
+            a @click='switchToPublisher(edition.publisher)'
+              | {{edition.publisher}}
+            = ', '
+            | {{edition.publication_year}}
+            = '. - '
+            | {{edition.pages_count}}
+            = ' с.'
+          .annotation
+            | {{edition.annotation}}
+          .attribute
+            a @click='switchToCategory(edition.category)'
+              | {{edition.category}}
+          .attribute v-if='edition.isbn'
+            = t('editions.attributes.isbn')
+            => ':'
+            | {{edition.isbn}}
     button.modal-close @click='close'

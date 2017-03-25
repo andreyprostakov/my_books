@@ -44,6 +44,20 @@
       .column.is-9
         edition-details
 
+        #current_selection_info
+          template v-if='author'
+            .type
+              = t('authors.one')
+              | :
+            .value
+              | {{author}}
+          template v-if='publisher'
+            .type
+              = t('publishers.one')
+              | :
+            .value
+              | {{publisher}}
+
         #edition_categories.tabs
           ul
             li :class=("{'is-active': currentCategoryIs(null)}")
@@ -62,14 +76,18 @@
             .edition-preview :class='{"read": edition.read}'
               img :src='edition.cover_url' class='edition-cover'
               .edition-links
-                a @click='showEditionDetails(edition)' = '{{edition.title}}'
-                br
-                a @click='switchToAuthor(author)' v-for='author in edition.authors' = '{{author}}'
-                hr
-                a :href='routes.edit_edition_path(edition)' class='edit-link' = t('actions.edit')
-                br
-                a @click='changeReadStatus(edition)'
-                  template v-if='edition.read' = t('books.actions.mark_as_not_read')
-                  template v-else=(true) = t('books.actions.mark_as_read')
-                br
-                a @click='removeEdition(edition)' class='remove-link' = t('actions.remove')
+                .info
+                  a.author @click='switchToAuthor(author)' v-for='(author, i) in edition.authors'
+                    | {{author}}
+                    span v-if='i != (edition.authors.length - 1)'
+                      = ', '
+                  br
+                  a.title @click='showEditionDetails(edition)' = '{{edition.title}}'
+                .actions
+                  a :href='routes.edit_edition_path(edition)' class='edit-link' E
+                  a @click='removeEdition(edition)' class='remove-link' X
+                  a @click='changeReadStatus(edition)' class='check-link'
+                    template v-if='edition.read'
+                      i.fa.fa-check-circle
+                    template v-else=(true)
+                      i.fa.fa-check-circle-o

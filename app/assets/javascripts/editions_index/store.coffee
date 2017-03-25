@@ -5,6 +5,8 @@ window.Store = new Vuex.Store
 
   mutations:
     setAuthor: (state, author) ->
+      state.publisher = null
       state.author = author
     setPublisher: (state, publisher) ->
       state.publisher = publisher
+      state.author = null

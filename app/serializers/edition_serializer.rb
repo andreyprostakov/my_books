@@ -8,7 +8,7 @@ class EditionSerializer < ActiveModel::Serializer
 
   def title
     object.title.presence ||
-      object.books.map { |b| "\"#{b.title}\"" }.join(', ')
+      object.books.map(&:title).join(', ')
   end
 
   def authors

@@ -23,6 +23,8 @@ ru:
       book:
         authors: Авторы
     placeholders:
+      author:
+        name: Имя
       edition:
         isbn: ISBN
         title: Название издания (опционально)
@@ -33,3 +35,5 @@ ru:
         books:
           title: Название
           author: Автор
+      publisher:
+        name: Имя

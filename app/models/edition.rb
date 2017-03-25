@@ -32,7 +32,7 @@ class Edition < ApplicationRecord
   belongs_to :publisher, optional: true
   has_many :book_in_editions
   has_many :books, through: :book_in_editions
-  has_many :authors, through: :books
+  has_many :authors, -> { group('authors.id') }, through: :books
 
   scope :with_category_code, lambda { |code|
     joins(:category).where(edition_categories: { code: code })
@@ -57,7 +57,7 @@ class Edition < ApplicationRecord
   }
   scope :old_first, lambda { order(:publication_year) }
   scope :new_first, lambda { order(publication_year: :desc) }
-  scope :by_updated_at, lambda { order(:updated_at) }
+  scope :by_updated_at, lambda { order(updated_at: :desc) }
   scope :by_author, lambda {
     includes(:authors).
       order('authors.name').

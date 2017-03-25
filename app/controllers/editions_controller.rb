@@ -14,7 +14,6 @@ class EditionsController < ApplicationController
   def show
     respond_to do |format|
       format.json { render json: @edition, serializer: EditionDetailsSerializer }
-      format.html
     end
   end
 
@@ -69,7 +68,7 @@ class EditionsController < ApplicationController
   end
 
   def current_editions_scope
-    editions = Edition.preload(:authors)
+    editions = Edition.all
     if current_editions_category
       editions = editions.with_category_code(current_editions_category)
     end

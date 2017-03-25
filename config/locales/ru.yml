@@ -4,6 +4,7 @@ ru:
     remove: Удалить
   authors:
     index: Авторы
+    one: Автор
     add_new: Добавить автора
   books:
     index: Произведения
@@ -36,6 +37,7 @@ ru:
       last_updated: По последнему обновлению
   publishers:
     index: Издательства
+    one: Издательство
     add_new: Добавить издательство
   status:
     nothing_here: Пусто

@@ -24,3 +24,8 @@ Vue.component 'edition-details',
     switchToAuthor: (author) ->
       @$store.commit('setAuthor', author)
       @close()
+    switchToPublisher: (publisher) ->
+      @$store.commit('setPublisher', publisher)
+      @close()
+    switchToCategory: (category) ->
+      console.log('Implement me!')
