@@ -1,23 +1,17 @@
 - content_for :javascript do
   = javascript_include_tag 'editions_index'
 
+= render 'editions/vue_templates/order_select'
 = render 'editions/vue_templates/side_list'
+= render 'editions/vue_templates/categories_tabs'
+= render 'editions/vue_templates/editions_list'
 = render 'editions/vue_templates/edition_details'
 
 #editions_index
-  editions-index[
-      initial-order=(current_editions_order)
-      initial-category=(current_editions_category)
-      inline-template
-    ]
-
+  editions-index[inline-template]
     div.columns.is-multiline
       .column.is-3
-        #order_control.side-block
-          .side-block-heading = t('editions.orders.ordering')
-          .side-block-content
-            .select
-              = select_tag 'order', options_for_order_select, 'v-model' => 'currentOrder'
+        order-select initial-order=(current_editions_order)
 
         side-list[
           title=(t('authors.index'))
@@ -58,36 +52,6 @@
             .value
               | {{publisher}}
 
-        #edition_categories.tabs
-          ul
-            li :class=("{'is-active': currentCategoryIs(null)}")
-              a @click='switchToCategory(null)' Все
-            - edition_categories_codes.each do |category_code|
-              li[:class=("{\
-                'is-active': currentCategoryIs('#{category_code}'),\
-                'is-disabled': !anyEditionsOfCategory('#{category_code}')\
-              }")]
-                a @click=("switchToCategory('#{category_code}')") = t(category_code, scope: 'categories')
-        .editions-list.columns.is-multiline
-          .edition.column.is-3
-            .edition-preview.add-new-edition
-              = link_to t('editions.add_new'), new_edition_path
-          .edition.column.is-3 v-for='edition in filteredEditions'
-            .edition-preview :class='{"read": edition.read}'
-              img :src='edition.cover_url' class='edition-cover'
-              .edition-links
-                .info
-                  a.author @click='switchToAuthor(author)' v-for='(author, i) in edition.authors'
-                    | {{author}}
-                    span v-if='i != (edition.authors.length - 1)'
-                      = ', '
-                  br
-                  a.title @click='showEditionDetails(edition)' = '{{edition.title}}'
-                .actions
-                  a :href='routes.edit_edition_path(edition)' class='edit-link' E
-                  a @click='removeEdition(edition)' class='remove-link' X
-                  a @click='changeReadStatus(edition)' class='check-link'
-                    template v-if='edition.read'
-                      i.fa.fa-check-circle
-                    template v-else=(true)
-                      i.fa.fa-check-circle-o
+        categories-tabs
+
+        editions-list :editions='filteredEditions'

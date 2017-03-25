@@ -1,0 +1,9 @@
+script#order_select_template type='text/x-document'
+  #order_control.side-block
+    .side-block-heading = t('editions.orders.ordering')
+    .side-block-content
+      .select
+        = select_tag 'order',
+          options_for_order_select,
+          value: current_editions_order,
+          '@change' => 'onSelect'
