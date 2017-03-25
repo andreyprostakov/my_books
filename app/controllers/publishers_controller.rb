@@ -8,15 +8,9 @@ class PublishersController < ApplicationController
   def create
     @publisher = Publisher.new(publisher_params)
     if @publisher.save
-      respond_to do |format|
-        format.json { render json: @publisher }
-        format.html { redirect_to root_path(publisher: @publisher.name) }
-      end
+      render json: @publisher
     else
-      respond_to do |format|
-        format.json { render json: @publisher.errors, status: 422 }
-        format.html { render :new }
-      end
+      render json: @publisher.errors, status: 422
     end
   end
 
@@ -25,24 +19,15 @@ class PublishersController < ApplicationController
 
   def update
     if @publisher.update_attributes(publisher_params)
-      respond_to do |format|
-        format.json { render json: @publisher }
-        format.html { redirect_to root_path(publisher: @publisher.name) }
-      end
+      render json: @publisher
     else
-      respond_to do |format|
-        format.json { render json: @publisher.errors, status: 422 }
-        format.html { render :edit }
-      end
+      render json: @publisher.errors, status: 422
     end
   end
 
   def destroy
     @publisher.destroy
-    respond_to do |format|
-      format.json { render json: {} }
-      format.html { redirect_to root_path }
-    end
+    render json: {}
   end
 
   private

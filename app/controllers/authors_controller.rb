@@ -8,15 +8,9 @@ class AuthorsController < ApplicationController
   def create
     @author = Author.new(author_params)
     if @author.save
-      respond_to do |format|
-        format.json { render json: @author }
-        format.html { redirect_to root_path(author: @author.name) }
-      end
+      render json: @author
     else
-      respond_to do |format|
-        format.json { render json: @author.errors, status: 422 }
-        format.html { render :new }
-      end
+      render json: @author.errors, status: 422
     end
   end
 
@@ -25,24 +19,15 @@ class AuthorsController < ApplicationController
 
   def update
     if @author.update_attributes(author_params)
-      respond_to do |format|
-        format.json { render json: @author }
-        format.html { redirect_to root_path(author: @author.name) }
-      end
+      render json: @author
     else
-      respond_to do |format|
-        format.json { render json: @author.errors, status: 422 }
-        format.html { render :edit }
-      end
+      render json: @author.errors, status: 422
     end
   end
 
   def destroy
     @author.destroy
-    respond_to do |format|
-      format.json { render json: {} }
-      format.html { redirect_to root_path }
-    end
+    render json: {}
   end
 
   private
