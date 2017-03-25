@@ -24,11 +24,10 @@ script#edition_details_template type='text/x-document'
             = ' с.'
           .annotation
             | {{edition.annotation}}
+          .attribute v-if='edition.isbn'
+            => 'ISBN'
+            | {{edition.isbn}}
           .attribute
             a @click='switchToCategory(edition.category)'
               | {{edition.category}}
-          .attribute v-if='edition.isbn'
-            = t('editions.attributes.isbn')
-            => ':'
-            | {{edition.isbn}}
     button.modal-close @click='close'

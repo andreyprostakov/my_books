@@ -1,17 +1,14 @@
 Vue.component 'editions-index',
   props:
     initialOrder: { required: true }
-    initialCategory: { default: null }
 
   data: => {
     editions: []
     currentOrder: null
-    currentCategory: null
   }
 
   mounted: ->
     @currentOrder = @initialOrder
-    @currentCategory = @initialCategory
     @reloadEditions()
     @$watch 'currentOrder', @reloadEditions
     @$watch 'author', @reloadEditions
@@ -19,10 +16,11 @@ Vue.component 'editions-index',
 
   computed: Vuex.mapState
     author: 'author'
-    publisher: 'publisher'
+    publisher: 'publisher',
+    category: 'category',
     filteredEditions: ->
-      return @editions if !@currentCategory
-      @editionsOfCategory(@currentCategory)
+      return @editions if !@category
+      @editionsOfCategory(@category)
     routes: -> Routes
 
   methods:
@@ -65,10 +63,10 @@ Vue.component 'editions-index',
       console.log(response)
 
     switchToCategory: (categoryCode) ->
-      @currentCategory = categoryCode
+      @$store.commit('setCategory', categoryCode)
 
     currentCategoryIs: (categoryToCheck) ->
-      @currentCategory == categoryToCheck
+      @category == categoryToCheck
 
     editionsOfCategory: (categoryCode) ->
       @editions.filter((e) => e.category == categoryCode)

@@ -26,7 +26,7 @@ class EditionsController < ApplicationController
   def create
     @edition = form_handler.create_edition
     if @edition.valid?
-      redirect_to edition_path(@edition)
+      redirect_to root_path
     else
       render :new
     end
@@ -39,7 +39,7 @@ class EditionsController < ApplicationController
     if form_handler.update_edition(@edition)
       respond_to do |format|
         format.json { render json: @edition }
-        format.html { redirect_to edition_path(@edition) }
+        format.html { redirect_to root_path }
       end
     else
       respond_to do |format|
