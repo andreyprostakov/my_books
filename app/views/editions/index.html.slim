@@ -15,23 +15,23 @@
 
         side-list[
           title=(t('authors.index'))
-          :items=(@authors.to_json)
+          :initial-items=(@authors.to_json)
           selected-item-name='author'
           mutation-for-select='setAuthor'
           preselected-item=(current_author_name)
-          :new-item-url='routes.new_author_path'
-          :edit-item-url='routes.edit_author_path'
+          :create-item-url='routes.authors_path'
+          :update-item-url='routes.author_path'
           :remove-item-url='routes.author_path'
         ]
 
         side-list[
           title=(t('publishers.index'))
-          :items=(@publishers.to_json)
+          :initial-items=(@publishers.to_json)
           selected-item-name='publisher'
           mutation-for-select='setPublisher'
           preselected-item=(current_publisher_name)
-          :new-item-url='routes.new_publisher_path'
-          :edit-item-url='routes.edit_publisher_path'
+          :create-item-url='routes.publishers_path'
+          :update-item-url='routes.publisher_path'
           :remove-item-url='routes.publisher_path'
         ]
 

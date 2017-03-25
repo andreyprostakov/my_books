@@ -302,6 +302,10 @@
       tr.is-active, tr:hover {
         td a.details {
           display: inline;
+
+          &.link-remove {
+            color: red;
+          }
         }
       }
 

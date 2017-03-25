@@ -3,18 +3,23 @@ Vue.component 'side-list',
 
   props:
     title: { required: true }
-    items: { required: true }
+    initialItems: { required: true }
     preselectedItem: { default: null }
 
     selectedItemName: { required: true }
     mutationForSelect: { required: true }
 
-    newItemUrl: {}
-    editItemUrl: {}
+    createItemUrl: {}
+    updateItemUrl: {}
     removeItemUrl: {}
 
   data: ->
+    items: []
     toggledExpanded: false
+    creationMode: false
+    newItemName: null
+    editedItem: null
+    inputItemName: null
 
   computed: Vuex.mapState
     selectedItem: (state) ->
@@ -22,6 +27,9 @@ Vue.component 'side-list',
 
     expanded: ->
       @toggledExpanded || @selectedItem
+
+  mounted: ->
+    @items = @initialItems
 
   methods:
     mounted: ->
@@ -40,3 +48,54 @@ Vue.component 'side-list',
     hide: ->
       @toggledExpanded = false
       @select(null)
+
+    showCreationInput: ->
+      @creationMode = true
+
+    createNewItem: ->
+      $.ajax(
+        type: 'POST'
+        url: @createItemUrl()
+        dataType: 'json'
+        data: @requestDataWithItemName(@newItemName)
+        success: (createdItem) =>
+          @items.splice(0, 0, createdItem)
+          @creationMode = false
+          @newItemName = null
+        error: @handleErrorResponse
+      )
+
+    editItemName: (item) ->
+      @inputItemName = item.name
+      @editedItem = item
+
+    updateItemName: (item) ->
+      $.ajax(
+        type: 'PUT'
+        url: @updateItemUrl(item.id)
+        dataType: 'json'
+        data: @requestDataWithItemName(@inputItemName)
+        success: (updatedItem) =>
+          Vue.set(@items, @items.indexOf(item), updatedItem)
+          @editedItem = null
+        error: @handleErrorResponse
+      )
+
+    removeItem: (item) ->
+      $.ajax(
+        type: 'DELETE'
+        url: @removeItemUrl(item.id)
+        dataType: 'json'
+        success: =>
+          @items.splice(@items.indexOf(item), 1)
+        error: @handleErrorResponse
+      )
+
+    requestDataWithItemName: (itemName) ->
+      data = {}
+      data[@selectedItemName] = { name: itemName }
+      data
+
+    handleErrorResponse: (response) ->
+      console.log('OOPS')
+      console.log(response)
