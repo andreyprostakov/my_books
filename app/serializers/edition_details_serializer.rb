@@ -16,7 +16,7 @@ class EditionDetailsSerializer < EditionSerializer
   end
 
   def isbn
-    object.isbn unless object.isbn == Edition::EMPTY_ISBN
+    object.isbn
   end
 
   def publisher

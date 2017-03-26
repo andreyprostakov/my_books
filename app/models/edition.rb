@@ -3,7 +3,7 @@
 # Table name: editions
 #
 #  id                  :integer          not null, primary key
-#  isbn                :string           not null
+#  isbn                :string
 #  title               :string
 #  annotation          :text
 #  editor              :string
@@ -24,8 +24,6 @@
 #
 
 class Edition < ApplicationRecord
-  EMPTY_ISBN = 'unknown'.freeze
-
   belongs_to :category,
     class_name: EditionCategory,
     foreign_key: :edition_category_id
@@ -66,7 +64,7 @@ class Edition < ApplicationRecord
 
   accepts_nested_attributes_for :books, allow_destroy: true
 
-  validates_presence_of :isbn, :books
+  validates_presence_of :books
 
   mount_uploader :cover, ::BookCoverUploader
 end
