@@ -3,13 +3,19 @@ script#side_list_template type='text/x-document'
     .side-block-heading
       | {{title}}
       .actions
-        a.add-list-item v-if='!creationMode' @click='showCreationInput'
+        a v-if='!searchMode' @click='showSearchInput'
+          i.fa.fa-search
+        a.grey v-if='searchMode' @click='hideSearchInput'
+          i.fa.fa-search
+
+        a v-if='!creationMode' @click='showCreationInput'
           i.fa.fa-plus-circle
-        a.hide-add-list-form v-if='creationMode' @click='hideCreationInput'
+        a.grey v-if='creationMode' @click='hideCreationInput'
           i.fa.fa-plus-circle
-        a.see-more v-if='!expanded' @click='expand'
+
+        a.grey v-if='!expanded' @click='expand'
           i.fa.fa-chevron-circle-down
-        a.see-less v-if='expanded' @click='hide'
+        a v-if='expanded' @click='hide'
           i.fa.fa-chevron-circle-up
 
     .side-block-content v-if='expanded'
@@ -18,18 +24,36 @@ script#side_list_template type='text/x-document'
           td
             form @submit.prevent='createNewItem'
               .field
-                input.input type='text' v-model='newItemName' :ref='selectedItemName + "-create"'
-        tr :class='{"is-active": currentItemIs(null)}' v-if='!creationMode'
+                input.input[
+                  type='text'
+                  v-model='newItemName'
+                  :ref='selectedItemName + "-create"'
+                  placeholder=(t('side_block.create'))
+                ]
+
+        tr v-if='searchMode'
+          td
+            form @submit.prevent='showSearchInput'
+              .field
+                input.input[
+                  type='text'
+                  v-model='searchKey'
+                  :ref='selectedItemName + "-search"'
+                  placeholder=(t('side_block.search'))
+                ]
+
+        tr :class='{"is-active": currentItemIs(null)}' v-if='!creationMode && !searchMode'
           td
             a.name @click='select(null)'
               | Любой
-        tr v-for='item in items' :class='{"is-active": currentItemIs(item)}' :key='item.id'
+
+        tr v-for='item in filteredItems' :class='{"is-active": currentItemIs(item)}' :key='item.id'
           template v-if='item != editedItem'
             td
               a.name @click=('select(item)')
                 | {{item.name}}
             td
-              a.details.link-edit @click='editItemName(item)' E
+              a.details.link-edit @click='showEditInput(item)' E
             td
               a.details.link-remove @click='removeItem(item)' X
 

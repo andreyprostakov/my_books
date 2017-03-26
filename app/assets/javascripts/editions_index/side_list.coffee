@@ -18,6 +18,10 @@ Vue.component 'side-list',
     toggledExpanded: false
     creationMode: false
     newItemName: null
+
+    searchMode: false
+    searchKey: ''
+
     editedItem: null
     inputItemName: null
 
@@ -27,6 +31,10 @@ Vue.component 'side-list',
 
     expanded: ->
       @toggledExpanded || @selectedItem
+
+    filteredItems: ->
+      return @items if !@searchMode
+      @items.filter((i) => i.name.match(new RegExp(@searchKey, 'i')))
 
   mounted: ->
     @items = @initialItems
@@ -39,6 +47,8 @@ Vue.component 'side-list',
       (item || {name: null}).name == @selectedItem
 
     select: (item) ->
+      @hideCreationInput()
+      @hideEditInput()
       @$store.commit(@mutationForSelect, (item || {name: null}).name)
       @expand() if item
 
@@ -53,12 +63,34 @@ Vue.component 'side-list',
 
     showCreationInput: ->
       @hideEditInput()
+      @hideSearchInput()
       @creationMode = true
       @expand()
       @focusOn(@selectedItemName + '-create')
 
     hideCreationInput: ->
       @creationMode = false
+
+    showEditInput: (item) ->
+      @hideCreationInput()
+      @hideSearchInput()
+      @inputItemName = item.name
+      @editedItem = item
+      @focusOn(@selectedItemName + '-edit-' + item.id)
+
+    hideEditInput: ->
+      @editedItem = null
+
+    showSearchInput: ->
+      @hideEditInput()
+      @hideCreationInput()
+      @searchKey = ''
+      @searchMode = true
+      @expand()
+      @focusOn(@selectedItemName + '-search')
+
+    hideSearchInput: ->
+      @searchMode = false
 
     createNewItem: ->
       $.ajax(
@@ -72,15 +104,6 @@ Vue.component 'side-list',
           @newItemName = null
         error: @handleErrorResponse
       )
-
-    editItemName: (item) ->
-      @hideCreationInput()
-      @inputItemName = item.name
-      @editedItem = item
-      @focusOn(@selectedItemName + '-edit-' + item.id)
-
-    hideEditInput: ->
-      @editedItem = null
 
     updateItemName: (item) ->
       $.ajax(

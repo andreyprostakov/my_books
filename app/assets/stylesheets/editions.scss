@@ -268,17 +268,17 @@
   .side-block-heading {
     .actions {
       float: right;
-    }
 
-    .add-list-item, .hide-add-list-form, .see-more, .see-less {
-      i {
-        padding-left: 10px;
-        font-size: 32px;
+      a {
+        i {
+          padding-left: 10px;
+          font-size: 32px;
+        }
+
+        &.grey {
+          color: #4a4a4a;
+        }
       }
-    }
-
-    .hide-add-list-form, .see-more {
-      color: #4a4a4a;
     }
   }
 

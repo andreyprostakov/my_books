@@ -39,6 +39,9 @@ ru:
     index: Издательства
     one: Издательство
     add_new: Добавить издательство
+  side_block:
+    search: Поиск
+    create: Новая запись
   status:
     nothing_here: Пусто
   title: Книги
