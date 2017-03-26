@@ -48,9 +48,17 @@ Vue.component 'side-list',
     hide: ->
       @toggledExpanded = false
       @select(null)
+      @hideCreationInput()
+      @hideEditInput()
 
     showCreationInput: ->
+      @hideEditInput()
       @creationMode = true
+      @expand()
+      @focusOn(@selectedItemName + '-create')
+
+    hideCreationInput: ->
+      @creationMode = false
 
     createNewItem: ->
       $.ajax(
@@ -60,14 +68,19 @@ Vue.component 'side-list',
         data: @requestDataWithItemName(@newItemName)
         success: (createdItem) =>
           @items.splice(0, 0, createdItem)
-          @creationMode = false
+          @hideCreationInput()
           @newItemName = null
         error: @handleErrorResponse
       )
 
     editItemName: (item) ->
+      @hideCreationInput()
       @inputItemName = item.name
       @editedItem = item
+      @focusOn(@selectedItemName + '-edit-' + item.id)
+
+    hideEditInput: ->
+      @editedItem = null
 
     updateItemName: (item) ->
       $.ajax(
@@ -77,7 +90,7 @@ Vue.component 'side-list',
         data: @requestDataWithItemName(@inputItemName)
         success: (updatedItem) =>
           Vue.set(@items, @items.indexOf(item), updatedItem)
-          @editedItem = null
+          @hideEditInput()
         error: @handleErrorResponse
       )
 
@@ -99,3 +112,9 @@ Vue.component 'side-list',
     handleErrorResponse: (response) ->
       console.log('OOPS')
       console.log(response)
+
+    focusOn: (ref) ->
+      Vue.nextTick =>
+        element = @$refs[ref]
+        element = element[0] || element
+        element.focus() if element
