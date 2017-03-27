@@ -209,7 +209,105 @@
 }
 
 #edition_form {
-  padding: 30px 50px 50px;
+  padding: 30px 50px 80px;
+  background-color: whitesmoke;
+  font-family: Times New Roman;
+
+  .field.author {
+    text-align: center;
+
+    input {
+      width: 200px;
+      margin: 5px;
+      text-align: center;
+      font-family: Times New Roman;
+      font-size: 16px;
+      font-weight: bold;
+      color: #00d1b2;
+    }
+
+    .link-remove-author {
+      color: red;
+    }
+
+    .link-add-author {
+      display: inline-block;
+      vertical-align: top;
+      margin: 5px;
+
+      i {
+        font-size: 16px;
+        line-height: 36px;
+      }
+    }
+  }
+
+  .field.title {
+    text-align: center;
+
+    input {
+      padding: 0;
+      height: auto;
+      text-align: center;
+      font-family: Times New Roman;
+      font-size: 32px;
+      font-weight: bold;
+    }
+  }
+
+  .link-add-book {
+    display: block;
+    width: 100%;
+    padding: 5px 0 30px;
+    text-align: center;
+
+    i {
+      font-size: 24px;
+    }
+  }
+
+  .link-remove-book {
+    color: red;
+  }
+
+  .field.edition-info-line {
+    line-height: 36px;
+
+    input.publisher {
+      width: 250px;
+      font-family: Times New Roman;
+      color: #00d1b2;
+    }
+
+    input.publication-year {
+      width: 90px;
+      font-family: Times New Roman;
+    }
+
+    input.pages-count {
+      width: 90px;
+      font-family: Times New Roman;
+    }
+  }
+
+  .field.annotation {
+    textarea {
+      padding: 20px 10px;
+      font-family: Times New Roman;
+      font-size: 12px;
+      font-style: italic;
+      white-space: pre-line;
+    }
+  }
+
+  .field.isbn {
+    line-height: 36px;
+
+    input {
+      width: 200px;
+      font-family: Times New Roman;
+    }
+  }
 
   .book-fields {
     .link-to-remove-book {

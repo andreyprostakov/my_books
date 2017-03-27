@@ -14,6 +14,9 @@ Vue.component 'editions-list',
     close: ->
       @enabled = false
 
+    addNewEdition: ->
+      EventsDispatcher.$emit('addNewEdition')
+
     showEditionDetails: (edition) ->
       $.getJSON(
         Routes.edition_path(edition.id),

@@ -1,0 +1,68 @@
+script#edition_form_template type='text/x-document'
+  .modal :class='{"is-active": canBeShown}'
+    .modal-background
+    .modal-content
+      form#edition_form :class='{"read": edition.read}'
+
+        .books
+          template v-for='book in edition.books'
+            .field.author
+              template v-for='author in book.authors'
+                input.input[type='text'
+                  placeholder=(t('simple_form.placeholders.edition.books.author'))
+                  v-model='book.author'
+                ]
+                a.link-remove-author @click='removeAuthor(book, author)'
+                  i.fa.fa-times
+              a.link-add-author @click='addAuthor(book)'
+                i.fa.fa-plus
+
+            .field.title
+              input.input[type='text'
+                placeholder=(t('simple_form.placeholders.edition.books.title'))
+                v-model='book.title'
+              ]
+              a.link-remove-book @click='removeBook(book)'
+                i.fa.fa-times
+          a.link-add-book @click='addBook'
+            i.fa.fa-plus
+
+        .field.edition-info-line
+          input.input.publisher[type='text'
+            placeholder=(t('simple_form.placeholders.edition.publisher'))
+            v-model='edition.publisher'
+          ]
+          = ', '
+          input.input.publication-year[type='number'
+            placeholder=(t('simple_form.placeholders.edition.publication_year'))
+            v-model='edition.publicationYear'
+          ]
+          = '. - '
+          input.input.pages-count[type='number'
+            placeholder=(t('simple_form.placeholders.edition.pages_count'))
+            v-model='edition.pagesCount'
+          ]
+          = ' с.'
+
+        .field.annotation
+          textarea.textarea[placeholder=(t('simple_form.placeholders.edition.annotation'))
+            v-model='edition.annotation'
+          ]
+
+        .field.isbn
+          => 'ISBN'
+          input.input[type='text'
+            placeholder=(t('simple_form.placeholders.edition.isbn'))
+            v-model='edition.isbn'
+          ]
+
+        .field.select.category
+          = select_tag nil,
+              options_for_category_select,
+              placeholder: t('simple_form.placeholders.edition.category')
+              'v-model' => 'edition.category'
+
+        .field
+          input.button.is-primary type='submit' value=(t('helpers.submit.create'))
+
+    button.modal-close @click='close'

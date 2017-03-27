@@ -1,12 +1,12 @@
-.book-fields.nested-fields.columns
+.book-fields.nested-fields
   = f.association :authors,
       collection: Author.all,
-      wrapper_html: { class: 'field column is-3' },
+      wrapper_html: { class: 'field' },
       class: 'select'
   = f.input :title,
     input_html: {\
       data: { autocomplete: true, values: all_book_titles },\
       class: 'input'\
-    }, wrapper_html: { class: 'field column is-8' }
-  = link_to_remove_association f, class: 'link-to-remove-book column is-1' do
+    }, wrapper_html: { class: 'field' }
+  = link_to_remove_association f, class: 'link-to-remove-book' do
     = fa_icon 'remove'

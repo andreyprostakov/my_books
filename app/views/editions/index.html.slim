@@ -5,6 +5,7 @@
 = render 'editions/vue_templates/side_list'
 = render 'editions/vue_templates/categories_tabs'
 = render 'editions/vue_templates/editions_list'
+= render 'editions/vue_templates/edition_form'
 = render 'editions/vue_templates/edition_details'
 
 #editions_index
@@ -36,6 +37,7 @@
         ]
 
       .column.is-9
+        edition-form
         edition-details
 
         #current_selection_info

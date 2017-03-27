@@ -27,6 +27,10 @@ module EditionsHelper
     ]
   end
 
+  def options_for_category_select
+    options_for_select(edition_categories_codes.map { |code| [t(code, scope: 'categories'), code] })
+  end
+
   def link_to_edition_category(category_code)
     is_active = current_editions_category == category_code
     link_to t(category_code, scope: 'categories'),

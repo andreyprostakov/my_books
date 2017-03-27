@@ -2,8 +2,6 @@
     defaults: { label: false, wrapper_html: { class: 'field' } },
     html: { id: 'edition_form' }\
   ) do |f|
-  
-  = f.input :isbn, input_html: { class: 'input' }
   .books
     = f.simple_fields_for :books do |book_form|
       = render 'editions/book_fields', f: book_form
@@ -27,6 +25,8 @@
       include_blank: false,
       collection: Publisher.by_names,
       class: 'select'
+
+  = f.input :isbn, input_html: { class: 'input' }
 
   hr
   = f.submit class: 'button is-primary'

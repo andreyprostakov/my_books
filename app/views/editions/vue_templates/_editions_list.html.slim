@@ -2,7 +2,8 @@ script#editions_list_template type='text/x-document'
   .editions-list.columns.is-multiline
     .edition.column.is-3
       .edition-preview.add-new-edition
-        = link_to t('editions.add_new'), new_edition_path
+        a @click='addNewEdition' = t('editions.add_new')
+
     .edition.column.is-3 v-for='edition in editions'
       .edition-preview :class='{"read": edition.read}'
         img :src='edition.cover_url' class='edition-cover'
