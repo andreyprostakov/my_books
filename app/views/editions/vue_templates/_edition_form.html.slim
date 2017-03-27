@@ -2,19 +2,19 @@ script#edition_form_template type='text/x-document'
   .modal :class='{"is-active": canBeShown}'
     .modal-background
     .modal-content
-      form#edition_form :class='{"read": edition.read}'
+      form#edition_form :class='{"read": edition.read}' @submit.prevent='submit'
 
         .books
           template v-for='book in edition.books'
             .field.author
-              template v-for='author in book.authors'
+              template v-for='author, authorIndex in book.authors'
                 input.input[type='text'
                   placeholder=(t('simple_form.placeholders.edition.books.author'))
-                  v-model='book.author'
+                  v-model='book.authors[authorIndex]'
                 ]
-                a.link-remove-author @click='removeAuthor(book, author)'
+                a.link-remove-author @click='removeAuthor(book, authorIndex)'
                   i.fa.fa-times
-              a.link-add-author @click='addAuthor(book)'
+              a.link-add-author v-if='canAddAuthorToBook(book)' @click='addAuthor(book)'
                 i.fa.fa-plus
 
             .field.title

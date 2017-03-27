@@ -45,3 +45,15 @@ ru:
   status:
     nothing_here: Пусто
   title: Книги
+
+  errors:
+    messages:
+      mini_magick_processing_error: Ошибка при обработке изображения
+
+  activerecord:
+    errors:
+      models:
+        edition:
+          attributes:
+            category:
+              required: Необходиму выбрать категорию

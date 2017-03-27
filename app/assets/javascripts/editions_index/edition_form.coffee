@@ -21,12 +21,14 @@ Vue.component 'edition-form',
     close: ->
       @enabled = false
 
+    canAddAuthorToBook: (book) ->
+      book.authors.filter((a) => !a).length == 0
+
     addAuthor: (book) ->
       book.authors.push(null)
 
-    removeAuthor: (book, author) ->
-      index = book.authors.indexOf(author)
-      book.authors.splice(index, 1)
+    removeAuthor: (book, authorIndex) ->
+      book.authors.splice(authorIndex, 1)
 
     addBook: ->
       @edition.books.push @newBook()
@@ -37,3 +39,14 @@ Vue.component 'edition-form',
 
     newBook: ->
       {authors: [null]}
+
+    submit: ->
+      $.ajax(
+        type: 'POST'
+        url: Routes.editions_path()
+        dataType: 'json'
+        data: { edition: @edition }
+        success: (createdEdition) =>
+          console.log createdEdition
+        error: @handleErrorResponse
+      )

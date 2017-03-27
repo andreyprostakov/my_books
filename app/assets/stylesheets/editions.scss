@@ -217,8 +217,10 @@
     text-align: center;
 
     input {
+      position: static;
       width: 200px;
       margin: 5px;
+      padding-right: 24px;
       text-align: center;
       font-family: Times New Roman;
       font-size: 16px;
@@ -227,7 +229,18 @@
     }
 
     .link-remove-author {
-      color: red;
+      display: inline-block;
+      color: darkgray;
+      margin: 5px 5px 5px -24px;
+
+      i {
+        font-size: 16px;
+        line-height: 36px;
+      }
+
+      &:hover {
+        color: red;
+      }
     }
 
     .link-add-author {
@@ -267,7 +280,16 @@
   }
 
   .link-remove-book {
-    color: red;
+    float: right;
+    color: darkgray;
+
+    i {
+      font-size: 16px;
+    }
+
+    &:hover {
+      color: red;
+    }
   }
 
   .field.edition-info-line {
