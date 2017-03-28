@@ -15,8 +15,8 @@
 #
 
 class BookInEdition < ApplicationRecord
-  belongs_to :book
-  belongs_to :edition
+  belongs_to :book, inverse_of: :book_in_editions
+  belongs_to :edition, inverse_of: :book_in_editions
 
   validates_presence_of :book, :edition
 end

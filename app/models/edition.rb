@@ -28,8 +28,8 @@ class Edition < ApplicationRecord
     class_name: EditionCategory,
     foreign_key: :edition_category_id
   belongs_to :publisher, optional: true
-  has_many :book_in_editions
-  has_many :books, through: :book_in_editions
+  has_many :book_in_editions, inverse_of: :edition
+  has_many :books, through: :book_in_editions, inverse_of: :editions
   has_many :authors, -> { group('authors.id') }, through: :books
 
   scope :with_category_code, lambda { |code|
@@ -63,6 +63,7 @@ class Edition < ApplicationRecord
   }
 
   accepts_nested_attributes_for :books, allow_destroy: true
+  accepts_nested_attributes_for :publisher
 
   validates_presence_of :books
 

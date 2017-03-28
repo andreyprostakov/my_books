@@ -5,6 +5,7 @@ RSpec.describe EditionCreateFormHandler do
 
   describe '#create_edition' do
     subject { handler.create_edition }
+    let(:edition) { subject }
 
     let(:params) { double :params }
     let(:edition_params) { double :edition_params }
@@ -13,18 +14,27 @@ RSpec.describe EditionCreateFormHandler do
         books: [
           {
             title: 'book title 1',
-            authors: ['author A', 'author B']
+            authors: [
+              { name: 'author A' },
+              { name: 'author B' }
+            ]
           },
           {
             title: 'book title 2',
-            authors: ['author B']
+            authors: [
+              { name: 'author B' }
+            ]
           }
         ],
         title: 'some edition title',
         annotation: 'some annotation',
         isbn: 'X-X-X',
-        category: 'comics',
-        publisher: 'some publisher',
+        category: {
+          code: 'comics'
+        },
+        publisher: {
+          name: 'some publisher'
+        },
         publication_year: 1999,
         pages_count: 10_000
       }
@@ -45,7 +55,6 @@ RSpec.describe EditionCreateFormHandler do
         to change { Edition.count }.by(1).
         and change { Author.count }.by(2).
         and change { Publisher.count }.by(1)
-      edition = subject
 
       expect(edition).to be_a Edition
       aggregate_failures do
@@ -79,24 +88,65 @@ RSpec.describe EditionCreateFormHandler do
     context 'params contain no books' do
       let(:raw_params) { super().except(:books) }
 
-      it 'returns built Edition with errors' do
+      it 'returns built edition with books errors' do
         expect { subject }.not_to change { [Edition.count, Author.count, Publisher.count] }
-        edition = subject
         expect(edition.errors[:books]).to be_present
+      end
+    end
+
+    context 'when some book is invalid' do
+      let(:raw_params) do
+        super().tap do |params|
+          params[:books].first[:authors] << { name: '' }
+        end
+      end
+
+      it 'returns built edition with books errors' do
+        expect { subject }.not_to change { [Edition.count, Author.count, Publisher.count] }
+        expect(edition).to be_new_record
+        expect(edition).not_to be_valid
+        expect(edition.errors['books[0].authors[2].name']).to be_present
       end
     end
 
     context 'when some author is invalid' do
       let(:raw_params) do
         super().tap do |params|
-          params[:books].first[:authors] << ''
+          params[:books] << { title: '' }
         end
       end
 
-      it 'returns built Edition with errors' do
+      it 'returns built edition with author errors' do
         expect { subject }.not_to change { [Edition.count, Author.count, Publisher.count] }
-        edition = subject
-        byebug
+        expect(edition).to be_new_record
+        expect(edition).not_to be_valid
+        expect(edition.errors['books[2].title']).to be_present
+      end
+    end
+
+    context 'when category is invalid' do
+      let(:raw_params) do
+        super().merge(category: { code: 'unknown category' })
+      end
+
+      it 'returns built edition with category errors' do
+        expect { subject }.not_to change { [Edition.count, Author.count, Publisher.count] }
+        expect(edition).to be_new_record
+        expect(edition).not_to be_valid
+        expect(edition.errors['category']).to be_present
+      end
+    end
+
+    context 'when publisher is invalid' do
+      let(:raw_params) do
+        super().merge(publisher: { name: '' })
+      end
+
+      it 'returns built edition with publisher errors' do
+        expect { subject }.not_to change { [Edition.count, Author.count, Publisher.count] }
+        expect(edition).to be_new_record
+        expect(edition).not_to be_valid
+        expect(edition.errors['publisher.name']).to be_present
       end
     end
   end

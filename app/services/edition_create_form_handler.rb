@@ -1,33 +1,33 @@
 class EditionCreateFormHandler
-  BOOKS_PARAMS = [:title, authors: []].freeze
+  BOOKS_PARAMS = [:title, authors: [:name]].freeze
   EDITION_PARAMS = [
     :title,
     :remote_cover_url,
     :annotation,
     :isbn,
-    :category,
-    :publisher,
     :publication_year,
     :pages_count,
+    category: [:code],
+    publisher: [:name],
     books: BOOKS_PARAMS
   ].freeze
+  EDITION_RAW_PARAMS = %i(
+    title
+    remote_cover_url
+    annotation
+    isbn
+    publication_year
+    pages_count
+  ).freeze
 
   def initialize(params)
     @params = params
   end
 
   def create_edition
-    edition = create_edition!
-  rescue ActiveRecord::RecordInvalid
-    edition
-  end
-
-  private
-
-  def create_edition!
-    edition = nil
+    edition = Edition.new
     Edition.transaction do
-      edition = Edition.new(edition_params)
+      edition.assign_attributes(edition_params)
       edition.save!
       edition
     end
@@ -35,25 +35,37 @@ class EditionCreateFormHandler
     edition
   end
 
+  private
+
   def edition_params
-    @edition_params ||= prepare_parameters
+    filtered_params.slice(*EDITION_RAW_PARAMS).tap do |edition_params|
+      edition_params[:books] = filtered_params.fetch(:books, []).each_with_index.map do |book_params, book_index|
+        book = build_book_by_params(book_params)
+        book.save
+        book
+      end
+      category_code = filtered_params.fetch(:category, {})[:code]
+      if category_code
+        edition_params[:category] = EditionCategory.find_by(code: category_code)
+      end
+      publisher_name = filtered_params.fetch(:publisher, {})[:name]
+      if publisher_name
+        publisher = Publisher.where(name: publisher_name).first_or_initialize
+        edition_params[:publisher] = publisher
+      end
+    end
   end
 
-  def prepare_parameters
-    raw_params = filter_params
-    raw_params[:books] = Array(raw_params.fetch(:books, [])).map do |book_params|
-      Book.create!(
-        title: book_params[:title],
-        authors: book_params[:authors].map { |a| Author.where(name: a).first_or_create! },
-      )
+  def build_book_by_params(book_params)
+    book = Book.new(book_params.slice(:title))
+    book.authors = book_params.fetch(:authors, []).each_with_index.map do |author_params, author_index|
+      Author.where(name: author_params[:name]).first_or_initialize
     end
-    if raw_params[:category]
-      raw_params[:category] = EditionCategory.find_by(code: raw_params[:category])
-    end
-    if raw_params[:publisher]
-      raw_params[:publisher] = Publisher.where(name: raw_params[:publisher]).first_or_create!
-    end
-    raw_params
+    book
+  end
+
+  def filtered_params
+    @filtered_params ||= filter_params
   end
 
   def filter_params

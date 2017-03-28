@@ -14,7 +14,7 @@ namespace :evernote_html do
           end
         end
         edition = Edition.create!(
-          isbn: Edition::EMPTY_ISBN,
+          isbn: nil,
           category: editions_category,
           books: books,
           publisher: publisher,
