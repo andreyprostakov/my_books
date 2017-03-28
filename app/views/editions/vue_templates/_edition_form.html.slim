@@ -59,7 +59,8 @@ script#edition_form_template type='text/x-document'
         .field.select.category
           = select_tag nil,
               options_for_category_select,
-              placeholder: t('simple_form.placeholders.edition.category')
+              prompt: t('simple_form.placeholders.edition.category'),
+              include_blank: false,
               'v-model' => 'edition.category.code'
 
         .field

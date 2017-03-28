@@ -2,11 +2,8 @@ class EditionsController < ApplicationController
   before_action :fetch_edition, only: %i(show edit update destroy)
 
   def index
-    @editions = current_editions_scope
-    @authors = Author.by_names
-    @publishers = Publisher.by_names
     respond_to do |format|
-      format.json { render json: @editions }
+      format.json { render json: current_editions_scope }
       format.html
     end
   end
@@ -24,7 +21,7 @@ class EditionsController < ApplicationController
   end
 
   def create
-    @edition = form_handler.create_edition
+    @edition = EditionCreateFormHandler.new(params).create_edition
     if @edition.valid?
       respond_to do |format|
         format.json { render json: @edition }

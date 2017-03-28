@@ -5,6 +5,11 @@ class AuthorsController < ApplicationController
     @author = Author.new
   end
 
+  def index
+    authors = Author.by_names
+    render json: authors
+  end
+
   def create
     @author = Author.new(author_params)
     if @author.save

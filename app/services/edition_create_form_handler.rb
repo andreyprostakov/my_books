@@ -39,7 +39,7 @@ class EditionCreateFormHandler
 
   def edition_params
     filtered_params.slice(*EDITION_RAW_PARAMS).tap do |edition_params|
-      edition_params[:books] = filtered_params.fetch(:books, []).each_with_index.map do |book_params, book_index|
+      edition_params[:books] = filtered_params.fetch(:books, []).map do |book_index, book_params|
         book = build_book_by_params(book_params)
         book.save
         book
@@ -58,7 +58,7 @@ class EditionCreateFormHandler
 
   def build_book_by_params(book_params)
     book = Book.new(book_params.slice(:title))
-    book.authors = book_params.fetch(:authors, []).each_with_index.map do |author_params, author_index|
+    book.authors = book_params.fetch(:authors, []).map do |author_index, author_params|
       Author.where(name: author_params[:name]).first_or_initialize
     end
     book

@@ -5,6 +5,11 @@ class PublishersController < ApplicationController
     @publisher = Publisher.new
   end
 
+  def index
+    publishers = Publisher.by_names
+    render json: publishers
+  end
+
   def create
     @publisher = Publisher.new(publisher_params)
     if @publisher.save

@@ -1,9 +1,9 @@
 Vue.component 'editions-index',
   mounted: ->
-    @reloadEditions()
-    @$watch 'currentOrder', @reloadEditions
-    @$watch 'author', @reloadEditions
-    @$watch 'publisher', @reloadEditions
+    @loadEditions()
+    @$watch 'currentOrder', @loadEditions
+    @$watch 'author', @loadEditions
+    @$watch 'publisher', @loadEditions
 
   computed: Vuex.mapState
     editions: 'editions'
@@ -20,12 +20,6 @@ Vue.component 'editions-index',
     editionsOfCategory: (categoryCode) ->
       @editions.filter((e) => e.category == categoryCode)
 
-    reloadEditions: ->
-      $.getJSON(
-        Routes.editions_path(
-          order: @currentOrder
-          author: @author
-          publisher: @publisher
-        ),
-        (data) => @$store.commit('setEditions', data)
-      )
+    loadEditions: ->
+      DataRefresher.loadEditions(@$store).then (editions) =>
+        @$store.commit('setEditions', editions)

@@ -10,7 +10,10 @@ Vue.component 'edition-form',
       @edition = @newEdition()
       @show()
 
-  computed:
+  computed: Vuex.mapState
+    preselectedAuthor: 'author'
+    preselectedPublisher: 'publisher'
+    preselectedCategory: 'category'
     canBeShown: ->
       @enabled
 
@@ -40,13 +43,15 @@ Vue.component 'edition-form',
     newEdition: ->
       {
         books: [@newBook()]
-        publisher: {}
-        category: {}
+        publisher: { name: @preselectedPublisher }
+        category: { code: @preselectedCategory }
+        pagesCount: 1
+        publicationYear: 2016
       }
 
     newBook: ->
       {
-        authors: [{}]
+        authors: [{name: @preselectedAuthor}]
       }
 
     submit: ->
@@ -56,6 +61,8 @@ Vue.component 'edition-form',
         dataType: 'json'
         data: { edition: @edition }
         success: (createdEdition) =>
-          console.log createdEdition
+          @$store.commit('addEdition', createdEdition)
+          EventsDispatcher.$emit('editionCreated', createdEdition)
+          @close()
         error: @handleErrorResponse
       )

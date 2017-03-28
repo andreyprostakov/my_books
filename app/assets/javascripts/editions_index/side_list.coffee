@@ -3,18 +3,18 @@ Vue.component 'side-list',
 
   props:
     title: { required: true }
-    initialItems: { required: true }
     preselectedItem: { default: null }
 
+    loadMethodName: { required: true }
+    itemsName: { required: true }
     selectedItemName: { required: true }
-    mutationForSelect: { required: true }
+    mutationItemName: { required: true }
 
     createItemUrl: {}
     updateItemUrl: {}
     removeItemUrl: {}
 
   data: ->
-    items: []
     toggledExpanded: false
     creationMode: false
     newItemName: null
@@ -36,12 +36,20 @@ Vue.component 'side-list',
       return @items if !@searchMode
       @items.filter((i) => i.name.match(new RegExp(@searchKey, 'i')))
 
+    items: ->
+      @$store.state[@itemsName]
+
   mounted: ->
-    @items = @initialItems
+    @loadItems()
+    EventsDispatcher.$on 'editionCreated', @loadItems
 
   methods:
     mounted: ->
       @select(@preselectedItem)
+
+    loadItems: ->
+      DataRefresher[@loadMethodName]().then (items) =>
+        @$store.commit('set' + @mutationItemName + 's', items)
 
     currentItemIs: (item) ->
       (item || {name: null}).name == @selectedItem
@@ -49,7 +57,7 @@ Vue.component 'side-list',
     select: (item) ->
       @hideCreationInput()
       @hideEditInput()
-      @$store.commit(@mutationForSelect, (item || {name: null}).name)
+      @$store.commit('set' + @mutationItemName, (item || {name: null}).name)
       @expand() if item
 
     expand: ->
@@ -99,7 +107,7 @@ Vue.component 'side-list',
         dataType: 'json'
         data: @requestDataWithItemName(@newItemName)
         success: (createdItem) =>
-          @items.splice(0, 0, createdItem)
+          @$store.commit('add' + @mutationItemName, createdItem)
           @hideCreationInput()
           @newItemName = null
         error: @handleErrorResponse
@@ -112,7 +120,7 @@ Vue.component 'side-list',
         dataType: 'json'
         data: @requestDataWithItemName(@inputItemName)
         success: (updatedItem) =>
-          Vue.set(@items, @items.indexOf(item), updatedItem)
+          @$store.commit('update' + @mutationItemName, updatedItem)
           @hideEditInput()
         error: @handleErrorResponse
       )
@@ -123,7 +131,7 @@ Vue.component 'side-list',
         url: @removeItemUrl(item.id)
         dataType: 'json'
         success: =>
-          @items.splice(@items.indexOf(item), 1)
+          @$store.commit('remove' + @mutationItemName, item)
         error: @handleErrorResponse
       )
 
