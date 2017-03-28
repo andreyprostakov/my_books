@@ -32,7 +32,7 @@ class EditionsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.json { render json: @edition.errors }
+        format.json { render json: @edition.errors, status: 422 }
         format.html { render :new }
       end
     end
@@ -49,7 +49,7 @@ class EditionsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.json { render json: @edition.errors }
+        format.json { render json: @edition.errors, status: 422 }
         format.html { render :edit }
       end
     end

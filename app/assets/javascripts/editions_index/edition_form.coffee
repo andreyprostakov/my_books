@@ -3,11 +3,11 @@ Vue.component 'edition-form',
 
   data: ->
     enabled: false
-    edition: {}
+    edition: null
 
   mounted: ->
     EventsDispatcher.$on 'addNewEdition', =>
-      @edition = { books: [@newBook()] }
+      @edition = @newEdition()
       @show()
 
   computed:
@@ -22,10 +22,10 @@ Vue.component 'edition-form',
       @enabled = false
 
     canAddAuthorToBook: (book) ->
-      book.authors.filter((a) => !a).length == 0
+      book.authors.filter((a) => !a.name).length == 0
 
     addAuthor: (book) ->
-      book.authors.push(null)
+      book.authors.push({})
 
     removeAuthor: (book, authorIndex) ->
       book.authors.splice(authorIndex, 1)
@@ -37,8 +37,17 @@ Vue.component 'edition-form',
       index = @edition.books.indexOf(book)
       @edition.books.splice(index, 1)
 
+    newEdition: ->
+      {
+        books: [@newBook()]
+        publisher: {}
+        category: {}
+      }
+
     newBook: ->
-      {authors: [null]}
+      {
+        authors: [{}]
+      }
 
     submit: ->
       $.ajax(

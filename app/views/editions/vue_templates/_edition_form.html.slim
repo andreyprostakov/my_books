@@ -2,7 +2,7 @@ script#edition_form_template type='text/x-document'
   .modal :class='{"is-active": canBeShown}'
     .modal-background
     .modal-content
-      form#edition_form :class='{"read": edition.read}' @submit.prevent='submit'
+      form#edition_form :class='{"read": edition.read}' @submit.prevent='submit' v-if='edition'
 
         .books
           template v-for='book in edition.books'
@@ -10,7 +10,7 @@ script#edition_form_template type='text/x-document'
               template v-for='author, authorIndex in book.authors'
                 input.input[type='text'
                   placeholder=(t('simple_form.placeholders.edition.books.author'))
-                  v-model='book.authors[authorIndex]'
+                  v-model='book.authors[authorIndex].name'
                 ]
                 a.link-remove-author @click='removeAuthor(book, authorIndex)'
                   i.fa.fa-times
@@ -30,7 +30,7 @@ script#edition_form_template type='text/x-document'
         .field.edition-info-line
           input.input.publisher[type='text'
             placeholder=(t('simple_form.placeholders.edition.publisher'))
-            v-model='edition.publisher'
+            v-model='edition.publisher.name'
           ]
           = ', '
           input.input.publication-year[type='number'
@@ -60,7 +60,7 @@ script#edition_form_template type='text/x-document'
           = select_tag nil,
               options_for_category_select,
               placeholder: t('simple_form.placeholders.edition.category')
-              'v-model' => 'edition.category'
+              'v-model' => 'edition.category.code'
 
         .field
           input.button.is-primary type='submit' value=(t('helpers.submit.create'))
