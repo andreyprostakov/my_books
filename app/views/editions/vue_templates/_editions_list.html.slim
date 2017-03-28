@@ -10,13 +10,13 @@ script#editions_list_template type='text/x-document'
         .edition-links
           .info
             a.author @click='switchToAuthor(author)' v-for='(author, i) in edition.authors'
-              | {{author}}
+              | {{author.name}}
               span v-if='i != (edition.authors.length - 1)'
                 = ', '
             br
             a.title @click='showEditionDetails(edition)' = '{{edition.title}}'
           .actions
-            a :href='routes.edit_edition_path(edition)' class='edit-link' E
+            a @click='editEdition(edition)' class='edit-link' E
             a @click='removeEdition(edition)' class='remove-link' X
             a @click='changeReadStatus(edition)' class='check-link'
               template v-if='edition.read'

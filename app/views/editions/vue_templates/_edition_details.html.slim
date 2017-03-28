@@ -9,14 +9,14 @@ script#edition_details_template type='text/x-document'
             .header-author
               template v-for='(author, i) in edition.authors'
                 a @click='switchToAuthor(author)'
-                  | {{author}}
+                  | {{author.name}}
                 template v-if='i != (edition.authors.length - 1)'
                   = ', '
             .header-title
               | {{edition.title}}
           .attribute
             a @click='switchToPublisher(edition.publisher)'
-              | {{edition.publisher}}
+              | {{edition.publisher.name}}
             = ', '
             | {{edition.publication_year}}
             = '. - '
@@ -29,5 +29,5 @@ script#edition_details_template type='text/x-document'
             | {{edition.isbn}}
           .attribute
             a @click='switchToCategory(edition.category)'
-              | {{edition.category}}
+              | {{edition.category.name}}
     button.modal-close @click='close'

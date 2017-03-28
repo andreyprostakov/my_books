@@ -8,6 +8,11 @@ class window.DataRefresher
       )
     )
 
+  @loadEditionDetails: (edition) ->
+    $.when $.getJSON(
+      Routes.edition_path(edition)
+    )
+
   @loadAuthors: ->
     $.when $.getJSON(
       Routes.authors_path()

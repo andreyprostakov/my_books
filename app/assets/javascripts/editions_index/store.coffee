@@ -15,6 +15,10 @@ window.Store = new Vuex.Store
     addEdition: (state, edition) ->
       state.editions.splice(0, 0, edition)
 
+    updateEdition: (state, updatedEdition) ->
+      oldEdition = state.editions.find((e) => e.id == updatedEdition.id)
+      state.editions.splice(state.editions.indexOf(oldEdition), 1, updatedEdition)
+
     setEditionsOrder: (state, order) ->
       state.editionsOrder = order
 
@@ -50,7 +54,7 @@ window.Store = new Vuex.Store
       state.publishers.splice(0, 0, newPublisher)
 
     updatePublisher: (state, updatedPublisher) ->
-      oldPublisher = state.publishers.find((a) => a.id == updatedPublisher.id)
+      oldPublisher = state.publishers.find((p) => p.id == updatedPublisher.id)
       state.publishers.splice(state.publishers.indexOf(oldPublisher), 1, updatedPublisher)
 
     removePublisher: (state, publisher) ->

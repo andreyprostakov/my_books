@@ -18,11 +18,12 @@ Vue.component 'editions-list',
       EventsDispatcher.$emit('addNewEdition')
 
     showEditionDetails: (edition) ->
-      $.getJSON(
-        Routes.edition_path(edition.id),
-        (data) =>
-          EventsDispatcher.$emit('showEditionDetails', data)
-      )
+      DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>
+        EventsDispatcher.$emit('showEditionDetails', detailedEdition)
+
+    editEdition: (edition) ->
+      DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>
+        EventsDispatcher.$emit('editEdition', detailedEdition)
 
     editEditionUrl: (edition) ->
       Routes.edit_edition_path(edition.id)
@@ -52,13 +53,5 @@ Vue.component 'editions-list',
       console.log(response)
 
     switchToAuthor: (author) ->
-      @$store.commit('setAuthor', author)
-      @close()
-
-    switchToPublisher: (publisher) ->
-      @$store.commit('setPublisher', publisher)
-      @close()
-
-    switchToCategory: (categoryCode) ->
-      @$store.commit('setCategory', categoryCode)
+      @$store.commit('setAuthor', author.name)
       @close()

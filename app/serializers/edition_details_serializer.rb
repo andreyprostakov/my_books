@@ -1,25 +1,19 @@
 class EditionDetailsSerializer < EditionSerializer
   attributes :id,
     :title,
-    :authors,
+    :books,
     :cover_url,
-    :category,
-    :publisher,
     :publication_year,
     :pages_count,
     :isbn,
     :annotation
     :read
 
-  def cover_url
-    object.cover.url
-  end
+  has_many :authors
+  has_one :category
+  has_one :publisher
 
-  def isbn
-    object.isbn
-  end
-
-  def publisher
-    object.publisher.try(:name)
+  def books
+    object.books.map { |b| BookSerializer.new(b) }
   end
 end

@@ -13,7 +13,7 @@ Vue.component 'categories-tabs',
       @currentCategory == categoryToCheck
 
     editionsOfCategory: (categoryCode) ->
-      @editions.filter((e) => e.category == categoryCode)
+      @editions.filter((e) => e.category.code == categoryCode)
 
     anyEditionsOfCategory: (categoryToCheck) ->
       !!@editionsOfCategory(categoryToCheck).length

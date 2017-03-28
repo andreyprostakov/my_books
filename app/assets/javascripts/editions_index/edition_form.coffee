@@ -9,6 +9,9 @@ Vue.component 'edition-form',
     EventsDispatcher.$on 'addNewEdition', =>
       @edition = @newEdition()
       @show()
+    EventsDispatcher.$on 'editEdition', (edition) =>
+      @edition = edition
+      @show()
 
   computed: Vuex.mapState
     preselectedAuthor: 'author'
@@ -45,8 +48,8 @@ Vue.component 'edition-form',
         books: [@newBook()]
         publisher: { name: @preselectedPublisher }
         category: { code: @preselectedCategory }
-        pagesCount: 1
-        publicationYear: 2016
+        pages_count: 1
+        publication_year: 2016
       }
 
     newBook: ->
@@ -55,6 +58,12 @@ Vue.component 'edition-form',
       }
 
     submit: ->
+      if @edition.id
+        @updateEdition()
+      else
+        @createEdition()
+
+    createEdition: ->
       $.ajax(
         type: 'POST'
         url: Routes.editions_path()
@@ -63,6 +72,19 @@ Vue.component 'edition-form',
         success: (createdEdition) =>
           @$store.commit('addEdition', createdEdition)
           EventsDispatcher.$emit('editionCreated', createdEdition)
+          @close()
+        error: @handleErrorResponse
+      )
+
+    updateEdition: ->
+      $.ajax(
+        type: 'PUT'
+        url: Routes.edition_path(@edition)
+        dataType: 'json'
+        data: { edition: @edition }
+        success: (updatedEdition) =>
+          @$store.commit('updateEdition', updatedEdition)
+          EventsDispatcher.$emit('editionUpdated', updatedEdition)
           @close()
         error: @handleErrorResponse
       )

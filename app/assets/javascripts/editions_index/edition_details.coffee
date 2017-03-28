@@ -19,14 +19,18 @@ Vue.component 'edition-details',
   methods:
     show: ->
       @enabled = true
+
     close: ->
       @enabled = false
+
     switchToAuthor: (author) ->
-      @$store.commit('setAuthor', author)
+      @$store.commit('setAuthor', author.name)
       @close()
+
     switchToPublisher: (publisher) ->
-      @$store.commit('setPublisher', publisher)
+      @$store.commit('setPublisher', publisher.name)
       @close()
-    switchToCategory: (categoryCode) ->
-      @$store.commit('setCategory', categoryCode)
+
+    switchToCategory: (category) ->
+      @$store.commit('setCategory', category.code)
       @close()

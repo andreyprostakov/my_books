@@ -18,7 +18,7 @@ Vue.component 'editions-index',
 
   methods:
     editionsOfCategory: (categoryCode) ->
-      @editions.filter((e) => e.category == categoryCode)
+      @editions.filter((e) => e.category.code == categoryCode)
 
     loadEditions: ->
       DataRefresher.loadEditions(@$store).then (editions) =>
