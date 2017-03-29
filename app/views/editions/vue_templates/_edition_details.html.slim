@@ -6,7 +6,11 @@ script#edition_details_template type='text/x-document'
         .left-cover-page
           .left-page
             .cover :style='coverStyle'
-            a.turn-page-link v-if='canSwitchToPrievousEdition' @click='switchToPreviousEdition' <
+            .pages-navigation v-if='canSwitchToPrievousEdition' @click='switchToPreviousEdition'
+              a.turn-page-link
+                i.fa.fa-long-arrow-left
+              span.page-number
+                | {{rightPageNumber}}
         .right-cover-page
           .info-page
             .attribute
@@ -19,6 +23,18 @@ script#edition_details_template type='text/x-document'
               .header-title
                 | {{edition.title}}
             .attribute
+              span
+                | {{edition.title}}
+              = ' : '
+              a @click='switchToCategory(edition.category)'
+                | {{edition.category.name.toLowerCase()}}
+              = ' / '
+              template v-for='(author, i) in edition.authors'
+                a @click='switchToAuthor(author)'
+                  | {{author.name}}
+                template v-if='i != (edition.authors.length - 1)'
+                  = ', '
+              = '. - '
               a @click='switchToPublisher(edition.publisher)'
                 | {{edition.publisher.name}}
               = ', '
@@ -31,8 +47,9 @@ script#edition_details_template type='text/x-document'
             .attribute v-if='edition.isbn'
               => 'ISBN'
               | {{edition.isbn}}
-            .attribute
-              a @click='switchToCategory(edition.category)'
-                | {{edition.category.name}}
-            a.turn-page-link v-if='canSwitchToNextEdition' @click='switchToNextEdition' >
+            .pages-navigation v-if='canSwitchToNextEdition' @click='switchToNextEdition'
+              a.turn-page-link
+                i.fa.fa-long-arrow-right
+              span.page-number
+                | {{leftPageNumber}}
     button.modal-close @click='close'

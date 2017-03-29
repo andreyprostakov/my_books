@@ -22,6 +22,12 @@ Vue.component 'edition-details',
     currentEditionIndex: ->
       @editions.findIndex((e) => e.id == @edition.id)
 
+    rightPageNumber: ->
+      @currentEditionIndex * 2
+
+    leftPageNumber: ->
+      @rightPageNumber + 1
+
     canSwitchToPrievousEdition: ->
       @currentEditionIndex > 0
 
