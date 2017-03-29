@@ -10,15 +10,23 @@ Vue.component 'edition-form',
       @edition = @newEdition()
       @show()
     EventsDispatcher.$on 'editEdition', (edition) =>
-      @edition = edition
-      @show()
+      DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>
+        @edition = detailedEdition
+        @show()
 
   computed: Vuex.mapState
     preselectedAuthor: 'author'
     preselectedPublisher: 'publisher'
     preselectedCategory: 'category'
+
     canBeShown: ->
       @enabled
+
+    coverStyle: ->
+      'background-image: url(' + @coverUrl + ')'
+
+    coverUrl: ->
+      @edition.remote_cover_url || @edition.cover_url
 
   methods:
     show: ->
@@ -50,6 +58,8 @@ Vue.component 'edition-form',
         category: { code: @preselectedCategory }
         pages_count: 1
         publication_year: 2016
+        remote_cover_url: null
+        cover_url: null
       }
 
     newBook: ->
@@ -72,7 +82,7 @@ Vue.component 'edition-form',
         success: (createdEdition) =>
           @$store.commit('addEdition', createdEdition)
           EventsDispatcher.$emit('editionCreated', createdEdition)
-          @close()
+          @showEditionDetails(createdEdition)
         error: @handleErrorResponse
       )
 
@@ -85,6 +95,11 @@ Vue.component 'edition-form',
         success: (updatedEdition) =>
           @$store.commit('updateEdition', updatedEdition)
           EventsDispatcher.$emit('editionUpdated', updatedEdition)
-          @close()
+          @showEditionDetails(updatedEdition)
         error: @handleErrorResponse
       )
+
+    showEditionDetails: (edition) ->
+      @close()
+      return unless edition.id
+      EventsDispatcher.$emit('showEditionDetails', edition)

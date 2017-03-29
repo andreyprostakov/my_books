@@ -1,5 +1,6 @@
 ru:
   helpers:
+    cancel: Отмена
     submit:
       create: 'Сохранить'
       update: 'Сохранить'

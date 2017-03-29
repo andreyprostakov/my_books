@@ -1,55 +1,56 @@
 script#edition_details_template type='text/x-document'
-  .modal.edition-details-modal :class='{"is-active": canBeShown}'
+  .modal.book-like-modal :class='{"is-active": canBeShown}'
     .modal-background
-    .modal-content v-if='edition'
-      #edition_details :class='{"read": edition.read}'
-        .left-cover-page
-          .left-page
-            .cover :style='coverStyle'
-            .pages-navigation v-if='canSwitchToPrievousEdition' @click='switchToPreviousEdition'
-              a.turn-page-link
-                i.fa.fa-long-arrow-left
-              span.page-number
-                | {{rightPageNumber}}
-        .right-cover-page
-          .info-page
-            .attribute
-              .header-author
-                template v-for='(author, i) in edition.authors'
-                  a @click='switchToAuthor(author)'
-                    | {{author.name}}
-                  template v-if='i != (edition.authors.length - 1)'
-                    = ', '
-              .header-title
-                | {{edition.title}}
-            .attribute
-              span
-                | {{edition.title}}
-              = ' : '
-              a @click='switchToCategory(edition.category)'
-                | {{edition.category.name.toLowerCase()}}
-              = ' / '
+    #edition_details.modal-content v-if='edition'
+      .left-cover-page
+        .left-page
+          .cover :style='coverStyle'
+          .pages-navigation v-if='canSwitchToPrievousEdition' @click='switchToPreviousEdition'
+            a.turn-page-link
+              i.fa.fa-long-arrow-left
+            span.page-number
+              | {{rightPageNumber}}
+      .right-cover-page
+        .right-page.info-page
+          .attribute
+            .header-author
               template v-for='(author, i) in edition.authors'
                 a @click='switchToAuthor(author)'
                   | {{author.name}}
                 template v-if='i != (edition.authors.length - 1)'
                   = ', '
-              = '. - '
-              a @click='switchToPublisher(edition.publisher)'
-                | {{edition.publisher.name}}
-              = ', '
-              | {{edition.publication_year}}
-              = '. - '
-              | {{edition.pages_count}}
-              = ' с.'
-            .annotation
-              | {{edition.annotation}}
-            .attribute v-if='edition.isbn'
-              => 'ISBN'
-              | {{edition.isbn}}
-            .pages-navigation v-if='canSwitchToNextEdition' @click='switchToNextEdition'
-              a.turn-page-link
-                i.fa.fa-long-arrow-right
-              span.page-number
-                | {{leftPageNumber}}
+            .header-title
+              | {{edition.title}}
+          .attribute.edition-meta-info
+            span
+              | {{edition.title}}
+            = ' : '
+            a @click='switchToCategory(edition.category)'
+              | {{edition.category.name.toLowerCase()}}
+            = ' / '
+            template v-for='(author, i) in edition.authors'
+              | {{author.name}}
+              template v-if='i != (edition.authors.length - 1)'
+                = ', '
+            = '. - '
+            a @click='switchToPublisher(edition.publisher)'
+              | {{edition.publisher.name}}
+            = ', '
+            | {{edition.publication_year}}
+            = '. - '
+            | {{edition.pages_count}}
+            = ' с.'
+          .annotation
+            | {{edition.annotation}}
+          .attribute v-if='edition.isbn'
+            => 'ISBN'
+            | {{edition.isbn}}
+          .controls
+            a @click='editEdition'
+              i.fa.fa-pencil
+          .pages-navigation v-if='canSwitchToNextEdition' @click='switchToNextEdition'
+            a.turn-page-link
+              i.fa.fa-long-arrow-right
+            span.page-number
+              | {{leftPageNumber}}
     button.modal-close @click='close'

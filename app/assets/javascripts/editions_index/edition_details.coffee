@@ -17,7 +17,7 @@ Vue.component 'edition-details',
       @edition && @enabled
 
     coverStyle: ->
-      'background-image: url(' + @edition.cover_url + ')'
+      'background-image: url(' + (@edition.remote_cover_url || @edition.cover_url) + ')'
 
     currentEditionIndex: ->
       @editions.findIndex((e) => e.id == @edition.id)
@@ -60,3 +60,7 @@ Vue.component 'edition-details',
     switchToPreviousEdition: ->
       return unless @canSwitchToPrievousEdition
       EventsDispatcher.$emit 'showEditionDetails', (@editions[@currentEditionIndex - 1])
+
+    editEdition: ->
+      @close()
+      EventsDispatcher.$emit('editEdition', @edition)

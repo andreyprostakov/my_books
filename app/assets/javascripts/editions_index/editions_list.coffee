@@ -21,8 +21,7 @@ Vue.component 'editions-list',
       EventsDispatcher.$emit('showEditionDetails', edition)
 
     editEdition: (edition) ->
-      DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>
-        EventsDispatcher.$emit('editEdition', detailedEdition)
+      EventsDispatcher.$emit('editEdition', edition)
 
     editEditionUrl: (edition) ->
       Routes.edit_edition_path(edition.id)
