@@ -18,8 +18,7 @@ Vue.component 'editions-list',
       EventsDispatcher.$emit('addNewEdition')
 
     showEditionDetails: (edition) ->
-      DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>
-        EventsDispatcher.$emit('showEditionDetails', detailedEdition)
+      EventsDispatcher.$emit('showEditionDetails', edition)
 
     editEdition: (edition) ->
       DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>

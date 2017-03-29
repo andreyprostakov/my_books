@@ -6,6 +6,7 @@ script#edition_details_template type='text/x-document'
         .left-cover-page
           .left-page
             .cover :style='coverStyle'
+            a.turn-page-link v-if='canSwitchToPrievousEdition' @click='switchToPreviousEdition' <
         .right-cover-page
           .info-page
             .attribute
@@ -33,4 +34,5 @@ script#edition_details_template type='text/x-document'
             .attribute
               a @click='switchToCategory(edition.category)'
                 | {{edition.category.name}}
+            a.turn-page-link v-if='canSwitchToNextEdition' @click='switchToNextEdition' >
     button.modal-close @click='close'

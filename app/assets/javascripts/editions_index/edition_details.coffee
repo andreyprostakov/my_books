@@ -7,14 +7,26 @@ Vue.component 'edition-details',
 
   mounted: ->
     EventsDispatcher.$on 'showEditionDetails', (edition) =>
-      @edition = edition
-      @show()
+      DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>
+        @edition = detailedEdition
+        @show()
 
-  computed:
+  computed: Vuex.mapState
+    editions: 'editions'
     canBeShown: ->
       @edition && @enabled
+
     coverStyle: ->
       'background-image: url(' + @edition.cover_url + ')'
+
+    currentEditionIndex: ->
+      @editions.findIndex((e) => e.id == @edition.id)
+
+    canSwitchToPrievousEdition: ->
+      @currentEditionIndex > 0
+
+    canSwitchToNextEdition: ->
+      @currentEditionIndex < (@editions.length - 1)
 
   methods:
     show: ->
@@ -34,3 +46,11 @@ Vue.component 'edition-details',
     switchToCategory: (category) ->
       @$store.commit('setCategory', category.code)
       @close()
+
+    switchToNextEdition: ->
+      return unless @canSwitchToNextEdition
+      EventsDispatcher.$emit 'showEditionDetails', (@editions[@currentEditionIndex + 1])
+
+    switchToPreviousEdition: ->
+      return unless @canSwitchToPrievousEdition
+      EventsDispatcher.$emit 'showEditionDetails', (@editions[@currentEditionIndex - 1])
