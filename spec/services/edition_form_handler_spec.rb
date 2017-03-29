@@ -46,6 +46,15 @@ RSpec.describe EditionFormHandler do
   end
 
   shared_examples 'handles validation errors' do
+    context 'params contain no books' do
+      let(:raw_params) { super().except(:books) }
+
+      it 'returns built edition with books errors' do
+        expect { subject }.not_to change { [Edition.count, Author.count, Publisher.count] }
+        expect(edition.errors[:books]).to be_present
+      end
+    end
+
     context 'when some book is invalid' do
       let(:raw_params) do
         super().tap do |params|
@@ -56,7 +65,7 @@ RSpec.describe EditionFormHandler do
       it 'returns built edition with books errors' do
         expect { subject }.not_to change { [Edition.count, Author.count, Publisher.count] }
         expect(edition).not_to be_valid
-        expect(edition.errors['books[0].authors[2].name']).to be_present
+        expect(edition.errors['book_in_editions[0].book.authors[2].name']).to be_present
       end
     end
 
@@ -139,15 +148,6 @@ RSpec.describe EditionFormHandler do
       expect(edition.category.code).to eq 'comics'
     end
 
-    context 'params contain no books' do
-      let(:raw_params) { super().except(:books) }
-
-      it 'returns built edition with books errors' do
-        expect { subject }.not_to change { [Edition.count, Author.count, Publisher.count] }
-        expect(edition.errors[:books]).to be_present
-      end
-    end
-
     it_behaves_like 'handles validation errors'
   end
 
@@ -172,7 +172,7 @@ RSpec.describe EditionFormHandler do
     it 'updates an edition with valid data' do
       expect { subject }.
         to change { edition.updated_at }.
-        and change { Book.count }.by(2).
+        and change { Book.count }.by(1).
         and change { Author.count }.by(2).
         and change { Publisher.count }.by(1)
 

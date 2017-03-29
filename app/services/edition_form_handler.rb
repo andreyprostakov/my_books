@@ -31,6 +31,12 @@ class EditionFormHandler
   def update_edition(edition)
     Edition.transaction do
       edition.assign_attributes(edition_params)
+      edition.books.destroy_all
+      edition.books = filtered_params.fetch(:books, {}).map do |book_index, book_params|
+        book = edition.books.build(prepare_book_params book_params)
+        book.save
+        book
+      end
       edition.save!
       edition
     end
@@ -42,15 +48,11 @@ class EditionFormHandler
 
   def edition_params
     filtered_params.slice(*EDITION_RAW_PARAMS).tap do |edition_params|
-      edition_params[:books] = filtered_params.fetch(:books, {}).map do |book_index, book_params|
-        book = build_book_by_params(book_params)
-        book.save
-        book
-      end
       category_code = filtered_params.fetch(:category, {})[:code]
       if category_code
         edition_params[:category] = EditionCategory.find_by(code: category_code)
       end
+
       publisher_name = filtered_params.fetch(:publisher, {})[:name]
       if publisher_name
         publisher = Publisher.where(name: publisher_name).first_or_initialize
@@ -59,12 +61,13 @@ class EditionFormHandler
     end
   end
 
-  def build_book_by_params(book_params)
-    book = Book.new(book_params.slice(:title))
-    book.authors = book_params.fetch(:authors, {}).map do |author_index, author_params|
+  def prepare_book_params(raw_book_params)
+    authors = raw_book_params.fetch(:authors, {}).values.map do |author_params|
       Author.where(name: author_params[:name]).first_or_initialize
     end
-    book
+    raw_book_params.
+      slice(:title).
+      merge(authors: authors)
   end
 
   def filtered_params
