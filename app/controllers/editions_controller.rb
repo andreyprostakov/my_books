@@ -21,7 +21,7 @@ class EditionsController < ApplicationController
   end
 
   def create
-    @edition = EditionCreateFormHandler.new(params).create_edition
+    @edition = form_handler.create_edition
     if @edition.valid?
       respond_to do |format|
         format.json { render json: @edition }
