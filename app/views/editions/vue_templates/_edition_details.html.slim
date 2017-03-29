@@ -15,6 +15,8 @@ script#edition_details_template type='text/x-document'
             .header-title
               | {{edition.title}}
           .attribute
+            img :src='edition.cover_url' class='edition-cover'
+          .attribute
             a @click='switchToPublisher(edition.publisher)'
               | {{edition.publisher.name}}
             = ', '

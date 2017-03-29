@@ -14,8 +14,8 @@
 #
 
 class M2mBookAuthor < ActiveRecord::Base
-  belongs_to :author
-  belongs_to :book
+  belongs_to :author, inverse_of: :m2m_book_authors
+  belongs_to :book, inverse_of: :m2m_book_authors
 
   validates_presence_of :author
   validates :book, presence: true, uniqueness: { scope: :author_id }

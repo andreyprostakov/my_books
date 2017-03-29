@@ -31,7 +31,8 @@ RSpec.describe EditionFormHandler do
         name: 'some publisher'
       },
       publication_year: 1999,
-      pages_count: 10_000
+      pages_count: 10_000,
+      force_update_books: true
     }
   end
   let!(:category) { create :edition_category, code: 'comics' }
@@ -46,7 +47,7 @@ RSpec.describe EditionFormHandler do
   end
 
   shared_examples 'handles validation errors' do
-    context 'params contain no books' do
+    context 'when params contain no books' do
       let(:raw_params) { super().except(:books) }
 
       it 'returns built edition with books errors' do
@@ -65,7 +66,7 @@ RSpec.describe EditionFormHandler do
       it 'returns built edition with books errors' do
         expect { subject }.not_to change { [Edition.count, Author.count, Publisher.count] }
         expect(edition).not_to be_valid
-        expect(edition.errors['book_in_editions[0].book.authors[2].name']).to be_present
+        expect(edition.errors['books[0].authors[2].name']).to be_present
       end
     end
 
@@ -205,5 +206,19 @@ RSpec.describe EditionFormHandler do
     end
 
     it_behaves_like 'handles validation errors'
+
+    context 'with :force_update_books param not set' do
+      let(:raw_params) { super().merge(force_update_books: false) }
+
+      it 'returns built edition with both old and new books' do
+        expect { subject }.
+          to change { edition.updated_at }.
+          and change { Book.count }.by(2)
+        expect(edition.books.size).to eq 3
+        expect(edition.books[0].title).to eq 'book title 0'
+        expect(edition.books[1].title).to eq 'book title 1'
+        expect(edition.books[2].title).to eq 'book title 2'
+      end
+    end
   end
 end

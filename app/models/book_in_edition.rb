@@ -15,7 +15,7 @@
 #
 
 class BookInEdition < ApplicationRecord
-  belongs_to :book, inverse_of: :book_in_editions, autosave: true, dependent: :destroy
+  belongs_to :book, autosave: true, dependent: :destroy
   belongs_to :edition, inverse_of: :book_in_editions, autosave: true
 
   validates_presence_of :book, :edition

@@ -7,6 +7,8 @@ class EditionFormHandler
     :isbn,
     :publication_year,
     :pages_count,
+    :force_update_books,
+    :read,
     category: [:code],
     publisher: [:name],
     books: BOOKS_PARAMS
@@ -18,6 +20,7 @@ class EditionFormHandler
     isbn
     publication_year
     pages_count
+    read
   ).freeze
 
   def initialize(params)
@@ -30,13 +33,8 @@ class EditionFormHandler
 
   def update_edition(edition)
     Edition.transaction do
-      edition.assign_attributes(edition_params)
-      edition.books.destroy_all
-      edition.books = filtered_params.fetch(:books, {}).map do |book_index, book_params|
-        book = edition.books.build(prepare_book_params book_params)
-        book.save
-        book
-      end
+      edition.books.destroy_all if filtered_params[:force_update_books]
+      apply_attributes_to_edition(edition)
       edition.save!
       edition
     end
@@ -46,19 +44,33 @@ class EditionFormHandler
 
   private
 
-  def edition_params
-    filtered_params.slice(*EDITION_RAW_PARAMS).tap do |edition_params|
-      category_code = filtered_params.fetch(:category, {})[:code]
-      if category_code
-        edition_params[:category] = EditionCategory.find_by(code: category_code)
-      end
+  def apply_attributes_to_edition(edition)
+    edition.assign_attributes(filtered_params.slice(*EDITION_RAW_PARAMS))
 
-      publisher_name = filtered_params.fetch(:publisher, {})[:name]
-      if publisher_name
-        publisher = Publisher.where(name: publisher_name).first_or_initialize
-        edition_params[:publisher] = publisher
+    if filtered_params[:books]
+      filtered_params.fetch(:books, {}).each do |_, book_params|
+        create_book_for_edition(edition, book_params)
       end
     end
+
+    category_code = filtered_params.fetch(:category, {})[:code]
+    if category_code
+      edition.category = EditionCategory.find_by(code: category_code)
+    end
+
+    publisher_name = filtered_params.fetch(:publisher, {})[:name]
+    if publisher_name
+      edition.publisher = Publisher.where(name: publisher_name).first_or_initialize
+    end
+  end
+
+  def create_book_for_edition(edition, book_params)
+    authors = book_params.fetch(:authors, {}).values.map do |author_params|
+      Author.where(name: author_params[:name]).first_or_create
+    end
+    book = edition.books.build(book_params.slice(:title).merge(authors: authors))
+    book.save
+    book
   end
 
   def prepare_book_params(raw_book_params)
