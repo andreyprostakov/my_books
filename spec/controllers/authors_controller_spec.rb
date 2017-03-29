@@ -29,14 +29,6 @@ RSpec.describe AuthorsController do
     end
   end
 
-  describe 'GET new' do
-    it 'renders form for new Author' do
-      get :new
-      expect(response).to render_template('new')
-      expect(assigns :author).to be_new_record
-    end
-  end
-
   describe 'POST create' do
     context 'when parameters are valid' do
       let(:author_params) { { name: 'The Author' } }
@@ -62,17 +54,6 @@ RSpec.describe AuthorsController do
         expect(assigns :author).to be_new_record
         expect(assigns :author).not_to be_valid
       end
-    end
-  end
-
-  describe 'GET edit' do
-    let(:author) { build(:author) }
-    before { allow(Author).to receive(:find).with('13').and_return(author) }
-
-    it 'renders form for given Author' do
-      get :edit, params: { id: 13 }
-      expect(response).to render_template('edit')
-      expect(assigns :author).to eq author
     end
   end
 

@@ -1,9 +1,5 @@
 class PublishersController < ApplicationController
-  before_action :fetch_publisher, only: %i(edit update destroy)
-
-  def new
-    @publisher = Publisher.new
-  end
+  before_action :fetch_publisher, only: %i(update destroy)
 
   def index
     publishers = Publisher.by_names
@@ -17,9 +13,6 @@ class PublishersController < ApplicationController
     else
       render json: @publisher.errors, status: 422
     end
-  end
-
-  def edit
   end
 
   def update

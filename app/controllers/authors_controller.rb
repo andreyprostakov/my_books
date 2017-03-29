@@ -1,9 +1,5 @@
 class AuthorsController < ApplicationController
-  before_action :fetch_author, only: %i(edit update destroy)
-
-  def new
-    @author = Author.new
-  end
+  before_action :fetch_author, only: %i(update destroy)
 
   def index
     authors = Author.by_names
@@ -17,9 +13,6 @@ class AuthorsController < ApplicationController
     else
       render json: @author.errors, status: 422
     end
-  end
-
-  def edit
   end
 
   def update

@@ -47,15 +47,6 @@ RSpec.describe EditionsController do
     end
   end
 
-  describe 'GET new' do
-    it 'renders Edition form' do
-      get :new
-      expect(response).to render_template 'new'
-      expect(assigns :edition).to be_a Edition
-      expect(assigns :edition).to be_new_record
-    end
-  end
-
   describe 'POST create' do
     context 'when parameters are valid' do
       let(:author) { create :author }
@@ -106,17 +97,6 @@ RSpec.describe EditionsController do
         expect(response).to render_template(:new)
         expect(assigns :edition).not_to be_valid
       end
-    end
-  end
-
-  describe 'GET edit' do
-    let(:edition) { build(:edition, id: 14) }
-    before { allow(Edition).to receive(:find).with('14').and_return(edition) }
-
-    it 'renders Edition form' do
-      get :edit, params: { id: edition.id }
-      expect(response).to render_template 'edit'
-      expect(assigns :edition).to eq edition
     end
   end
 end
