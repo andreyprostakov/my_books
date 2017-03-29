@@ -1,35 +1,36 @@
 script#edition_details_template type='text/x-document'
-  .modal :class='{"is-active": canBeShown}'
+  .modal.edition-details-modal :class='{"is-active": canBeShown}'
     .modal-background
     .modal-content v-if='edition'
       #edition_details :class='{"read": edition.read}'
-        .cover-page :style='coverStyle'
-        .info-page
-          .attribute
-            .header-author
-              template v-for='(author, i) in edition.authors'
-                a @click='switchToAuthor(author)'
-                  | {{author.name}}
-                template v-if='i != (edition.authors.length - 1)'
-                  = ', '
-            .header-title
-              | {{edition.title}}
-          .attribute
-            img :src='edition.cover_url' class='edition-cover'
-          .attribute
-            a @click='switchToPublisher(edition.publisher)'
-              | {{edition.publisher.name}}
-            = ', '
-            | {{edition.publication_year}}
-            = '. - '
-            | {{edition.pages_count}}
-            = ' с.'
-          .annotation
-            | {{edition.annotation}}
-          .attribute v-if='edition.isbn'
-            => 'ISBN'
-            | {{edition.isbn}}
-          .attribute
-            a @click='switchToCategory(edition.category)'
-              | {{edition.category.name}}
+        .left-cover-page
+          .left-page
+            .cover :style='coverStyle'
+        .right-cover-page
+          .info-page
+            .attribute
+              .header-author
+                template v-for='(author, i) in edition.authors'
+                  a @click='switchToAuthor(author)'
+                    | {{author.name}}
+                  template v-if='i != (edition.authors.length - 1)'
+                    = ', '
+              .header-title
+                | {{edition.title}}
+            .attribute
+              a @click='switchToPublisher(edition.publisher)'
+                | {{edition.publisher.name}}
+              = ', '
+              | {{edition.publication_year}}
+              = '. - '
+              | {{edition.pages_count}}
+              = ' с.'
+            .annotation
+              | {{edition.annotation}}
+            .attribute v-if='edition.isbn'
+              => 'ISBN'
+              | {{edition.isbn}}
+            .attribute
+              a @click='switchToCategory(edition.category)'
+                | {{edition.category.name}}
     button.modal-close @click='close'

@@ -16,4 +16,8 @@ class EditionDetailsSerializer < EditionSerializer
   def books
     object.books.map { |b| BookSerializer.new(b) }
   end
+
+  def cover_url
+    object.cover.url
+  end
 end
