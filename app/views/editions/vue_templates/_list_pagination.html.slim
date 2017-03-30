@@ -1,0 +1,24 @@
+script#list_pagination_template type='text/x-document'
+  nav.pagination
+    ul.pagination-list
+      template v-if='showLinkToFirstPage'
+        li
+          a.pagination-link @click='goToPage(1)'
+            | 1
+        li
+          .pagination-ellipsis &hellip;
+      li v-if='previousPage'
+        a.pagination-link @click='goToPage(previousPage)'
+          | {{previousPage}}
+      li
+        a.pagination-link.is-current @click='goToPage(page)'
+          | {{page}}
+      li v-if='nextPage'
+        a.pagination-link @click='goToPage(nextPage)'
+          | {{nextPage}}
+      template v-if='showLinkToLastPage'
+        li
+          .pagination-ellipsis &hellip;
+        li
+          a.pagination-link @click='goToPage(lastPage)'
+            | {{lastPage}}

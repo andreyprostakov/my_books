@@ -2,6 +2,7 @@ script#side_list_template type='text/x-document'
   .side-block.side-list
     .side-block-heading
       | {{title}}
+
       .actions
         a v-if='!searchMode' @click='showSearchInput'
           i.fa.fa-search

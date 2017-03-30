@@ -1,10 +1,10 @@
 Vue.component 'editions-list',
   template: '#editions_list_template'
 
-  props:
-    editions: { required: true }
+  computed: Vuex.mapState
+    editions: ->
+      @$store.getters.currentPageEditions
 
-  computed:
     routes: -> Routes
 
   methods:
@@ -53,3 +53,6 @@ Vue.component 'editions-list',
     switchToAuthor: (author) ->
       @$store.commit('setAuthor', author.name)
       @close()
+
+    editionsCount: ->
+      @editions.length

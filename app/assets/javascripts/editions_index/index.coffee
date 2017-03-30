@@ -11,9 +11,6 @@ Vue.component 'editions-index',
     author: 'author'
     publisher: 'publisher',
     category: 'category',
-    filteredEditions: ->
-      return @editions if !@category
-      @editionsOfCategory(@category)
     routes: -> Routes
 
   methods:

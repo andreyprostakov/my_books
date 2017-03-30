@@ -1,5 +1,12 @@
 script#editions_list_template type='text/x-document'
   .editions-list.columns.is-multiline
+    .filteredEditionsInfo.column.is-12
+      .editions-count
+        | Количество книг:
+        span
+          | {{editionsCount()}}
+      list-pagination
+
     .edition.column.is-3
       .edition-preview.add-new-edition
         a @click='addNewEdition' = t('editions.add_new')

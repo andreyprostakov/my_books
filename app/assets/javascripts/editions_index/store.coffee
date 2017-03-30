@@ -7,6 +7,17 @@ window.Store = new Vuex.Store
     publishers: []
     publisher: null
     category: null
+    page: 1
+    pageSize: 11
+
+  getters:
+    filteredEditions: (state) ->
+      return state.editions unless state.category
+      state.editions.filter((e) => e.category.code == state.category)
+
+    currentPageEditions: (state, getters) ->
+      startIndex = state.pageSize * (state.page - 1)
+      getters.filteredEditions.slice startIndex, startIndex + state.pageSize
 
   mutations:
     setEditions: (state, editions) ->
@@ -23,6 +34,10 @@ window.Store = new Vuex.Store
       state.editionsOrder = order
 
 
+    setPage: (state, page) ->
+      state.page = page
+
+
     setAuthors: (state, authors) ->
       state.authors = authors
 
@@ -30,6 +45,7 @@ window.Store = new Vuex.Store
       state.publisher = null
       state.author = author
       state.category = null
+      state.page = 1
 
     addAuthor: (state, newAuthor) ->
       state.authors.splice(0, 0, newAuthor)
@@ -49,6 +65,7 @@ window.Store = new Vuex.Store
       state.publisher = publisher
       state.author = null
       state.category = null
+      state.page = 1
 
     addPublisher: (state, newPublisher) ->
       state.publishers.splice(0, 0, newPublisher)
@@ -63,3 +80,4 @@ window.Store = new Vuex.Store
 
     setCategory: (state, category) ->
       state.category = category
+      state.page = 1
