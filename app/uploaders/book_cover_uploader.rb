@@ -14,6 +14,10 @@ class BookCoverUploader < CarrierWave::Uploader::Base
      process resize_and_pad: [255, 300, '#F5F5F5', 'North']
   end
 
+  version :detailed do
+     process resize_and_pad: [390, 540, '#F5F5F5', 'North']
+  end
+
   # Provide a default URL as a default if there hasn't been a file uploaded:
    def default_url
      # For Rails 3.1+ asset pipeline compatibility:

@@ -13,11 +13,19 @@ class EditionDetailsSerializer < EditionSerializer
   has_one :category
   has_one :publisher
 
+  def title
+    object.title
+  end
+
   def books
     object.books.map { |b| BookSerializer.new(b) }
   end
 
   def cover_url
+    object.cover.url(:detailed)
+  end
+
+  def cover_original_url
     object.cover.url
   end
 end

@@ -17,7 +17,10 @@ Vue.component 'edition-details',
       @edition && @enabled
 
     coverStyle: ->
-      'background-image: url(' + (@edition.remote_cover_url || @edition.cover_url) + ')'
+      'background-image: url(' + @coverUrl + ')'
+
+    coverUrl: ->
+      @edition.cover_url
 
     currentEditionIndex: ->
       @editions.findIndex((e) => e.id == @edition.id)
@@ -33,6 +36,24 @@ Vue.component 'edition-details',
 
     canSwitchToNextEdition: ->
       @currentEditionIndex < (@editions.length - 1)
+
+    booksByAuthors: ->
+      booksByAuthors = []
+      for book in @edition.books
+        continue if booksByAuthors.find((bba) => _.isEqual(bba.authors, book.authors))
+        books = @edition.books.filter((b) => _.isEqual(b.authors, book.authors))
+        booksByAuthors.push(
+          authors: book.authors
+          books: books
+        )
+      booksByAuthors
+
+    bookTitles: ->
+      _.reduce(
+        _.map(@edition.books, 'title'),
+        (t1, t2) => "#{t1} ; #{t2}"
+      )
+
 
   methods:
     show: ->

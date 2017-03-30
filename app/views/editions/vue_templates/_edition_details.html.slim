@@ -4,7 +4,7 @@ script#edition_details_template type='text/x-document'
     #edition_details.modal-content v-if='edition'
       .left-cover-page
         .left-page
-          .cover :style='coverStyle'
+          a.cover :style='coverStyle' :href='coverUrl'
           .pages-navigation v-if='canSwitchToPrievousEdition' @click='switchToPreviousEdition'
             a.turn-page-link
               i.fa.fa-long-arrow-left
@@ -12,18 +12,19 @@ script#edition_details_template type='text/x-document'
               | {{rightPageNumber}}
       .right-cover-page
         .right-page.info-page
-          .attribute
-            .header-author
-              template v-for='(author, i) in edition.authors'
-                a @click='switchToAuthor(author)'
-                  | {{author.name}}
-                template v-if='i != (edition.authors.length - 1)'
-                  = ', '
-            .header-title
-              | {{edition.title}}
+          .attribute.page-header
+            template v-for='booksByAuthor in booksByAuthors'
+              .header-authors
+                template v-for='(author, i) in booksByAuthor.authors'
+                  a @click='switchToAuthor(author)'
+                    | {{author.name}}
+                  template v-if='i != (booksByAuthor.authors.length - 1)'
+                    = ', '
+              .header-book-title v-for='book in booksByAuthor.books'
+                | {{book.title}}
           .attribute.edition-meta-info
             span
-              | {{edition.title}}
+              | {{bookTitles}}
             = ' : '
             a @click='switchToCategory(edition.category)'
               | {{edition.category.name.toLowerCase()}}

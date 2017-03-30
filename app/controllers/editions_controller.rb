@@ -71,7 +71,7 @@ class EditionsController < ApplicationController
   end
 
   def current_editions_scope
-    editions = Edition.all
+    editions = Edition.preload(:authors).preload(:category)
     if current_editions_category
       editions = editions.with_category_code(current_editions_category)
     end

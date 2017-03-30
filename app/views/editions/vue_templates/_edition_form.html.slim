@@ -19,6 +19,11 @@ script#edition_form_template type='text/x-document'
           .right-page
             .input-fields
               .books
+                .field.edition-title
+                  input.input[type='text'
+                    placeholder=(t('simple_form.placeholders.edition.title'))
+                    v-model='edition.title'
+                  ]
 
                 template v-for='book in edition.books'
                   .field.author
