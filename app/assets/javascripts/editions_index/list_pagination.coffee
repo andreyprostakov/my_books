@@ -5,10 +5,13 @@ Vue.component 'list-pagination',
     pageSize: 'pageSize'
     page: 'page'
 
-    showLinkToFirstPage: ->
+    shouldBeShown: ->
+      @lastPage > 1
+
+    linkToFirstPageShouldBeShown: ->
       @page > 2
 
-    showLinkToLastPage: ->
+    linkToLastPageShouldBeShown: ->
       @page < (@lastPage - 1)
 
     previousPage: ->
