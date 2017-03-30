@@ -48,14 +48,12 @@
             .type
               = t('authors.one')
               | :
-            .value
-              | {{author}}
+            .value v-html='author'
           template v-if='publisher'
             .type
               = t('publishers.one')
               | :
-            .value
-              | {{publisher}}
+            .value v-html='publisher'
 
         categories-tabs
 

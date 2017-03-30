@@ -1,7 +1,7 @@
 script#side_list_template type='text/x-document'
   .side-block.side-list
     .side-block-heading
-      | {{title}}
+      span v-html='title'
 
       .actions
         a v-if='!searchMode' @click='showSearchInput'
@@ -51,8 +51,7 @@ script#side_list_template type='text/x-document'
         tr v-for='item in filteredItems' :class='{"is-active": currentItemIs(item)}' :key='item.id'
           template v-if='item != editedItem'
             td
-              a.name @click=('select(item)')
-                | {{item.name}}
+              a.name @click=('select(item)') v-html='item.name'
             td
               a.details.link-edit @click='showEditInput(item)' E
             td
