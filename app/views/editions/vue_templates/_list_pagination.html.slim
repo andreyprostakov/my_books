@@ -8,17 +8,13 @@ script#list_pagination_template type='text/x-document'
         li
           .pagination-ellipsis &hellip;
       li v-if='previousPage'
-        a.pagination-link @click='goToPage(previousPage)'
-          | {{previousPage}}
+        a.pagination-link @click='goToPage(previousPage)' v-html='previousPage'
       li
-        a.pagination-link.is-current @click='goToPage(page)'
-          | {{page}}
+        a.pagination-link.is-current @click='goToPage(page)' v-html='page'
       li v-if='nextPage'
-        a.pagination-link @click='goToPage(nextPage)'
-          | {{nextPage}}
+        a.pagination-link @click='goToPage(nextPage)' v-html='nextPage'
       template v-if='showLinkToLastPage'
         li
           .pagination-ellipsis &hellip;
         li
-          a.pagination-link @click='goToPage(lastPage)'
-            | {{lastPage}}
+          a.pagination-link @click='goToPage(lastPage)' v-html='lastPage'
