@@ -78,7 +78,7 @@ Vue.component 'edition-form',
         type: 'POST'
         url: Routes.editions_path()
         dataType: 'json'
-        data: { edition: @edition }
+        data: { edition: @editionFormData() }
         success: (createdEdition) =>
           @$store.commit('addEdition', createdEdition)
           EventsDispatcher.$emit('editionCreated', createdEdition)
@@ -91,13 +91,16 @@ Vue.component 'edition-form',
         type: 'PUT'
         url: Routes.edition_path(@edition)
         dataType: 'json'
-        data: { edition: @edition }
+        data: { edition: @editionFormData() }
         success: (updatedEdition) =>
           @$store.commit('updateEdition', updatedEdition)
           EventsDispatcher.$emit('editionUpdated', updatedEdition)
           @showEditionDetails(updatedEdition)
         error: @handleErrorResponse
       )
+
+    editionFormData: ->
+      _.extend(@edition, force_update_books: true)
 
     showEditionDetails: (edition) ->
       @close()

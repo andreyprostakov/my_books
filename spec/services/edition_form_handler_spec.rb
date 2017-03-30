@@ -119,6 +119,7 @@ RSpec.describe EditionFormHandler do
         and change { Book.count }.by(2).
         and change { Author.count }.by(2).
         and change { Publisher.count }.by(1)
+      edition.reload
 
       expect(edition).to be_a Edition
       aggregate_failures do
@@ -176,6 +177,7 @@ RSpec.describe EditionFormHandler do
         and change { Book.count }.by(1).
         and change { Author.count }.by(2).
         and change { Publisher.count }.by(1)
+      edition.reload
 
       aggregate_failures do
         expect(edition).to be_persisted

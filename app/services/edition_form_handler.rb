@@ -48,7 +48,7 @@ class EditionFormHandler
     edition.assign_attributes(filtered_params.slice(*EDITION_RAW_PARAMS))
 
     if filtered_params[:books]
-      filtered_params.fetch(:books, {}).each do |_, book_params|
+      filtered_params.fetch(:books, {}).values.map do |book_params|
         create_book_for_edition(edition, book_params)
       end
     end
@@ -68,9 +68,12 @@ class EditionFormHandler
     authors = book_params.fetch(:authors, {}).values.map do |author_params|
       Author.where(name: author_params[:name]).first_or_create
     end
-    book = edition.books.build(book_params.slice(:title).merge(authors: authors))
-    book.save
-    book
+    book = Book.new(book_params.slice(:title).merge(authors: authors))
+    if book.save
+      edition.books << book
+    else
+      edition.books.build(book_params.slice(:title).merge(authors: authors))
+    end
   end
 
   def prepare_book_params(raw_book_params)

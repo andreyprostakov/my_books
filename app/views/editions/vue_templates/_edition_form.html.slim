@@ -4,8 +4,6 @@ script#edition_form_template type='text/x-document'
     #edition_form.modal-content
       form @submit.prevent='submit' v-if='edition'
 
-        input type='hidden' v-model='edition.force_update_books' value='true'
-
         .left-cover-page
           .left-page
             .cover v-if='coverUrl' :style='coverStyle'

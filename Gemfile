@@ -30,7 +30,7 @@ source 'https://rails-assets.org' do
 end
 
 group :development, :test do
-  gem 'byebug', platform: :mri
+  gem 'pry'
   gem 'factory_girl_rails'
   gem 'ffaker'
 end
