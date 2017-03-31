@@ -5,7 +5,7 @@ RSpec.describe AuthorsController do
     let(:authors) { build_stubbed_list(:author, 3) }
     before { allow(Author).to receive(:by_names).and_return(authors) }
 
-    it 'renders all authors by their names' do
+    it 'returns all authors by their names' do
       get :index, xhr: true
       expect(response).to be_success
       expect(response.body).to eq ActiveModelSerializers::SerializableResource.new(authors).to_json
@@ -16,7 +16,7 @@ RSpec.describe AuthorsController do
     context 'when parameters are invalid' do
       let(:author_params) { { name: '' } }
 
-      it 'builds Author and shows form again' do
+      it 'returns errors' do
         expect do
           post :create, params: { author: author_params }, xhr: true
         end.not_to change { Author.count }
@@ -30,7 +30,7 @@ RSpec.describe AuthorsController do
     context 'when parameters are valid' do
       let(:author_params) { { name: 'The Author' } }
 
-      it 'creates Author and redirects to index' do
+      it 'creates author and returns it' do
         expect do
           post :create, params: { author: author_params }, xhr: true
         end.to change { Author.count }.by(1)
@@ -48,7 +48,7 @@ RSpec.describe AuthorsController do
 
     context 'when parameters are invalid' do
       let(:author_params) { { name: '' } }
-      it 'renders form again' do
+      it 'returns errors' do
         expect do
           put :update, params: { id: author.id, author: author_params }, xhr: true
         end.not_to change { author.reload.name }
@@ -60,7 +60,7 @@ RSpec.describe AuthorsController do
 
     context 'when parameters are valid' do
       let(:author_params) { { name: 'New name' } }
-      it 'updates author and redirects to index' do
+      it 'updates author and returns it' do
         expect do
           put :update, params: { id: author.id, author: author_params }, xhr: true
         end.to change { author.reload.name }.to('New name')
@@ -73,7 +73,7 @@ RSpec.describe AuthorsController do
   describe 'DELETE destroy' do
     let!(:author) { create(:author) }
 
-    it 'removes author from database and redirects to index' do
+    it 'removes author from database' do
       expect do
         delete :destroy, params: { id: author.id }, xhr: true
       end.to change { Author.count }.by(-1)

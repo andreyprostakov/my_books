@@ -1,69 +1,49 @@
 class EditionsController < ApplicationController
-  before_action :fetch_edition, only: %i(show edit update destroy)
+  helper_method :current_editions_order,
+    :current_editions_category,
+    :current_author_name,
+    :current_publisher_name
 
   def index
     respond_to do |format|
-      format.json { render json: current_editions_scope }
+      render json: current_editions_scope
       format.html
     end
   end
 
   def show
-    respond_to do |format|
-      format.json { render json: @edition, serializer: EditionDetailsSerializer }
-    end
-  end
-
-  def new
-    @edition = current_editions_scope.new
-    author = Author.find_by(name: current_author_name) if current_author_name
-    @edition.books.build(authors: [author].compact)
+    @edition = fetch_edition
+    render json: @edition, serializer: EditionDetailsSerializer
   end
 
   def create
     @edition = form_handler.create_edition
     if @edition.valid?
-      respond_to do |format|
-        format.json { render json: @edition }
-        format.html { redirect_to root_path }
-      end
+      render json: @edition
     else
-      respond_to do |format|
-        format.json { render json: @edition.errors, status: 422 }
-        format.html { render :new }
-      end
+      render json: @edition.errors, status: 422
     end
   end
 
-  def edit
-  end
-
   def update
-    if form_handler.update_edition(@edition)
-      respond_to do |format|
-        format.json { render json: @edition }
-        format.html { redirect_to root_path }
-      end
+    @edition = fetch_edition
+    if form_handler.update_edition(@edition).valid?
+      render json: @edition
     else
-      respond_to do |format|
-        format.json { render json: @edition.errors, status: 422 }
-        format.html { render :edit }
-      end
+      render json: @edition.errors, status: 422
     end
   end
 
   def destroy
+    @edition = fetch_edition
     @edition.destroy
-    respond_to do |format|
-      format.json { render json: {} }
-      format.html { redirect_to :back }
-    end
+    render json: {}
   end
 
   private
 
   def fetch_edition
-    @edition = Edition.find(params[:id])
+    Edition.find(params[:id])
   end
 
   def form_handler
@@ -78,5 +58,21 @@ class EditionsController < ApplicationController
     editions = editions.with_author(current_author_name) if current_author_name
     editions = editions.with_publisher(current_publisher_name) if current_publisher_name
     EditionsOrderer.apply_to(editions, current_editions_order)
+  end
+
+  def current_editions_order
+    @current_editions_order ||= params.fetch(:order, EditionsOrderer::LAST_UPDATED).to_sym
+  end
+
+  def current_editions_category
+    @current_editions_category ||= params[:category].try(:to_sym)
+  end
+
+  def current_author_name
+    params[:author]
+  end
+
+  def current_publisher_name
+    params[:publisher]
   end
 end

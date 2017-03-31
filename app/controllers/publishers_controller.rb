@@ -1,6 +1,4 @@
 class PublishersController < ApplicationController
-  before_action :fetch_publisher, only: %i(update destroy)
-
   def index
     publishers = Publisher.by_names
     render json: publishers
@@ -16,6 +14,7 @@ class PublishersController < ApplicationController
   end
 
   def update
+    @publisher = fetch_publisher
     if @publisher.update_attributes(publisher_params)
       render json: @publisher
     else
@@ -24,6 +23,7 @@ class PublishersController < ApplicationController
   end
 
   def destroy
+    @publisher = fetch_publisher
     @publisher.destroy
     render json: {}
   end
@@ -31,7 +31,7 @@ class PublishersController < ApplicationController
   private
 
   def fetch_publisher
-    @publisher = Publisher.find(params[:id])
+    Publisher.find(params[:id])
   end
 
   def publisher_params

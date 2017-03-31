@@ -1,6 +1,4 @@
 class AuthorsController < ApplicationController
-  before_action :fetch_author, only: %i(update destroy)
-
   def index
     authors = Author.by_names
     render json: authors
@@ -16,6 +14,7 @@ class AuthorsController < ApplicationController
   end
 
   def update
+    @author = fetch_author
     if @author.update_attributes(author_params)
       render json: @author
     else
@@ -24,6 +23,7 @@ class AuthorsController < ApplicationController
   end
 
   def destroy
+    @author = fetch_author
     @author.destroy
     render json: {}
   end
@@ -31,7 +31,7 @@ class AuthorsController < ApplicationController
   private
 
   def fetch_author
-    @author = Author.find(params[:id])
+    Author.find(params[:id])
   end
 
   def author_params
