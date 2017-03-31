@@ -2,7 +2,7 @@ class window.DataRefresher
   @loadEditions: (store) ->
     $.when $.getJSON(
       Routes.editions_path(
-        order: store.state.currentOrder
+        order: store.state.editionsOrder
         author: store.state.author
         publisher: store.state.publisher
       )
