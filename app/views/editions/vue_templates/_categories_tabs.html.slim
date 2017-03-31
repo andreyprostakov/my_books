@@ -1,0 +1,12 @@
+script#categories_tabs_template type='text/x-document'
+  #edition_categories.tabs
+    ul
+      li :class=("{\"is-active\": currentCategoryIs(null)}")
+        a @click='switchToCategory(null)' Все
+      - edition_categories_codes.each do |category_code|
+        li[:class=("{\
+          \"is-active\": currentCategoryIs(\"#{category_code}\"),
+          \"is-disabled\": !anyEditionsOfCategory(\"#{category_code}\")\
+        }")]
+          a @click=("switchToCategory(\"#{category_code}\")")
+            = t(category_code, scope: 'categories')

@@ -4,6 +4,7 @@ ru:
     remove: Удалить
   authors:
     index: Авторы
+    one: Автор
     add_new: Добавить автора
   books:
     index: Произведения
@@ -28,6 +29,7 @@ ru:
       publication_year: Год издания
       pages_count: Кол-во страниц
     orders:
+      ordering: Сортировка
       title: По заглавию
       author: По автору
       old_first: Сначала старые
@@ -35,7 +37,23 @@ ru:
       last_updated: По последнему обновлению
   publishers:
     index: Издательства
+    one: Издательство
     add_new: Добавить издательство
+  side_block:
+    search: Поиск
+    create: Новая запись
   status:
     nothing_here: Пусто
   title: Книги
+
+  errors:
+    messages:
+      mini_magick_processing_error: Ошибка при обработке изображения
+
+  activerecord:
+    errors:
+      models:
+        edition:
+          attributes:
+            category:
+              required: Необходиму выбрать категорию

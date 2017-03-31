@@ -1,0 +1,1 @@
+window.EventsDispatcher = new Vue()

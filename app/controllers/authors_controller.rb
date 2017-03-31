@@ -1,47 +1,37 @@
 class AuthorsController < ApplicationController
-  before_action :fetch_author, only: %i(show edit update destroy)
-
   def index
-    @authors = Author.by_names
-  end
-
-  def show
-    @editions = @author.editions.by_book_titles
-  end
-
-  def new
-    @author = Author.new
+    authors = Author.by_names
+    render json: authors
   end
 
   def create
     @author = Author.new(author_params)
     if @author.save
-      redirect_to authors_path
+      render json: @author
     else
-      render :new
+      render json: @author.errors, status: 422
     end
   end
 
-  def edit
-  end
-
   def update
+    @author = fetch_author
     if @author.update_attributes(author_params)
-      redirect_to authors_path
+      render json: @author
     else
-      render :edit
+      render json: @author.errors, status: 422
     end
   end
 
   def destroy
+    @author = fetch_author
     @author.destroy
-    redirect_to authors_path
+    render json: {}
   end
 
   private
 
   def fetch_author
-    @author = Author.find(params[:id])
+    Author.find(params[:id])
   end
 
   def author_params

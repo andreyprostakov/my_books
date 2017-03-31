@@ -1,0 +1,20 @@
+script#list_pagination_template type='text/x-document'
+  nav.pagination.is-centered v-if='shouldBeShown'
+    ul.pagination-list
+      template v-if='linkToFirstPageShouldBeShown'
+        li
+          a.pagination-link @click='goToPage(1)'
+            | 1
+        li
+          .pagination-ellipsis &hellip;
+      li v-if='previousPage'
+        a.pagination-link @click='goToPage(previousPage)' v-html='previousPage'
+      li
+        a.pagination-link.is-current @click='goToPage(page)' v-html='page'
+      li v-if='nextPage'
+        a.pagination-link @click='goToPage(nextPage)' v-html='nextPage'
+      template v-if='linkToLastPageShouldBeShown'
+        li
+          .pagination-ellipsis &hellip;
+        li
+          a.pagination-link @click='goToPage(lastPage)' v-html='lastPage'

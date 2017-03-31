@@ -13,8 +13,8 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'jquery-ui-themes'
 gem 'slim'
-gem 'turbolinks', '~> 5' # !
 gem 'font-awesome-rails'
+gem 'js-routes'
 
 gem 'russian'
 gem 'annotate'
@@ -24,12 +24,13 @@ gem 'httparty'
 gem 'cocoon'
 gem 'carrierwave', '~> 1.0'
 gem 'mini_magick'
+gem 'active_model_serializers', '~> 0.10.0'
 
 source 'https://rails-assets.org' do
 end
 
 group :development, :test do
-  gem 'byebug', platform: :mri
+  gem 'pry'
   gem 'factory_girl_rails'
   gem 'ffaker'
 end

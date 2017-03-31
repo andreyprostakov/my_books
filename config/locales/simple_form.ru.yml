@@ -1,5 +1,6 @@
 ru:
   helpers:
+    cancel: Отмена
     submit:
       create: 'Сохранить'
       update: 'Сохранить'
@@ -23,13 +24,19 @@ ru:
       book:
         authors: Авторы
     placeholders:
+      author:
+        name: Имя
       edition:
+        category: Категория
+        publisher: Издательство
         isbn: ISBN
         title: Название издания (опционально)
         annotation: Аннотация
         remote_cover_url: Обложка
-        publication_year: Год издания
-        pages_count: 'Кол-во страниц'
+        publication_year: Год
+        pages_count: 'Кол-во'
         books:
           title: Название
           author: Автор
+      publisher:
+        name: Имя

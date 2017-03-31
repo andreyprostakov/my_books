@@ -1,48 +1,49 @@
 class EditionsController < ApplicationController
-  before_action :fetch_edition, only: %i(show edit update destroy)
+  helper_method :current_editions_order,
+    :current_editions_category,
+    :current_author_name,
+    :current_publisher_name
 
   def index
-    @editions = current_editions_scope
+    respond_to do |format|
+      render json: current_editions_scope
+      format.html
+    end
   end
 
   def show
-  end
-
-  def new
-    @edition = current_editions_scope.new
-    author = Author.find_by(name: current_author_name) if current_author_name
-    @edition.books.build(authors: [author].compact)
+    @edition = fetch_edition
+    render json: @edition, serializer: EditionDetailsSerializer
   end
 
   def create
     @edition = form_handler.create_edition
     if @edition.valid?
-      redirect_to edition_path(@edition)
+      render json: @edition
     else
-      render :new
+      render json: @edition.errors, status: 422
     end
   end
 
-  def edit
-  end
-
   def update
-    if form_handler.update_edition(@edition)
-      redirect_to edition_path(@edition)
+    @edition = fetch_edition
+    if form_handler.update_edition(@edition).valid?
+      render json: @edition
     else
-      render :edit
+      render json: @edition.errors, status: 422
     end
   end
 
   def destroy
+    @edition = fetch_edition
     @edition.destroy
-    redirect_to :back
+    render json: {}
   end
 
   private
 
   def fetch_edition
-    @edition = Edition.find(params[:id])
+    Edition.find(params[:id])
   end
 
   def form_handler
@@ -50,11 +51,28 @@ class EditionsController < ApplicationController
   end
 
   def current_editions_scope
-    editions = Edition.preload(:authors)
+    editions = Edition.preload(:authors).preload(:category)
     if current_editions_category
       editions = editions.with_category_code(current_editions_category)
     end
     editions = editions.with_author(current_author_name) if current_author_name
+    editions = editions.with_publisher(current_publisher_name) if current_publisher_name
     EditionsOrderer.apply_to(editions, current_editions_order)
+  end
+
+  def current_editions_order
+    @current_editions_order ||= params.fetch(:order, EditionsOrderer::LAST_UPDATED).to_sym
+  end
+
+  def current_editions_category
+    @current_editions_category ||= params[:category].try(:to_sym)
+  end
+
+  def current_author_name
+    params[:author]
+  end
+
+  def current_publisher_name
+    params[:publisher]
   end
 end

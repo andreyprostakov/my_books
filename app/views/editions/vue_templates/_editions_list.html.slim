@@ -1,0 +1,31 @@
+script#editions_list_template type='text/x-document'
+  .editions-list.columns.is-multiline
+    .filteredEditionsInfo.column.is-12
+      list-pagination
+
+    .edition.column.is-3
+      .edition-preview.add-new-edition
+        a @click='addNewEdition' = t('editions.add_new')
+
+    .edition.column.is-3 v-for='edition in editions'
+      .edition-preview :class='{"read": edition.read}'
+        img :src='edition.cover_url' class='edition-cover'
+        .edition-links
+          .info
+            a.author @click='switchToAuthor(author)' v-for='(author, i) in edition.authors'
+              span v-html='author.name'
+              span v-if='i != (edition.authors.length - 1)'
+                = ', '
+            br
+            a.title @click='showEditionDetails(edition)' v-html='edition.title'
+          .actions
+            a @click='editEdition(edition)' class='edit-link' E
+            a @click='removeEdition(edition)' class='remove-link' X
+            a @click='changeReadStatus(edition)' class='check-link'
+              template v-if='edition.read'
+                i.fa.fa-check-circle
+              template v-else=(true)
+                i.fa.fa-check-circle-o
+
+    .filteredEditionsInfo.column.is-12
+      list-pagination

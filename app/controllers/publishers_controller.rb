@@ -1,47 +1,37 @@
 class PublishersController < ApplicationController
-  before_action :fetch_publisher, only: %i(show edit update destroy)
-
   def index
-    @publishers = Publisher.by_names
-  end
-
-  def show
-    @editions = @publisher.editions.by_book_titles
-  end
-
-  def new
-    @publisher = Publisher.new
+    publishers = Publisher.by_names
+    render json: publishers
   end
 
   def create
     @publisher = Publisher.new(publisher_params)
     if @publisher.save
-      redirect_to publishers_path
+      render json: @publisher
     else
-      render :new
+      render json: @publisher.errors, status: 422
     end
   end
 
-  def edit
-  end
-
   def update
+    @publisher = fetch_publisher
     if @publisher.update_attributes(publisher_params)
-      redirect_to publishers_path
+      render json: @publisher
     else
-      render :edit
+      render json: @publisher.errors, status: 422
     end
   end
 
   def destroy
+    @publisher = fetch_publisher
     @publisher.destroy
-    redirect_to publishers_path
+    render json: {}
   end
 
   private
 
   def fetch_publisher
-    @publisher = Publisher.find(params[:id])
+    Publisher.find(params[:id])
   end
 
   def publisher_params

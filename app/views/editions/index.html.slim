@@ -1,8 +1,60 @@
-- content_for :user_actions do
-  - edition_orders.each do |order|
-    = link_to_order_editions(order)
-  hr
+- content_for :javascript do
+  = javascript_include_tag 'editions_index'
+
+= render 'editions/vue_templates/order_select'
+= render 'editions/vue_templates/side_list'
+= render 'editions/vue_templates/categories_tabs'
+= render 'editions/vue_templates/list_pagination'
+= render 'editions/vue_templates/editions_list'
+= render 'editions/vue_templates/edition_form'
+= render 'editions/vue_templates/edition_details'
 
 #editions_index
-  h1 = t('editions.index')
-  = render 'list', editions: @editions
+  editions-index[inline-template]
+    div.columns.is-multiline
+      .column.is-3
+        order-select initial-order=(current_editions_order)
+
+        side-list[
+          title=(t('authors.index'))
+          load-method-name='loadAuthors'
+          items-name='authors'
+          selected-item-name='author'
+          mutation-item-name='Author'
+          preselected-item=(current_author_name)
+          :create-item-url='routes.authors_path'
+          :update-item-url='routes.author_path'
+          :remove-item-url='routes.author_path'
+        ]
+
+        side-list[
+          title=(t('publishers.index'))
+          load-method-name='loadPublishers'
+          items-name='publishers'
+          selected-item-name='publisher'
+          mutation-item-name='Publisher'
+          preselected-item=(current_publisher_name)
+          :create-item-url='routes.publishers_path'
+          :update-item-url='routes.publisher_path'
+          :remove-item-url='routes.publisher_path'
+        ]
+
+      .column.is-9
+        edition-form
+        edition-details
+
+        #current_selection_info
+          template v-if='author'
+            .type
+              = t('authors.one')
+              | :
+            .value v-html='author'
+          template v-if='publisher'
+            .type
+              = t('publishers.one')
+              | :
+            .value v-html='publisher'
+
+        categories-tabs
+
+        editions-list

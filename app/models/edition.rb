@@ -3,7 +3,7 @@
 # Table name: editions
 #
 #  id                  :integer          not null, primary key
-#  isbn                :string           not null
+#  isbn                :string
 #  title               :string
 #  annotation          :text
 #  editor              :string
@@ -24,15 +24,13 @@
 #
 
 class Edition < ApplicationRecord
-  EMPTY_ISBN = 'unknown'.freeze
-
   belongs_to :category,
     class_name: EditionCategory,
     foreign_key: :edition_category_id
   belongs_to :publisher, optional: true
-  has_many :book_in_editions
-  has_many :books, through: :book_in_editions
-  has_many :authors, through: :books
+  has_many :book_in_editions, inverse_of: :edition, dependent: :destroy
+  has_many :books, through: :book_in_editions, inverse_of: :editions
+  has_many :authors, -> { group('authors.id') }, through: :books
 
   scope :with_category_code, lambda { |code|
     joins(:category).where(edition_categories: { code: code })
@@ -44,13 +42,20 @@ class Edition < ApplicationRecord
       joins(:authors).where('authors.name = ?', author.to_s)
     end
   }
+  scope :with_publisher, lambda { |publisher|
+    if publisher.is_a? Publisher
+      joins(:publisher).where('publishers.id = ?', publisher)
+    else
+      joins(:publisher).where('publishers.name = ?', publisher.to_s)
+    end
+  }
 
   scope :by_book_titles, lambda {
     includes(:books).order('books.title').group('editions.id')
   }
   scope :old_first, lambda { order(:publication_year) }
   scope :new_first, lambda { order(publication_year: :desc) }
-  scope :by_updated_at, lambda { order(:updated_at) }
+  scope :by_updated_at, lambda { order(updated_at: :desc) }
   scope :by_author, lambda {
     includes(:authors).
       order('authors.name').
@@ -58,8 +63,9 @@ class Edition < ApplicationRecord
   }
 
   accepts_nested_attributes_for :books, allow_destroy: true
+  accepts_nested_attributes_for :publisher
 
-  validates_presence_of :isbn, :books
+  validates_presence_of :books
 
   mount_uploader :cover, ::BookCoverUploader
 end

@@ -13,7 +13,11 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require turbolinks
+//= require jquery.tagsinput
 //= require cocoon
+//= require js-routes
+//= require vue@2.2.4
+//= require vuex@2.2.1
+//= require underscore
 //
-//= require_tree .
+//= require edition_form

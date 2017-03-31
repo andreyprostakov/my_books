@@ -1,0 +1,51 @@
+script#edition_details_template type='text/x-document'
+  .modal.book-like-modal :class='{"is-active": canBeShown}'
+    .modal-background
+    #edition_details.modal-content v-if='edition'
+      .left-cover-page
+        .left-page
+          a.cover :style='coverStyle' :href='coverUrl'
+          .pages-navigation v-if='canSwitchToPrievousEdition' @click='switchToPreviousEdition'
+            a.turn-page-link
+              i.fa.fa-long-arrow-left
+            span.page-number v-html='rightPageNumber'
+      .right-cover-page
+        .right-page.info-page
+          .attribute.page-header
+            template v-for='booksByAuthor in booksByAuthors'
+              .header-authors
+                template v-for='(author, i) in booksByAuthor.authors'
+                  a @click='switchToAuthor(author)' v-html='author.name'
+                  template v-if='i != (booksByAuthor.authors.length - 1)'
+                    = ', '
+              .header-book-title v-for='book in booksByAuthor.books'
+                span v-html='book.title'
+          .attribute.edition-meta-info
+            span v-html='bookTitles'
+            = ' : '
+            a @click='switchToCategory(edition.category)' v-html='edition.category.name.toLowerCase()'
+            = ' / '
+            template v-for='(author, i) in edition.authors'
+              span v-html='author.name'
+              template v-if='i != (edition.authors.length - 1)'
+                = ', '
+            = '. - '
+            a @click='switchToPublisher(edition.publisher)' v-html='edition.publisher.name'
+            = ', '
+            span v-html='edition.publication_year'
+            = '. - '
+            span v-html='edition.pages_count'
+            = ' с.'
+          .annotation
+            span v-html='edition.annotation'
+          .attribute v-if='edition.isbn'
+            => 'ISBN'
+            span v-html='edition.isbn'
+          .controls
+            a @click='editEdition'
+              i.fa.fa-pencil
+          .pages-navigation v-if='canSwitchToNextEdition' @click='switchToNextEdition'
+            a.turn-page-link
+              i.fa.fa-long-arrow-right
+            span.page-number v-html='leftPageNumber'
+    button.modal-close @click='close'
