@@ -4,7 +4,7 @@ script#edition_details_template type='text/x-document'
     #edition_details.modal-content v-if='edition'
       .left-cover-page
         .left-page
-          a.cover :style='coverStyle' :href='coverUrl'
+          a.cover :style='coverStyle' :href='edition.cover_original_url' target='_blank'
           .pages-navigation v-if='canSwitchToPrievousEdition' @click='switchToPreviousEdition'
             a.turn-page-link
               i.fa.fa-long-arrow-left

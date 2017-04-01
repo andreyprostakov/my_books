@@ -1,6 +1,7 @@
 class AuthorsController < ApplicationController
   def index
     authors = Author.by_names
+    authors = authors.by_category_code(params[:category_code]) if params[:category_code]
     render json: authors
   end
 

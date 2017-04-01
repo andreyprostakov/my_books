@@ -7,12 +7,17 @@ Vue.component 'edition-details',
 
   mounted: ->
     EventsDispatcher.$on 'showEditionDetails', (edition) =>
+      console.log "showEditionDetails"
+      console.log edition
       DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>
+        console.log detailedEdition
         @edition = detailedEdition
         @show()
 
   computed: Vuex.mapState
-    editions: 'editions'
+    editions: ->
+      @$store.getters.filteredEditions
+
     canBeShown: ->
       @edition && @enabled
 
@@ -79,7 +84,9 @@ Vue.component 'edition-details',
       EventsDispatcher.$emit 'showEditionDetails', (@editions[@currentEditionIndex + 1])
 
     switchToPreviousEdition: ->
+      console.log "@canSwitchToPrievousEdition? #{@canSwitchToPrievousEdition}"
       return unless @canSwitchToPrievousEdition
+      console.log "prievousEdition index: #{@editions[@currentEditionIndex - 1]}"
       EventsDispatcher.$emit 'showEditionDetails', (@editions[@currentEditionIndex - 1])
 
     editEdition: ->

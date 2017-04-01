@@ -1,6 +1,7 @@
 class PublishersController < ApplicationController
   def index
     publishers = Publisher.by_names
+    publishers = publishers.by_category_code(params[:category_code]) if params[:category_code]
     render json: publishers
   end
 

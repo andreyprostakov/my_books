@@ -13,12 +13,12 @@ class window.DataRefresher
       Routes.edition_path(edition)
     )
 
-  @loadAuthors: ->
+  @loadAuthors: (store) ->
     $.when $.getJSON(
-      Routes.authors_path()
+      Routes.authors_path(category_code: store.state.category)
     )
 
-  @loadPublishers: ->
+  @loadPublishers: (store) ->
     $.when $.getJSON(
-      Routes.publishers_path()
+      Routes.publishers_path(category_code: store.state.category)
     )

@@ -8,6 +8,7 @@ Vue.component 'categories-tabs',
   methods:
     switchToCategory: (categoryCode) ->
       @$store.commit('setCategory', categoryCode)
+      EventsDispatcher.$emit('categoryChanged')
 
     currentCategoryIs: (categoryToCheck) ->
       @currentCategory == categoryToCheck

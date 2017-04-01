@@ -42,13 +42,15 @@ Vue.component 'side-list',
   mounted: ->
     @loadItems()
     EventsDispatcher.$on 'editionCreated', @loadItems
+    EventsDispatcher.$on 'editionUpdated', @loadItems
+    EventsDispatcher.$on 'categoryChanged', @loadItems
 
   methods:
     mounted: ->
       @select(@preselectedItem)
 
     loadItems: ->
-      DataRefresher[@loadMethodName]().then (items) =>
+      DataRefresher[@loadMethodName](@$store).then (items) =>
         @$store.commit('set' + @mutationItemName + 's', items)
 
     currentItemIs: (item) ->

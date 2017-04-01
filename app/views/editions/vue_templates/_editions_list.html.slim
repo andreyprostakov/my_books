@@ -7,7 +7,7 @@ script#editions_list_template type='text/x-document'
       .edition-preview.add-new-edition
         a @click='addNewEdition' = t('editions.add_new')
 
-    .edition.column.is-3 v-for='edition in editions'
+    .edition.column.is-3 v-for='edition in editions' :key='edition.id'
       .edition-preview :class='{"read": edition.read}'
         img :src='edition.cover_url' class='edition-cover'
         .edition-links
