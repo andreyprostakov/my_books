@@ -33,7 +33,7 @@ group :development, :test do
   gem 'pry'
   gem 'factory_girl_rails'
   gem 'ffaker'
-  gem 'rubocop'
+  gem 'rubocop', require: false
 end
 
 group :development do

@@ -1,0 +1,41 @@
+AllCops:
+  # Include common Ruby source files.
+  Include:
+    - 'app/**/*.rb'
+    - 'lib/**/*.rb'
+    - 'lib/**/*.rake'
+    - 'spec/**/*.rb'
+    - '**/Gemfile'
+    - '**/Rakefile'
+  Exclude:
+    - 'config/**/*.rb'
+    - 'db/**/*.rb'
+    - 'vendor/**/*'
+
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  ExtraDetails: true
+
+Metrics/LineLength:
+  Max: 100
+
+Metrics/AbcSize:
+  Max: 20
+
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Style/Documentation:
+  Enabled: false
+
+Style/DotPosition:
+  EnforcedStyle: trailing
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+Style/GuardClause:
+  MinBodyLength: 3
+
+Style/SpaceInLambdaLiteral:
+  EnforcedStyle: require_space

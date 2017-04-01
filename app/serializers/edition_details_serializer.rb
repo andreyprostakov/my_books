@@ -6,7 +6,7 @@ class EditionDetailsSerializer < EditionSerializer
     :publication_year,
     :pages_count,
     :isbn,
-    :annotation
+    :annotation,
     :read
 
   has_many :authors
