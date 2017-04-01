@@ -8,7 +8,9 @@ RSpec.describe PublishersController do
     it 'returns all publishers' do
       get :index, xhr: true
       expect(response).to be_success
-      expect(response.body).to eq ActiveModelSerializers::SerializableResource.new(publishers).to_json
+      expect(response.body).to eq(
+        ActiveModelSerializers::SerializableResource.new(publishers).to_json
+      )
     end
   end
 

@@ -8,7 +8,9 @@ RSpec.describe AuthorsController do
     it 'returns all authors by their names' do
       get :index, xhr: true
       expect(response).to be_success
-      expect(response.body).to eq ActiveModelSerializers::SerializableResource.new(authors).to_json
+      expect(response.body).to eq(
+        ActiveModelSerializers::SerializableResource.new(authors).to_json
+      )
     end
   end
 
@@ -38,7 +40,9 @@ RSpec.describe AuthorsController do
         author = assigns :author
         expect(author).to be_persisted
         expect(author.name).to eq 'The Author'
-        expect(response.body).to eq ActiveModelSerializers::SerializableResource.new(author).to_json
+        expect(response.body).to eq(
+          ActiveModelSerializers::SerializableResource.new(author).to_json
+        )
       end
     end
   end
