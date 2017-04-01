@@ -30,7 +30,7 @@ ru:
         category: Категория
         publisher: Издательство
         isbn: ISBN
-        title: Название издания (опционально)
+        title: Название издания
         annotation: Аннотация
         remote_cover_url: Обложка
         publication_year: Год

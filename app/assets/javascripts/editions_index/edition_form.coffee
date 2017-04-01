@@ -22,6 +22,9 @@ Vue.component 'edition-form',
     canBeShown: ->
       @enabled
 
+    canShowEditionTitleInput: ->
+      @edition.title || (@edition.books.length > 1)
+
     coverStyle: ->
       'background-image: url(' + @coverUrl + ')'
 

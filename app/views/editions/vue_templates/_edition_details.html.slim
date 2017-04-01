@@ -11,7 +11,9 @@ script#edition_details_template type='text/x-document'
             span.page-number v-html='rightPageNumber'
       .right-cover-page
         .right-page.info-page
+
           .attribute.page-header
+            .header-edition-title v-if='edition.title' v-html='edition.title'
             template v-for='booksByAuthor in booksByAuthors'
               .header-authors
                 template v-for='(author, i) in booksByAuthor.authors'
@@ -20,6 +22,7 @@ script#edition_details_template type='text/x-document'
                     = ', '
               .header-book-title v-for='book in booksByAuthor.books'
                 span v-html='book.title'
+
           .attribute.edition-meta-info
             span v-html='bookTitles'
             = ' : '
@@ -36,14 +39,18 @@ script#edition_details_template type='text/x-document'
             = '. - '
             span v-html='edition.pages_count'
             = ' с.'
+
           .annotation
             span v-html='edition.annotation'
+
           .attribute v-if='edition.isbn'
             => 'ISBN'
             span v-html='edition.isbn'
+
           .controls
             a @click='editEdition'
               i.fa.fa-pencil
+
           .pages-navigation v-if='canSwitchToNextEdition' @click='switchToNextEdition'
             a.turn-page-link
               i.fa.fa-long-arrow-right

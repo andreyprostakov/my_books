@@ -17,7 +17,7 @@ script#edition_form_template type='text/x-document'
           .right-page
             .input-fields
               .books
-                .field.edition-title
+                .field.edition-title v-if='canShowEditionTitleInput'
                   input.input[type='text'
                     placeholder=(t('simple_form.placeholders.edition.title'))
                     v-model='edition.title'
