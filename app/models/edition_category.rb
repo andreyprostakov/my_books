@@ -23,6 +23,12 @@ class EditionCategory < ApplicationRecord
 
   validates :code, presence: true, uniqueness: true
 
+  CODES.each do |code|
+    define_singleton_method code do
+      find_by(code: code)
+    end
+  end
+
   def title
     I18n.t(code, scope: 'categories')
   end

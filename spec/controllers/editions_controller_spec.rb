@@ -16,7 +16,9 @@ RSpec.describe EditionsController do
     it 'returns all editions' do
       get :index, params: { order: 'some_order' }, xhr: true
       expect(response).to be_success
-      expect(response.body).to eq ActiveModelSerializers::SerializableResource.new(ordered_editions).to_json
+      expect(response.body).to eq(
+        ActiveModelSerializers::SerializableResource.new(ordered_editions).to_json
+      )
     end
 
     context 'with no :order given' do
@@ -29,7 +31,9 @@ RSpec.describe EditionsController do
       it 'orders by "last_updated"' do
         get :index, xhr: true
         expect(response).to be_success
-        expect(response.body).to eq ActiveModelSerializers::SerializableResource.new(ordered_editions).to_json
+        expect(response.body).to eq(
+          ActiveModelSerializers::SerializableResource.new(ordered_editions).to_json
+        )
       end
     end
   end
@@ -85,7 +89,7 @@ RSpec.describe EditionsController do
             '0' => {
               title: 'book 1',
               authors: {
-                '0' => { name: 'author 1'}
+                '0' => { name: 'author 1' }
               }
             }
           }
@@ -100,7 +104,9 @@ RSpec.describe EditionsController do
           and change { Book.count }.by(1)
         new_edition = assigns :edition
         expect(response).to be_success
-        expect(response.body).to eq ActiveModelSerializers::SerializableResource.new(new_edition).to_json
+        expect(response.body).to eq(
+          ActiveModelSerializers::SerializableResource.new(new_edition).to_json
+        )
         expect(new_edition).to be_a Edition
         expect(new_edition).to be_persisted
         expect(new_edition.title).to eq 'edition 1'
@@ -177,7 +183,7 @@ RSpec.describe EditionsController do
             '0' => {
               title: 'book 1',
               authors: {
-                '0' => { name: 'author 1'}
+                '0' => { name: 'author 1' }
               }
             }
           }
@@ -192,7 +198,9 @@ RSpec.describe EditionsController do
           and change { Book.count }.by(1)
         updated_edition = edition.reload
         expect(response).to be_success
-        expect(response.body).to eq ActiveModelSerializers::SerializableResource.new(updated_edition).to_json
+        expect(response.body).to eq(
+          ActiveModelSerializers::SerializableResource.new(updated_edition).to_json
+        )
         expect(updated_edition).to be_a Edition
         expect(updated_edition).to be_persisted
 

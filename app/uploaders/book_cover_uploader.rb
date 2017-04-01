@@ -11,20 +11,17 @@ class BookCoverUploader < CarrierWave::Uploader::Base
   end
 
   version :thumb do
-     process resize_and_pad: [255, 300, '#F5F5F5', 'North']
+    process resize_and_pad: [255, 300, '#F5F5F5', 'North']
   end
 
   version :detailed do
-     process resize_and_pad: [390, 540, '#F5F5F5', 'North']
+    process resize_and_pad: [390, 540, '#F5F5F5', 'North']
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
-   def default_url
-     # For Rails 3.1+ asset pipeline compatibility:
-     # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
-
-     ActionController::Base.helpers.asset_path('cover_placeholder.png')
-   end
+  def default_url
+    ActionController::Base.helpers.asset_path('cover_placeholder.png')
+  end
 
   # Process files as they are uploaded:
   # process scale: [200, 300]

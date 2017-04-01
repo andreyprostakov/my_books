@@ -5,7 +5,7 @@ class EditionsOrderer
     OLD_FIRST = :old_first,
     NEW_FIRST = :new_first,
     LAST_UPDATED = :last_updated
-  ]
+  ].freeze
   ORDER_SCOPES = {
     BY_TITLE => 'by_book_titles',
     BY_AUTHOR => 'by_author',

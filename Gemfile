@@ -1,49 +1,50 @@
 source 'https://rubygems.org'
 
+gem 'puma', '~> 3.0' # !
 gem 'rails', '~> 5.0.0'
 gem 'sqlite3'
-gem 'puma', '~> 3.0' # !
 
-gem 'sass-rails', '~> 5.0'
 gem 'bootstrap-sass'
+gem 'sass-rails', '~> 5.0'
 
-gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
+gem 'font-awesome-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'jquery-ui-themes'
-gem 'slim'
-gem 'font-awesome-rails'
 gem 'js-routes'
+gem 'slim'
+gem 'uglifier', '>= 1.3.0'
 
-gem 'russian'
-gem 'annotate'
-gem 'simple_form'
-gem 'nokogiri'
-gem 'httparty'
-gem 'cocoon'
-gem 'carrierwave', '~> 1.0'
-gem 'mini_magick'
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'annotate'
+gem 'carrierwave', '~> 1.0'
+gem 'cocoon'
+gem 'httparty'
+gem 'mini_magick'
+gem 'nokogiri'
+gem 'russian'
+gem 'simple_form'
 
 source 'https://rails-assets.org' do
 end
 
 group :development, :test do
-  gem 'pry'
   gem 'factory_girl_rails'
   gem 'ffaker'
+  gem 'pry'
+  gem 'rubocop', require: false
 end
 
 group :development do
-  gem 'web-console' # !
   gem 'listen', '~> 3.0.5'
   gem 'spring' # !
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'web-console' # !
 end
 
 group :test do
+  gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
-  gem 'rails-controller-testing'
 end
