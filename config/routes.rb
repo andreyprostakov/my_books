@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'editions#index'
+  root 'homepage#index'
 
   resources :authors, except: %i(show new edit)
 

@@ -1,13 +1,7 @@
 - content_for :javascript do
   = javascript_include_tag 'editions_index'
 
-= render 'editions/vue_templates/order_select'
-= render 'editions/vue_templates/side_list'
-= render 'editions/vue_templates/categories_tabs'
-= render 'editions/vue_templates/list_pagination'
-= render 'editions/vue_templates/editions_list'
-= render 'editions/vue_templates/edition_form'
-= render 'editions/vue_templates/edition_details'
+= render 'editions/vue_templates'
 
 #editions_index
   editions-index[inline-template]
