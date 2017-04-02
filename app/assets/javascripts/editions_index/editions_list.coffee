@@ -56,3 +56,12 @@ Vue.component 'editions-list',
 
     editionsCount: ->
       @editions.length
+
+    editionBackgroundColor: (edition) ->
+      switch edition.category.code
+        when 'fiction' then 'darkred'
+        when 'non_fiction' then 'deepskyblue'
+        when 'comics' then 'darkslategrey'
+        when 'encyclopedia' then 'seagreen'
+        when 'media' then 'black'
+        else 'white'

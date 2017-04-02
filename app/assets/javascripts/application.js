@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require jquery.dotdotdot.min
 //= require jquery.tagsinput
 //= require cocoon
 //= require js-routes
