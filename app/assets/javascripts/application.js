@@ -19,5 +19,6 @@
 //= require vue@2.2.4
 //= require vuex@2.2.1
 //= require underscore
+//= require autolink-min
 //
 //= require edition_form

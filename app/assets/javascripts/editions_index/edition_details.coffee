@@ -37,6 +37,9 @@ Vue.component 'edition-details',
     canSwitchToNextEdition: ->
       @currentEditionIndex < (@editions.length - 1)
 
+    annotation: ->
+      @edition.annotation.autoLink(target: '_blank')
+
     booksByAuthors: ->
       booksByAuthors = []
       for book in @edition.books
