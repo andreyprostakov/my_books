@@ -38,7 +38,7 @@ Vue.component 'edition-details',
       @currentEditionIndex < (@editions.length - 1)
 
     annotation: ->
-      @edition.annotation.autoLink(target: '_blank')
+      @edition.annotation && @edition.annotation.autoLink(target: '_blank')
 
     booksByAuthors: ->
       booksByAuthors = []

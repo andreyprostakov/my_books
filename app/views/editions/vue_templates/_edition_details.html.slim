@@ -3,18 +3,21 @@ script#edition_details_template type='text/x-document'
     .modal-background
     #edition_details.modal-content v-if='edition'
       .left-cover-page
-        .left-page
-          a.cover :style='coverStyle' :href='coverUrl'
-          .pages-navigation v-if='canSwitchToPrievousEdition' @click='switchToPreviousEdition'
-            a.turn-page-link
-              i.fa.fa-long-arrow-left
-            span.page-number v-html='rightPageNumber'
-      .right-cover-page
-        .right-page.info-page
+        .left-page.info-page
+
+          .controls
+            a @click='editEdition'
+              i.fa.fa-pencil
 
           .attribute.page-header
-            .header-edition-title v-if='edition.title' v-html='edition.title'
-            template v-for='booksByAuthor in booksByAuthors'
+            template v-if='edition.title'
+              .header-edition-title v-html='edition.title'
+              .header-authors
+                template v-for='(author, i) in edition.authors'
+                  a @click='switchToAuthor(author)' v-html='author.name'
+                  template v-if='i != (edition.authors.length - 1)'
+                    = ', '
+            template[v-else v-for='booksByAuthor in booksByAuthors']
               .header-authors
                 template v-for='(author, i) in booksByAuthor.authors'
                   a @click='switchToAuthor(author)' v-html='author.name'
@@ -40,16 +43,19 @@ script#edition_details_template type='text/x-document'
             span v-html='edition.pages_count'
             = ' с.'
 
-          .annotation
-            span v-html='annotation'
-
           .attribute v-if='edition.isbn'
             => 'ISBN'
             span v-html='edition.isbn'
 
-          .controls
-            a @click='editEdition'
-              i.fa.fa-pencil
+          .pages-navigation v-if='canSwitchToPrievousEdition' @click='switchToPreviousEdition'
+            a.turn-page-link
+              i.fa.fa-long-arrow-left
+            span.page-number v-html='rightPageNumber'
+      .right-cover-page
+        .right-page.info-page
+
+          .annotation
+            span v-html='annotation'
 
           .pages-navigation v-if='canSwitchToNextEdition' @click='switchToNextEdition'
             a.turn-page-link
