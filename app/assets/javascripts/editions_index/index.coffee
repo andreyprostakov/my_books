@@ -13,6 +13,9 @@ Vue.component 'editions-index',
     category: 'category',
     routes: -> Routes
 
+    editionsCount: ->
+      @$store.getters.filteredEditions.length
+
   methods:
     editionsOfCategory: (categoryCode) ->
       @editions.filter((e) => e.category.code == categoryCode)
@@ -20,3 +23,6 @@ Vue.component 'editions-index',
     loadEditions: ->
       DataRefresher.loadEditions(@$store).then (editions) =>
         @$store.commit('setEditions', editions)
+
+    addNewEdition: ->
+      EventsDispatcher.$emit('addNewEdition')

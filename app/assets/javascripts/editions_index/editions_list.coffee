@@ -14,9 +14,6 @@ Vue.component 'editions-list',
     close: ->
       @enabled = false
 
-    addNewEdition: ->
-      EventsDispatcher.$emit('addNewEdition')
-
     showEditionDetails: (edition) ->
       EventsDispatcher.$emit('showEditionDetails', edition)
 
@@ -26,16 +23,6 @@ Vue.component 'editions-list',
     editEditionUrl: (edition) ->
       Routes.edit_edition_path(edition.id)
 
-    changeReadStatus: (edition) ->
-      $.ajax(
-        type: 'PUT'
-        url: Routes.edition_path(edition.id)
-        dataType: 'json'
-        data: { edition: { read: !edition.read } }
-        success: (updated_edition) =>
-          edition.read = updated_edition.read
-        error: @handleErrorResponse
-      )
     removeEdition: (edition) ->
       $.ajax(
         type: 'DELETE'

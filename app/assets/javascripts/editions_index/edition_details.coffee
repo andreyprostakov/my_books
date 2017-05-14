@@ -52,9 +52,10 @@ Vue.component 'edition-details',
       booksByAuthors
 
     bookTitles: ->
+      return @edition.title if @edition.title
       _.reduce(
         _.map(@edition.books, 'title'),
-        (t1, t2) => "#{t1} ; #{t2}"
+        (t1, t2) => "#{t1}; #{t2}"
       )
 
 
@@ -88,3 +89,14 @@ Vue.component 'edition-details',
     editEdition: ->
       @close()
       EventsDispatcher.$emit('editEdition', @edition)
+
+    changeReadStatus: (edition) ->
+      $.ajax(
+        type: 'PUT'
+        url: Routes.edition_path(edition.id)
+        dataType: 'json'
+        data: { edition: { read: !edition.read } }
+        success: (updated_edition) =>
+          edition.read = updated_edition.read
+        error: @handleErrorResponse
+      )

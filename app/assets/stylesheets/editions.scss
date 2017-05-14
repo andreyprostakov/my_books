@@ -6,7 +6,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    border: 30px solid green;
+    border: 15px solid darkred;
     border-left-color: transparent;
     border-bottom-color: transparent;
   }
@@ -40,6 +40,11 @@
 
 .editions-list {
   $preview-height: 300px;
+  background-color: whitesmoke;
+
+  .editions-pagination {
+    margin: 20px 0 !important;
+  }
 
   .edition {
     height: 300px;
@@ -51,80 +56,44 @@
     position: relative;
     width: 100%;
     height: $preview-height;
-    padding: 15px;
+    padding: 15px 10px;
     vertical-align: top;
     margin-bottom: 20px;
     border-radius: 2px;
     overflow: hidden;
-    background-color: whitesmoke;
 
-    .edition-cover {
+    .edition-preview-cover {
       display: inline-block;
-      width: 100%;
-      max-height: 100%;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: 50% 0%;
-    }
+      width: 140px;
+      height: 190px;
 
-    .edition-links {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      padding: 40px 20px;
-      background-color: rgba(0,0,0,0.8);
-      text-align: center;
-
-      &, & a {
-        color: white;
-      }
-
-      .info {
-        height: calc(100% - 30px);
-        overflow: hidden;
-        border-bottom: 1px solid white;
-
-        .title {
-          font-size: 23px;
-          font-weight: bold;
-        }
-      }
-
-      .actions {
-        height: 30px;
-
-        a {
-          display: inline-block;
-          vertical-align: bottom;
-          margin: 0 5px;
-          line-height: 30px;
-
-          &.remove-link {
-            color: red;
-          }
-
-          &.check-link {
-            color: green;
-
-            i {
-              line-height: 30px;
-            }
-          }
-        }
+      img {
+        display: inline-block;
+        max-width: 100%;
+        max-height: 100%;
       }
     }
 
-    &:hover {
-      .edition-links {
-        display: block;
+    .edition-preview-info {
+      .edition-preview-title {
+        display: inline-block;
+        width: 100%;
+        font-size: 14px;
+        line-height: normal;
+      }
+
+      .edition-preview-authors {
+        &, a {
+          font-size: 14px;
+          line-height: normal;
+        }
       }
     }
 
     &.read {
-      @include read_edition_mark;
+      .edition-preview-cover {
+        @include read_edition_mark;
+      }
     }
   }
 
@@ -509,6 +478,8 @@
 }
 
 #edition_categories {
+  margin-bottom: 0;
+
   li.is-disabled {
     a {
       color: darkgrey;
@@ -542,6 +513,7 @@
   }
 
   .side-block-content {
+    width: 100%;
     max-height: 200px;
     overflow-y: auto;
     overflow-x: hidden;

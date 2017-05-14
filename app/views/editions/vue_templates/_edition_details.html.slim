@@ -8,6 +8,12 @@ script#edition_details_template type='text/x-document'
           .controls
             a @click='editEdition'
               i.fa.fa-pencil
+            a @click='removeEdition(edition)' class='remove-link' X
+            a @click='changeReadStatus(edition)' class='check-link'
+              template v-if='edition.read'
+                i.fa.fa-check-circle
+              template v-else=(true)
+                i.fa.fa-check-circle-o
 
           .attribute.page-header
             template v-if='edition.title'

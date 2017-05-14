@@ -11,7 +11,7 @@ class BookCoverUploader < CarrierWave::Uploader::Base
   end
 
   version :thumb do
-    process resize_and_pad: [255, 300, '#F5F5F5', 'North']
+    process resize_and_pad: [140, 190, '#F5F5F5', 'North']
   end
 
   version :detailed do

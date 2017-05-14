@@ -8,7 +8,7 @@ window.Store = new Vuex.Store
     publisher: null
     category: null
     page: 1
-    pageSize: 11
+    pageSize: 12
 
   getters:
     filteredEditions: (state) ->

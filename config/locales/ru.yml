@@ -21,7 +21,8 @@ ru:
     media: Периодика
   editions:
     index: Книги
-    add_new: Добавить книгу
+    add_new: Добавить
+    count: 'Книг:'
     attributes:
       author: Автор
       category: Категория
