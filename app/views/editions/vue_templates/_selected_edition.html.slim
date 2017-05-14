@@ -1,11 +1,9 @@
 script#selected_edition_template type='text/x-document'
   #selected_edition.side-block v-if='edition' :class='{"read": edition.read}'
     .side-block-content
-      .selected-edition-title @click='openEdition(edition)' v-html='edition.title'
+      .selected-edition-title @click='openEdition' v-html='edition.title'
 
-      .selected-edition-authors
-
-      .selected-edition-cover
+      .selected-edition-cover @click='openEdition'
         img :src='edition.cover_url'
 
       .selected-edition-controls

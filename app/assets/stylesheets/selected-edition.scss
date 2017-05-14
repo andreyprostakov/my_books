@@ -7,12 +7,11 @@
     text-align: center;
   }
 
-  .selected-edition-authors {}
-
   .selected-edition-cover {
     display: block;
     width: 140px;
     margin: 0 auto 10px;
+    cursor: pointer;
   }
 
   .selected-edition-controls {
