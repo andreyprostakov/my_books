@@ -3,6 +3,7 @@ class EditionDetailsSerializer < EditionSerializer
     :title,
     :books,
     :cover_url,
+    :cover_original_url,
     :publication_year,
     :pages_count,
     :isbn,

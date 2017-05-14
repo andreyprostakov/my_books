@@ -1,20 +1,8 @@
 script#edition_details_template type='text/x-document'
-  .modal.book-like-modal :class='{"is-active": canBeShown}'
-    .modal-background
-    #edition_details.modal-content v-if='edition'
+  #edition_details v-if='edition' data-edition-details=(true)
+    .book-like :class='{"is-active": canBeShown}' data-edition-details-content=(true)
       .left-cover-page
         .left-page.info-page
-
-          .controls
-            a @click='editEdition'
-              i.fa.fa-pencil
-            a @click='removeEdition(edition)' class='remove-link' X
-            a @click='changeReadStatus(edition)' class='check-link'
-              template v-if='edition.read'
-                i.fa.fa-check-circle
-              template v-else=(true)
-                i.fa.fa-check-circle-o
-
           .attribute.page-header
             template v-if='edition.title'
               .header-edition-title v-html='edition.title'
@@ -31,6 +19,9 @@ script#edition_details_template type='text/x-document'
                     = ', '
               .header-book-title v-for='book in booksByAuthor.books'
                 span v-html='book.title'
+
+      .right-cover-page
+        .right-page.info-page
 
           .attribute.edition-meta-info
             span v-html='bookTitles'
@@ -49,22 +40,9 @@ script#edition_details_template type='text/x-document'
             span v-html='edition.pages_count'
             = ' с.'
 
-          .attribute v-if='edition.isbn'
-            => 'ISBN'
-            span v-html='edition.isbn'
-
-          .pages-navigation v-if='canSwitchToPrievousEdition' @click='switchToPreviousEdition'
-            a.turn-page-link
-              i.fa.fa-long-arrow-left
-            span.page-number v-html='rightPageNumber'
-      .right-cover-page
-        .right-page.info-page
-
           .annotation
             span v-html='annotation'
 
-          .pages-navigation v-if='canSwitchToNextEdition' @click='switchToNextEdition'
-            a.turn-page-link
-              i.fa.fa-long-arrow-right
-            span.page-number v-html='leftPageNumber'
-    button.modal-close @click='close'
+          .attribute v-if='edition.isbn'
+            => 'ISBN'
+            span v-html='edition.isbn'

@@ -1,6 +1,8 @@
 window.Store = new Vuex.Store
   state:
     editions: []
+    selectedEdition: null
+    openedEdition: null
     editionsOrder: null
     authors: []
     author: null
@@ -8,7 +10,7 @@ window.Store = new Vuex.Store
     publisher: null
     category: null
     page: 1
-    pageSize: 12
+    pageSize: 18
 
   getters:
     filteredEditions: (state) ->
@@ -22,6 +24,12 @@ window.Store = new Vuex.Store
   mutations:
     setEditions: (state, editions) ->
       state.editions = editions
+
+    setSelectedEdition: (state, edition) ->
+      state.selectedEdition = edition
+
+    setOpenedEdition: (state, edition) ->
+      state.openedEdition = edition
 
     addEdition: (state, edition) ->
       state.editions.splice(0, 0, edition)
@@ -45,6 +53,7 @@ window.Store = new Vuex.Store
       state.publisher = null
       state.author = author
       state.category = null
+      state.openedEdition = null
       state.page = 1
 
     addAuthor: (state, newAuthor) ->
@@ -65,6 +74,7 @@ window.Store = new Vuex.Store
       state.publisher = publisher
       state.author = null
       state.category = null
+      state.openedEdition = null
       state.page = 1
 
     addPublisher: (state, newPublisher) ->

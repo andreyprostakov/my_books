@@ -11,6 +11,7 @@ Vue.component 'editions-index',
     author: 'author'
     publisher: 'publisher',
     category: 'category',
+    openedEdition: 'openedEdition'
     routes: -> Routes
 
     editionsCount: ->

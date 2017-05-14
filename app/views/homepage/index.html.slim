@@ -6,8 +6,10 @@
 #editions_index
   editions-index[inline-template]
     div.columns.is-multiline
-      .column.is-3
-        order-select initial-order=(current_editions_order)
+      .page-left-column.column.is-3
+        selected-edition
+
+        order-select initial-order=(current_editions_order) v-if='!openedEdition'
 
         side-list[
           title=(t('authors.index'))
@@ -33,28 +35,29 @@
           :remove-item-url='routes.publisher_path'
         ]
 
-      .column.is-9
+      .page-right-column.column.is-9
         edition-form
 
         edition-details
 
-        #current_selection_info
-          template v-if='author'
-            .type
-              = t('authors.one')
-              | :
-            .value v-html='author'
-          template v-if='publisher'
-            .type
-              = t('publishers.one')
-              | :
-            .value v-html='publisher'
-          .editions-count
-            => t('editions.count')
-            span.editions-count-value v-html='editionsCount'
-            => '.'
-            a.add-new-edition @click='addNewEdition' = t('editions.add_new')
+        template
+          #current_selection_info
+            template v-if='author'
+              .type
+                = t('authors.one')
+                | :
+              .value v-html='author'
+            template v-if='publisher'
+              .type
+                = t('publishers.one')
+                | :
+              .value v-html='publisher'
+            .editions-count
+              => t('editions.count')
+              span.editions-count-value v-html='editionsCount'
+              => '.'
+              a.add-new-edition @click='addNewEdition' = t('editions.add_new')
 
-        categories-tabs
+          categories-tabs
 
-        editions-list
+          editions-list

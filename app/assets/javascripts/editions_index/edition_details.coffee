@@ -3,39 +3,26 @@ Vue.component 'edition-details',
 
   data: ->
     enabled: false
-    edition: null
 
   mounted: ->
     EventsDispatcher.$on 'showEditionDetails', (edition) =>
       DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>
-        @edition = detailedEdition
+        @$store.commit('setOpenedEdition', detailedEdition)
         @show()
+
+    EventsDispatcher.$on 'hideEditionDetails', =>
+      @close()
+
+    Vue.nextTick =>
+      $('body').on 'click', '[data-edition-details]', (event) =>
+        if $(event.target).closest('[data-edition-details-content]').length == 0
+          @close()
 
   computed: Vuex.mapState
     editions: 'editions'
+    edition: 'openedEdition'
     canBeShown: ->
       @edition && @enabled
-
-    coverStyle: ->
-      'background-image: url(' + @coverUrl + ')'
-
-    coverUrl: ->
-      @edition.cover_url
-
-    currentEditionIndex: ->
-      @editions.findIndex((e) => e.id == @edition.id)
-
-    rightPageNumber: ->
-      @currentEditionIndex * 2
-
-    leftPageNumber: ->
-      @rightPageNumber + 1
-
-    canSwitchToPrievousEdition: ->
-      @currentEditionIndex > 0
-
-    canSwitchToNextEdition: ->
-      @currentEditionIndex < (@editions.length - 1)
 
     annotation: ->
       @edition.annotation && @edition.annotation.autoLink(target: '_blank')
@@ -65,6 +52,7 @@ Vue.component 'edition-details',
 
     close: ->
       @enabled = false
+      @$store.commit('setOpenedEdition', null)
 
     switchToAuthor: (author) ->
       @$store.commit('setAuthor', author.name)
@@ -77,26 +65,3 @@ Vue.component 'edition-details',
     switchToCategory: (category) ->
       @$store.commit('setCategory', category.code)
       @close()
-
-    switchToNextEdition: ->
-      return unless @canSwitchToNextEdition
-      EventsDispatcher.$emit 'showEditionDetails', (@editions[@currentEditionIndex + 1])
-
-    switchToPreviousEdition: ->
-      return unless @canSwitchToPrievousEdition
-      EventsDispatcher.$emit 'showEditionDetails', (@editions[@currentEditionIndex - 1])
-
-    editEdition: ->
-      @close()
-      EventsDispatcher.$emit('editEdition', @edition)
-
-    changeReadStatus: (edition) ->
-      $.ajax(
-        type: 'PUT'
-        url: Routes.edition_path(edition.id)
-        dataType: 'json'
-        data: { edition: { read: !edition.read } }
-        success: (updated_edition) =>
-          edition.read = updated_edition.read
-        error: @handleErrorResponse
-      )

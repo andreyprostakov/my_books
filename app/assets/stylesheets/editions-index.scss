@@ -1,0 +1,29 @@
+#editions_index {
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 20px 50px;
+
+  #current_selection_info {
+    font-size: 32px;
+
+    .type {
+      display: inline-block;
+    }
+
+    .value {
+      display: inline-block;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+
+    .add-edition-link {
+      display: inline-block;
+      margin-bottom: 30px;
+    }
+  }
+
+  .page-right-column {
+    position: relative;
+  }
+}

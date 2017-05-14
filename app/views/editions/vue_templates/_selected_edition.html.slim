@@ -1,0 +1,26 @@
+script#selected_edition_template type='text/x-document'
+  #selected_edition.side-block v-if='edition' :class='{"read": edition.read}'
+    .side-block-content
+      .selected-edition-title @click='openEdition(edition)' v-html='edition.title'
+
+      .selected-edition-authors
+
+      .selected-edition-cover
+        img :src='edition.cover_url'
+
+      .selected-edition-controls
+        a @click='editEdition'
+          i.fa.fa-pencil
+
+        template v-if='editionIsOpened'
+          a.close-edition-link @click='closeEdition'
+            i.fa.fa-book
+        template v-else=(true)
+          a @click='openEdition'
+            i.fa.fa-book
+
+        a @click='changeReadStatus(edition)' class='check-link'
+          template v-if='edition.read'
+            i.fa.fa-check-circle
+          template v-else=(true)
+            i.fa.fa-check-circle-o

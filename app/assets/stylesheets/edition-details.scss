@@ -1,0 +1,87 @@
+#edition_details {
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+
+  .book-like {
+    z-index: 2;
+    position: relative;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 30px;
+  }
+
+  .edition-books {
+    margin-bottom: 40px;
+
+    .edition-book {
+      display: block;
+      font-size: 24px;
+    }
+  }
+
+  .info-page {
+    overflow: auto;
+    padding-bottom: 50px;
+
+    .page-header {
+      height: 75%;
+      padding: 50px 0;
+
+      .header-authors {
+        text-align: center;
+        font-weight: bold;
+
+        a {
+          color: #4a4a4a;
+        }
+      }
+
+      .header-edition-title {
+        padding-bottom: 20px;
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        line-height: normal;
+        text-decoration: underline;
+      }
+
+      .header-book-title {
+        padding-bottom: 10px;
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        line-height: normal;
+      }
+    }
+
+    .edition-meta-info {
+      margin-bottom: 20px;
+      font-size: 14px;
+
+      color: #4a4a4a;
+
+      a {
+        color: #4a4a4a;
+        font-weight: bold;
+
+        &:hover {
+        text-decoration: underline;
+        }
+      }
+    }
+
+    .annotation {
+      padding: 0 10px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      font-style: italic;
+      white-space: pre-line;
+      overflow: auto;
+    }
+  }
+}

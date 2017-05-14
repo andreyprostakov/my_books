@@ -1,7 +1,7 @@
 script#edition_form_template type='text/x-document'
-  .modal.book-like-modal :class='{"is-active": canBeShown}'
+  .modal :class='{"is-active": canBeShown}'
     .modal-background
-    #edition_form.modal-content
+    #edition_form.modal-content.book-like
       form @submit.prevent='submit' v-if='edition'
 
         .left-cover-page
