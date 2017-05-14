@@ -1,0 +1,11 @@
+.ui-menu.ui-autocomplete {
+  z-index: 99999;
+  background-color: whitesmoke;
+  color: #4a4a4a;
+  border: 1px solid #dbdbdb;
+
+  .ui-state-focus, .ui-state-active {
+    background-color: #4a4a4a;
+    color: whitesmoke;
+  }
+}

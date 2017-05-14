@@ -21,6 +21,12 @@ window.Store = new Vuex.Store
       startIndex = state.pageSize * (state.page - 1)
       getters.filteredEditions.slice startIndex, startIndex + state.pageSize
 
+    authorNames: (state) ->
+      _.map state.authors, 'name'
+
+    publisherNames: (state) ->
+      _.map state.publishers, 'name'
+
   mutations:
     setEditions: (state, editions) ->
       state.editions = editions

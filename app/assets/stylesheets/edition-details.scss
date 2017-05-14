@@ -5,6 +5,7 @@
   right: 0;
   height: 100%;
   background-color: rgba(0,0,0,0.5);
+  cursor: pointer;
 
   .book-like {
     z-index: 2;
@@ -13,6 +14,7 @@
     left: 0;
     right: 0;
     top: 30px;
+    cursor: default;
   }
 
   .edition-books {

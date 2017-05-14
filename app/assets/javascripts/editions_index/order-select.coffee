@@ -9,6 +9,7 @@ Vue.component 'order-select',
 
   computed: Vuex.mapState
     currentOrder: 'editionsOrder'
+    openedEdition: 'openedEdition'
 
   methods:
     onSelect: ->

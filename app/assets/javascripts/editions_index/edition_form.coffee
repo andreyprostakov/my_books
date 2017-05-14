@@ -31,9 +31,17 @@ Vue.component 'edition-form',
     coverUrl: ->
       @edition.remote_cover_url || @edition.cover_url
 
+    authorNames: ->
+      @$store.getters.authorNames
+
+    publisherNames: ->
+      @$store.getters.publisherNames
+
   methods:
     show: ->
       @enabled = true
+      @updateAuthorsAutocompletes()
+      @updatePublisherAutocomplete()
 
     close: ->
       @enabled = false
@@ -46,6 +54,16 @@ Vue.component 'edition-form',
 
     removeAuthor: (book, authorIndex) ->
       book.authors.splice(authorIndex, 1)
+
+    updateAuthorsAutocompletes: ->
+      Vue.nextTick =>
+        $('[data-author-autocomplete]').autocomplete
+          source: @authorNames
+
+    updatePublisherAutocomplete: ->
+      Vue.nextTick =>
+        $('[data-publisher-autocomplete]').autocomplete
+          source: @publisherNames
 
     addBook: ->
       @edition.books.push @newBook()
