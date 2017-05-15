@@ -4,6 +4,8 @@ Vue.component 'editions-list',
   computed: Vuex.mapState
     editions: ->
       @$store.getters.currentPageEditions
+    selectionMode: 'selectionMode'
+    selectedEditionIds: 'selectedEditionIds'
 
   methods:
     show: ->
@@ -14,6 +16,15 @@ Vue.component 'editions-list',
 
     selectEdition: (edition) ->
       EventsDispatcher.$emit('selectEdition', edition)
+
+    toggleEditionFromSelection: (edition) ->
+      if @editionIsSelected(edition)
+        @$store.commit('removeEditionFromSelection', edition)
+      else
+        @$store.commit('addEditionToSelection', edition)
+
+    editionIsSelected: (edition) ->
+      _.contains @selectedEditionIds, edition.id
 
     switchToAuthor: (author) ->
       @$store.commit('setAuthor', author.name)

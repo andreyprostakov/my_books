@@ -2,6 +2,8 @@ window.Store = new Vuex.Store
   state:
     editions: []
     selectedEdition: null
+    selectionMode: false
+    selectedEditionIds: []
     openedEdition: null
     editionsOrder: null
     authors: []
@@ -47,9 +49,25 @@ window.Store = new Vuex.Store
     setEditionsOrder: (state, order) ->
       state.editionsOrder = order
 
-
     setPage: (state, page) ->
       state.page = page
+
+
+    startSelectingEditions: (state) ->
+      state.selectionMode = true
+
+    addEditionToSelection: (state, edition) ->
+      state.selectedEditionIds.splice(0, 0, edition.id)
+
+    removeEditionFromSelection: (state, edition) ->
+      index = state.selectedEditionIds.indexOf(edition.id)
+      state.selectedEditionIds.splice(index, 1)
+
+    stopSelectingEditions: (state) ->
+      state.selectionMode = false
+
+    clearSelectedEditions: (state) ->
+      state.selectedEditions = []
 
 
     setAuthors: (state, authors) ->

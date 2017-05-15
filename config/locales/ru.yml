@@ -22,6 +22,8 @@ ru:
   editions:
     index: Книги
     add_new: Добавить
+    select: Выбрать
+    stop_select: Отменить выбор
     count: 'Книг:'
     attributes:
       author: Автор

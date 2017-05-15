@@ -4,6 +4,9 @@ Vue.component 'editions-index',
     @$watch 'currentOrder', @loadEditions
     @$watch 'author', @loadEditions
     @$watch 'publisher', @loadEditions
+    EventsDispatcher.$on 'reloadEditions', =>
+      console.log 'reloading editions'
+      @loadEditions()
 
   computed: Vuex.mapState
     editions: 'editions'
@@ -12,6 +15,7 @@ Vue.component 'editions-index',
     publisher: 'publisher',
     category: 'category',
     openedEdition: 'openedEdition'
+    selectionMode: 'selectionMode'
     routes: -> Routes
 
     editionsCount: ->
@@ -27,3 +31,9 @@ Vue.component 'editions-index',
 
     addNewEdition: ->
       EventsDispatcher.$emit('addNewEdition')
+
+    startSelectingEdition: ->
+      @$store.commit('startSelectingEditions')
+
+    stopSelectingEdition: ->
+      @$store.commit('stopSelectingEditions')

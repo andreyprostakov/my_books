@@ -2,6 +2,11 @@ script#editions_list_template type='text/x-document'
   #editions_list.columns.is-multiline.is-gapless
     .edition.column.is-2 v-for='edition in editions'
       .edition-preview :class='{"read": edition.read}'
+        .edition-preview-selection-indicator v-if='selectionMode' @click='toggleEditionFromSelection(edition)'
+          template v-if='editionIsSelected(edition)'
+            i.fa.fa-check-circle
+          template v-else=(true)
+            i.fa.fa-circle-o
         .edition-preview-cover @click='selectEdition(edition)'
           img :src='edition.cover_url'
 

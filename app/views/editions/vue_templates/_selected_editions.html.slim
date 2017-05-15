@@ -1,0 +1,11 @@
+script#selected_editions_template type='text/x-document'
+  #selected_editions.side-block v-if='editionIds.length > 0'
+    .side-block-heading
+      => 'Выбрано:'
+      span v-html='editionIds.length'
+
+    .side-block-content
+      a @click='updateBatchReadStatus(true)'
+        | Пометить как прочитанные
+      a @click='updateBatchReadStatus(false)'
+        | Пометить как непрочитанные
