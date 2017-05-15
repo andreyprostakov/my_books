@@ -59,11 +59,13 @@ Vue.component 'edition-form',
       Vue.nextTick =>
         $('[data-author-autocomplete]').autocomplete
           source: @authorNames
+          minLength: 0
 
     updatePublisherAutocomplete: ->
       Vue.nextTick =>
         $('[data-publisher-autocomplete]').autocomplete
           source: @publisherNames
+          minLength: 0
 
     addBook: ->
       @edition.books.push @newBook()

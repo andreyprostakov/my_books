@@ -1,11 +1,41 @@
 script#edition_form_template type='text/x-document'
   .modal :class='{"is-active": canBeShown}'
     .modal-background
-    #edition_form.modal-content.book-like
+    #edition_form.modal-content
       form @submit.prevent='submit' v-if='edition'
 
-        .left-cover-page
-          .left-page
+        .input-fields
+          .books
+            .field.edition-title v-if='canShowEditionTitleInput'
+              input.input[type='text'
+                placeholder=(t('simple_form.placeholders.edition.title'))
+                v-model='edition.title'
+              ]
+
+            template v-for='book in edition.books'
+              .field.author
+                template v-for='author, authorIndex in book.authors'
+                  input.input[type='text'
+                    placeholder=(t('simple_form.placeholders.edition.books.author'))
+                    v-model='book.authors[authorIndex].name'
+                    data-author-autocomplete=(true)
+                  ]
+                  a.link-remove-author @click='removeAuthor(book, authorIndex)'
+                    i.fa.fa-times
+                a.link-add-author v-if='canAddAuthorToBook(book)' @click='addAuthor(book)'
+                  i.fa.fa-plus
+
+              .field.title
+                input.input[type='text'
+                  placeholder=(t('simple_form.placeholders.edition.books.title'))
+                  v-model='book.title'
+                ]
+                a.link-remove-book @click='removeBook(book)'
+                  i.fa.fa-times
+            a.link-add-book @click='addBook'
+              i.fa.fa-plus
+
+          .edition-form-edition-info
             .cover v-if='coverUrl' :style='coverStyle'
             .field.cover-url
               input.input[type='text'
@@ -13,79 +43,46 @@ script#edition_form_template type='text/x-document'
                 v-model='edition.remote_cover_url'
               ]
 
-        .right-cover-page
-          .right-page
-            .input-fields
-              .books
-                .field.edition-title v-if='canShowEditionTitleInput'
-                  input.input[type='text'
-                    placeholder=(t('simple_form.placeholders.edition.title'))
-                    v-model='edition.title'
-                  ]
-
-                template v-for='book in edition.books'
-                  .field.author
-                    template v-for='author, authorIndex in book.authors'
-                      input.input[type='text'
-                        placeholder=(t('simple_form.placeholders.edition.books.author'))
-                        v-model='book.authors[authorIndex].name'
-                        data-author-autocomplete=(true)
-                      ]
-                      a.link-remove-author @click='removeAuthor(book, authorIndex)'
-                        i.fa.fa-times
-                    a.link-add-author v-if='canAddAuthorToBook(book)' @click='addAuthor(book)'
-                      i.fa.fa-plus
-
-                  .field.title
-                    input.input[type='text'
-                      placeholder=(t('simple_form.placeholders.edition.books.title'))
-                      v-model='book.title'
-                    ]
-                    a.link-remove-book @click='removeBook(book)'
-                      i.fa.fa-times
-                a.link-add-book @click='addBook'
-                  i.fa.fa-plus
-
-              .field.edition-info-line
-                input.input.publisher[type='text'
-                  placeholder=(t('simple_form.placeholders.edition.publisher'))
-                  v-model='edition.publisher.name'
-                  data-publisher-autocomplete=(true)
-                ]
-                = ', '
-                input.input.publication-year[type='number'
-                  placeholder=(t('simple_form.placeholders.edition.publication_year'))
-                  v-model='edition.publication_year'
-                ]
-                = '. - '
-                input.input.pages-count[type='number'
-                  placeholder=(t('simple_form.placeholders.edition.pages_count'))
-                  v-model='edition.pages_count'
-                ]
-                = ' с.'
-
-              .field.annotation
-                textarea.textarea[placeholder=(t('simple_form.placeholders.edition.annotation'))
-                  v-model='edition.annotation'
-                ]
-
-              .field.isbn
-                => 'ISBN'
-                input.input[type='text'
-                  placeholder=(t('simple_form.placeholders.edition.isbn'))
-                  v-model='edition.isbn'
-                ]
-
-              .field.select.category
+            .field.edition-info-line
+              .select.category
                 = select_tag nil,
                     options_for_category_select,
-                    prompt: t('simple_form.placeholders.edition.category'),
+                    placeholder: t('simple_form.placeholders.edition.category'),
                     include_blank: false,
                     'v-model' => 'edition.category.code'
+              = '. - '
+              input.input.publisher[type='text'
+                placeholder=(t('simple_form.placeholders.edition.publisher'))
+                v-model='edition.publisher.name'
+                data-publisher-autocomplete=(true)
+              ]
+              = ', '
+              input.input.publication-year[type='number'
+                placeholder=(t('simple_form.placeholders.edition.publication_year'))
+                v-model='edition.publication_year'
+              ]
+              = '. - '
+              input.input.pages-count[type='number'
+                placeholder=(t('simple_form.placeholders.edition.pages_count'))
+                v-model='edition.pages_count'
+              ]
+              = ' с.'
 
-            .form-controls
-              input.button.is-primary type='submit' value=(t('helpers.submit.create'))
-              a.button.cancel-link v-if='edition.id' @click='showEditionDetails(edition)'
-                = t('helpers.cancel')
+            .field.annotation
+              textarea.textarea[placeholder=(t('simple_form.placeholders.edition.annotation'))
+                v-model='edition.annotation'
+              ]
+
+            .field.isbn
+              => 'ISBN'
+              input.input[type='text'
+                placeholder=(t('simple_form.placeholders.edition.isbn'))
+                v-model='edition.isbn'
+              ]
+
+        .form-controls
+          input.button.is-primary type='submit' value=(t('helpers.submit.create'))
+          a.button.cancel-link v-if='edition.id' @click='showEditionDetails(edition)'
+            = t('helpers.cancel')
 
     button.modal-close @click='close'
