@@ -57,11 +57,6 @@
               => t('editions.count')
               span.editions-count-value v-html='editionsCount'
               => '.'
-              template v-if='selectionMode'
-                a.stop-select-editions @click='stopSelectingEdition' = t('editions.stop_select')
-              template v-else=(true)
-                a.select-editions @click='startSelectingEdition' = t('editions.select')
-              =<> '/'
               a.add-new-edition @click='addNewEdition' = t('editions.add_new')
 
           categories-tabs

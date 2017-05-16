@@ -67,7 +67,8 @@ window.Store = new Vuex.Store
       state.selectionMode = false
 
     clearSelectedEditions: (state) ->
-      state.selectedEditions = []
+      state.selectedEditionIds.splice(0, state.selectedEditionIds.length)
+      Store.commit('stopSelectingEditions')
 
 
     setAuthors: (state, authors) ->
