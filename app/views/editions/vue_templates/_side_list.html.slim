@@ -46,7 +46,7 @@ script#side_list_template type='text/x-document'
         tr :class='{"is-active": currentItemIs(null)}' v-if='!creationMode && !searchMode'
           td
             a.name @click='select(null)'
-              | Любой
+              = t('side_block.any')
 
         tr v-for='item in filteredItems' :class='{"is-active": currentItemIs(item)}' :key='item.id'
           template v-if='item != editedItem'

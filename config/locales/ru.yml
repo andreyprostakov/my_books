@@ -13,7 +13,7 @@ ru:
       mark_as_read: Отметить как прочитанную
       mark_as_not_read: Отметить как непрочитанную
   categories:
-    all_categories: Все издания
+    all_categories: Все
     fiction: Беллетристика
     non_fiction: Документалистика
     comics: Комиксы
@@ -25,6 +25,7 @@ ru:
     select: Выбрать
     stop_select: Отменить выбор
     count: 'Книг:'
+    pages_symbol: 'с.'
     attributes:
       author: Автор
       category: Категория
@@ -42,9 +43,22 @@ ru:
     index: Издательства
     one: Издательство
     add_new: Добавить издательство
+  selected_editions:
+    count: 'Выбрано:'
+    select_shown: Выбрать показанные
+    deselect_shown: Убрать показанные
+    deselect_all: Убрать все
+    status_read:
+      label: Статус
+      read: Прочитано
+      not_read: Не прочитано
+    category: Категория
+    publisher: Издательство
+    apply_updates: Применить
   side_block:
     search: Поиск
     create: Новая запись
+    any: Любой
   status:
     nothing_here: Пусто
   title: Книги

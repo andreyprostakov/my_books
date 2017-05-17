@@ -1,36 +1,46 @@
 script#selected_editions_template type='text/x-document'
   #selected_editions.side-block
     .side-block-heading
-      => 'Выбрано:'
+      => t('selected_editions.count')
       span v-html='editionIds.length'
-      a.button.selected-editions-toggle-mode-link :class='{"is-primary": !selectionMode}' @click='toggleSelectionMode'
-        = 'Добавить'
 
-    .side-block-content v-show='editionIds.length > 0'
-      .selected-editions-actions
-        .selected-editions-action.selected-editions-action-read-status
-          label
-            | Статус
+      .actions
+        a.grey[v-if='!selectionMode' @click='toggleSelectionMode']
+          i.fa.fa-chevron-circle-down
+        a[v-else @click='toggleSelectionMode']
+          i.fa.fa-chevron-circle-up
+
+    .side-block-content v-show='selectionMode'
+      .selection-actions
+        a.selection-action @click='selectFilteredEditions' = t('selected_editions.select_shown')
+        a.selection-action @click='deselectFilteredEditions' = t('selected_editions.deselect_shown')
+        a.selection-action @click='clearSelection' = t('selected_editions.deselect_all')
+
+      .selected-editions-update-form
+        .field.selected-editions-read-status
+          label = t('selected_editions.status_read.label')
           .select
             select v-model='read'
               option
-              option value='true' = 'Прочитано'
-              option value='false' = 'Не прочитано'
+              option value='true' = t('selected_editions.status_read.read')
+              option value='false' = t('selected_editions.status_read.not_read')
 
-        .selected-editions-action.selected-editions-action-category
-          label
-            | Категория
+        .field.selected-editions-category
+          label = t('selected_editions.category')
           .select
             = select_tag nil,
               options_for_category_select,
               include_blank: true,
               'v-model' => 'category.code'
 
-        .selected-editions-action.selected-editions-action-publisher
-          label
-            | Издательство
+        .field.selected-editions-publisher
+          label = t('selected_editions.publisher')
           input.input data-publisher-autocomplete=(true) v-model='publisher.name'
 
-        .selected-editions-action.selected-editions-action-submit
-          a.button.cancel-link @click='clearSelection' = 'Снять выделение'
-          input.button.is-primary type='submit' value='Применить' @click='submitUpdates'
+        .field.selected-editions-updates-submit
+          input.button.is-primary[
+            type='submit'
+            @click='submitUpdates'
+            :disabled='editionIds.length == 0'
+            value=(t('selected_editions.apply_updates'))
+          ]

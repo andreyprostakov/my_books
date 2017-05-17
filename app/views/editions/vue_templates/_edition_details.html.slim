@@ -38,7 +38,7 @@ script#edition_details_template type='text/x-document'
             span v-html='edition.publication_year'
             = '. - '
             span v-html='edition.pages_count'
-            = ' с.'
+            =< t('editions.pages_symbol')
 
           .annotation
             span v-html='annotation'

@@ -37,6 +37,12 @@ Vue.component 'selected-editions',
     clearSelection: ->
       @$store.commit('clearSelectedEditions')
 
+    selectFilteredEditions: ->
+      @$store.commit('selectFilteredEditions')
+
+    deselectFilteredEditions: ->
+      @$store.commit('deselectFilteredEditions')
+
     submitUpdates: ->
       @sendUpdates(
         read: @read

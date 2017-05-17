@@ -57,7 +57,7 @@ window.Store = new Vuex.Store
       state.selectionMode = true
 
     addEditionToSelection: (state, edition) ->
-      state.selectedEditionIds.splice(0, 0, edition.id)
+      state.selectedEditionIds.push(edition.id)
 
     removeEditionFromSelection: (state, edition) ->
       index = state.selectedEditionIds.indexOf(edition.id)
@@ -68,7 +68,15 @@ window.Store = new Vuex.Store
 
     clearSelectedEditions: (state) ->
       state.selectedEditionIds.splice(0, state.selectedEditionIds.length)
-      Store.commit('stopSelectingEditions')
+
+    selectFilteredEditions: (state) ->
+      _.each Store.getters.filteredEditions, (edition) =>
+        state.selectedEditionIds.push(edition.id)
+
+    deselectFilteredEditions: (state) ->
+      _.each Store.getters.filteredEditions, (edition) =>
+        index = state.selectedEditionIds.indexOf(edition.id)
+        state.selectedEditionIds.splice(index, 1)
 
 
     setAuthors: (state, authors) ->

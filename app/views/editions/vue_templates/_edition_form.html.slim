@@ -66,7 +66,7 @@ script#edition_form_template type='text/x-document'
                 placeholder=(t('simple_form.placeholders.edition.pages_count'))
                 v-model='edition.pages_count'
               ]
-              = ' с.'
+              =< t('editions.pages_symbol')
 
             .field.annotation
               textarea.textarea[placeholder=(t('simple_form.placeholders.edition.annotation'))
