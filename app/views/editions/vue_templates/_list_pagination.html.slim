@@ -1,20 +1,22 @@
-script#list_pagination_template type='text/x-document'
-  nav.pagination.is-centered v-if='shouldBeShown'
+script#list_pagination_template[type='text/x-document']
+  nav.pagination.is-centered[v-if='shouldBeShown']
     ul.pagination-list
-      template v-if='linkToFirstPageShouldBeShown'
+      template[v-if='linkToFirstPageShouldBeShown']
         li
-          a.pagination-link @click='goToPage(1)'
+          a.pagination-link[@click='goToPage(1)']
             | 1
+      template[v-if='startEllipsisShouldBeShown']
         li
           .pagination-ellipsis &hellip;
-      li v-if='previousPage'
-        a.pagination-link @click='goToPage(previousPage)' v-html='previousPage'
+      li[v-if='previousPage']
+        a.pagination-link[@click='goToPage(previousPage)' v-html='previousPage']
       li
-        a.pagination-link.is-current @click='goToPage(page)' v-html='page'
-      li v-if='nextPage'
-        a.pagination-link @click='goToPage(nextPage)' v-html='nextPage'
-      template v-if='linkToLastPageShouldBeShown'
+        a.pagination-link.is-current[@click='goToPage(page)' v-html='page']
+      li[v-if='nextPage']
+        a.pagination-link[@click='goToPage(nextPage)' v-html='nextPage']
+      template[v-if='endEllipsisShouldBeShown']
         li
           .pagination-ellipsis &hellip;
+      template[v-if='linkToLastPageShouldBeShown']
         li
-          a.pagination-link @click='goToPage(lastPage)' v-html='lastPage'
+          a.pagination-link[@click='goToPage(lastPage)' v-html='lastPage']

@@ -1,9 +1,17 @@
-script#editions_list_template type='text/x-document'
+script#editions_list_template[type='text/x-document']
   #editions_list.columns.is-multiline.is-gapless
-    .edition.column.is-2 v-for='edition in editions'
-      .edition-preview :class='{"read": edition.read}'
-        .edition-preview-cover @click='selectEdition(edition)'
-          img :src='edition.cover_url'
+    .edition.column.is-2[v-for='edition in editions']
+      .edition-preview[:class='{"read": edition.read}']
+        .edition-preview-selection-indicator[
+          v-if='selectionMode'
+          @click='toggleEditionFromSelection(edition)'
+        ]
+          template[v-if='editionIsSelected(edition)']
+            i.fa.fa-check-circle
+          template[v-else]
+            i.fa.fa-circle-o
+        .edition-preview-cover[@click='selectEdition(edition)']
+          img[:src='edition.cover_url']
 
     .editions-pagination.column.is-12
       list-pagination

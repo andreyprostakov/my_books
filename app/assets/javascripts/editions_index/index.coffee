@@ -4,14 +4,15 @@ Vue.component 'editions-index',
     @$watch 'currentOrder', @loadEditions
     @$watch 'author', @loadEditions
     @$watch 'publisher', @loadEditions
+    EventsDispatcher.$on 'reloadEditions', =>
+      @loadEditions()
 
   computed: Vuex.mapState
     editions: 'editions'
-    currentOrder: 'editionsOrder'
     author: 'author'
-    publisher: 'publisher',
-    category: 'category',
-    openedEdition: 'openedEdition'
+    publisher: 'publisher'
+    category: 'category'
+    currentOrder: 'editionsOrder'
     routes: -> Routes
 
     editionsCount: ->

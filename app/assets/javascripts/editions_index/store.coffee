@@ -2,6 +2,8 @@ window.Store = new Vuex.Store
   state:
     editions: []
     selectedEdition: null
+    selectionMode: false
+    selectedEditionIds: []
     openedEdition: null
     editionsOrder: null
     authors: []
@@ -28,6 +30,8 @@ window.Store = new Vuex.Store
       _.map state.publishers, 'name'
 
   mutations:
+    # Editions
+
     setEditions: (state, editions) ->
       state.editions = editions
 
@@ -47,10 +51,39 @@ window.Store = new Vuex.Store
     setEditionsOrder: (state, order) ->
       state.editionsOrder = order
 
+    # Pages
 
     setPage: (state, page) ->
       state.page = page
 
+    # SelectionMode, SelectedEditionIds
+
+    startSelectingEditions: (state) ->
+      state.selectionMode = true
+
+    addEditionToSelection: (state, edition) ->
+      state.selectedEditionIds.push(edition.id)
+
+    removeEditionFromSelection: (state, edition) ->
+      index = state.selectedEditionIds.indexOf(edition.id)
+      state.selectedEditionIds.splice(index, 1)
+
+    stopSelectingEditions: (state) ->
+      state.selectionMode = false
+
+    clearSelectedEditions: (state) ->
+      state.selectedEditionIds.splice(0, state.selectedEditionIds.length)
+
+    selectFilteredEditions: (state) ->
+      _.each Store.getters.filteredEditions, (edition) =>
+        state.selectedEditionIds.push(edition.id)
+
+    deselectFilteredEditions: (state) ->
+      _.each Store.getters.filteredEditions, (edition) =>
+        index = state.selectedEditionIds.indexOf(edition.id)
+        state.selectedEditionIds.splice(index, 1) if index >= 0
+
+    # Authors
 
     setAuthors: (state, authors) ->
       state.authors = authors
@@ -72,6 +105,7 @@ window.Store = new Vuex.Store
     removeAuthor: (state, author) ->
       state.authors.splice(state.authors.indexOf(author), 1)
 
+    # Publishers
 
     setPublishers: (state, publishers) ->
       state.publishers = publishers
@@ -93,6 +127,7 @@ window.Store = new Vuex.Store
     removePublisher: (state, publisher) ->
       state.publishers.splice(state.publishers.indexOf(publisher), 1)
 
+    # Categories
 
     setCategory: (state, category) ->
       state.category = category

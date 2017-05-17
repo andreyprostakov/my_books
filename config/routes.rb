@@ -5,5 +5,7 @@ Rails.application.routes.draw do
 
   resources :editions, except: %i(new edit)
 
+  resource :editions_batch, only: :update
+
   resources :publishers, except: %i(show new edit)
 end

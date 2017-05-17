@@ -1,48 +1,48 @@
-script#edition_details_template type='text/x-document'
-  #edition_details v-if='edition' data-edition-details=(true)
-    .book-like :class='{"is-active": canBeShown}' data-edition-details-content=(true)
+script#edition_details_template[type='text/x-document']
+  #edition_details[v-if='edition' data-edition-details]
+    .book-like[:class='{"is-active": canBeShown}' data-edition-details-content]
       .left-cover-page
         .left-page.info-page
           .attribute.page-header
-            template v-if='edition.title'
-              .header-edition-title v-html='edition.title'
+            template[v-if='edition.title']
+              .header-edition-title[v-html='edition.title']
               .header-authors
-                template v-for='(author, i) in edition.authors'
-                  a @click='switchToAuthor(author)' v-html='author.name'
-                  template v-if='i != (edition.authors.length - 1)'
+                template[v-for='(author, i) in edition.authors']
+                  a[@click='switchToAuthor(author)' v-html='author.name']
+                  template[v-if='i != (edition.authors.length - 1)']
                     = ', '
             template[v-else v-for='booksByAuthor in booksByAuthors']
               .header-authors
-                template v-for='(author, i) in booksByAuthor.authors'
-                  a @click='switchToAuthor(author)' v-html='author.name'
-                  template v-if='i != (booksByAuthor.authors.length - 1)'
+                template[v-for='(author, i) in booksByAuthor.authors']
+                  a[@click='switchToAuthor(author)' v-html='author.name']
+                  template[v-if='i != (booksByAuthor.authors.length - 1)']
                     = ', '
-              .header-book-title v-for='book in booksByAuthor.books'
-                span v-html='book.title'
+              .header-book-title[v-for='book in booksByAuthor.books']
+                span[v-html='book.title']
 
       .right-cover-page
         .right-page.info-page
 
           .attribute.edition-meta-info
-            span v-html='bookTitles'
+            span[v-html='bookTitles']
             = ' : '
-            a @click='switchToCategory(edition.category)' v-html='edition.category.name.toLowerCase()'
+            a[@click='switchToCategory(edition.category)' v-html='edition.category.name.toLowerCase()']
             = ' / '
-            template v-for='(author, i) in edition.authors'
-              span v-html='author.name'
-              template v-if='i != (edition.authors.length - 1)'
+            template[v-for='(author, i) in edition.authors']
+              span[v-html='author.name']
+              template[v-if='i != (edition.authors.length - 1)']
                 = ', '
             = '. - '
-            a @click='switchToPublisher(edition.publisher)' v-html='edition.publisher.name'
+            a[@click='switchToPublisher(edition.publisher)' v-html='edition.publisher.name']
             = ', '
-            span v-html='edition.publication_year'
+            span[v-html='edition.publication_year']
             = '. - '
-            span v-html='edition.pages_count'
-            = ' с.'
+            span[v-html='edition.pages_count']
+            =< t('editions.pages_symbol')
 
           .annotation
-            span v-html='annotation'
+            span[v-html='annotation']
 
-          .attribute v-if='edition.isbn'
+          .attribute[v-if='edition.isbn']
             => 'ISBN'
-            span v-html='edition.isbn'
+            span[v-html='edition.isbn']

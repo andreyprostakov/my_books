@@ -1,28 +1,28 @@
-script#edition_form_template type='text/x-document'
-  .modal :class='{"is-active": canBeShown}'
+script#edition_form_template[type='text/x-document']
+  .modal[:class='{"is-active": canBeShown}']
     .modal-background
     #edition_form.modal-content
-      form @submit.prevent='submit' v-if='edition'
+      form[@submit.prevent='submit' v-if='edition']
 
         .input-fields
           .books
-            .field.edition-title v-if='canShowEditionTitleInput'
+            .field.edition-title[v-if='canShowEditionTitleInput']
               input.input[type='text'
                 placeholder=(t('simple_form.placeholders.edition.title'))
                 v-model='edition.title'
               ]
 
-            template v-for='book in edition.books'
+            template[v-for='book in edition.books']
               .field.author
-                template v-for='author, authorIndex in book.authors'
+                template[v-for='author, authorIndex in book.authors']
                   input.input[type='text'
                     placeholder=(t('simple_form.placeholders.edition.books.author'))
                     v-model='book.authors[authorIndex].name'
                     data-author-autocomplete=(true)
                   ]
-                  a.link-remove-author @click='removeAuthor(book, authorIndex)'
+                  a.link-remove-author[@click='removeAuthor(book, authorIndex)']
                     i.fa.fa-times
-                a.link-add-author v-if='canAddAuthorToBook(book)' @click='addAuthor(book)'
+                a.link-add-author[v-if='canAddAuthorToBook(book)' @click='addAuthor(book)']
                   i.fa.fa-plus
 
               .field.title
@@ -30,13 +30,13 @@ script#edition_form_template type='text/x-document'
                   placeholder=(t('simple_form.placeholders.edition.books.title'))
                   v-model='book.title'
                 ]
-                a.link-remove-book @click='removeBook(book)'
+                a.link-remove-book[@click='removeBook(book)']
                   i.fa.fa-times
-            a.link-add-book @click='addBook'
+            a.link-add-book[@click='addBook']
               i.fa.fa-plus
 
           .edition-form-edition-info
-            .cover v-if='coverUrl' :style='coverStyle'
+            .cover[v-if='coverUrl' :style='coverStyle']
             .field.cover-url
               input.input[type='text'
                 placeholder=(t('simple_form.placeholders.edition.remote_cover_url'))
@@ -66,7 +66,7 @@ script#edition_form_template type='text/x-document'
                 placeholder=(t('simple_form.placeholders.edition.pages_count'))
                 v-model='edition.pages_count'
               ]
-              = ' с.'
+              =< t('editions.pages_symbol')
 
             .field.annotation
               textarea.textarea[placeholder=(t('simple_form.placeholders.edition.annotation'))
@@ -81,8 +81,8 @@ script#edition_form_template type='text/x-document'
               ]
 
         .form-controls
-          input.button.is-primary type='submit' value=(t('helpers.submit.create'))
-          a.button.cancel-link v-if='edition.id' @click='showEditionDetails(edition)'
+          input.button.is-primary[type='submit' value=(t('helpers.submit.create'))]
+          a.button.cancel-link[v-if='edition.id' @click='showEditionDetails(edition)']
             = t('helpers.cancel')
 
-    button.modal-close @click='close'
+    button.modal-close[@click='close']

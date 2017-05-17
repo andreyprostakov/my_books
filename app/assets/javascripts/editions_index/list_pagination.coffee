@@ -11,6 +11,12 @@ Vue.component 'list-pagination',
     linkToFirstPageShouldBeShown: ->
       @page > 2
 
+    startEllipsisShouldBeShown: ->
+      @page > 3
+
+    endEllipsisShouldBeShown: ->
+      @page < (@lastPage - 2)
+
     linkToLastPageShouldBeShown: ->
       @page < (@lastPage - 1)
 

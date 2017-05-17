@@ -1,0 +1,49 @@
+script#selected_editions_template[type='text/x-document']
+  #selected_editions.side-block
+    .side-block-heading
+      => t('selected_editions.count')
+      span[v-html='editionIds.length']
+
+      .actions
+        a.grey[v-if='!selectionMode' @click='toggleSelectionMode']
+          i.fa.fa-chevron-circle-down
+        a[v-else @click='toggleSelectionMode']
+          i.fa.fa-chevron-circle-up
+
+    .side-block-content[v-show='selectionMode']
+      .selection-actions
+        a.selection-action[@click='selectFilteredEditions']
+          = t('selected_editions.select_shown')
+        a.selection-action[@click='deselectFilteredEditions']
+          = t('selected_editions.deselect_shown')
+        a.selection-action[@click='clearSelection']
+          = t('selected_editions.deselect_all')
+
+      .selected-editions-update-form
+        .field.selected-editions-read-status
+          label = t('selected_editions.status_read.label')
+          .select
+            select[v-model='updates.read']
+              option
+              option[value='true'] = t('selected_editions.status_read.read')
+              option[value='false'] = t('selected_editions.status_read.not_read')
+
+        .field.selected-editions-category
+          label = t('selected_editions.category')
+          .select
+            = select_tag nil,
+              options_for_category_select,
+              include_blank: true,
+              'v-model' => 'updates.category.code'
+
+        .field.selected-editions-publisher
+          label = t('selected_editions.publisher')
+          input.input[data-publisher-autocomplete v-model='updates.publisher.name']
+
+        .field.selected-editions-updates-submit
+          input.button.is-primary[
+            type='submit'
+            @click='submitUpdates'
+            :disabled='editionIds.length == 0'
+            value=(t('selected_editions.apply_updates'))
+          ]

@@ -3,6 +3,8 @@
   background-color: whitesmoke;
   color: #4a4a4a;
   border: 1px solid #dbdbdb;
+  max-height: 150px;
+  overflow: auto;
 
   .ui-state-focus, .ui-state-active {
     background-color: #4a4a4a;
