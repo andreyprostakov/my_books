@@ -30,6 +30,8 @@ window.Store = new Vuex.Store
       _.map state.publishers, 'name'
 
   mutations:
+    # Editions
+
     setEditions: (state, editions) ->
       state.editions = editions
 
@@ -49,9 +51,12 @@ window.Store = new Vuex.Store
     setEditionsOrder: (state, order) ->
       state.editionsOrder = order
 
+    # Pages
+
     setPage: (state, page) ->
       state.page = page
 
+    # SelectionMode, SelectedEditionIds
 
     startSelectingEditions: (state) ->
       state.selectionMode = true
@@ -76,8 +81,9 @@ window.Store = new Vuex.Store
     deselectFilteredEditions: (state) ->
       _.each Store.getters.filteredEditions, (edition) =>
         index = state.selectedEditionIds.indexOf(edition.id)
-        state.selectedEditionIds.splice(index, 1)
+        state.selectedEditionIds.splice(index, 1) if index >= 0
 
+    # Authors
 
     setAuthors: (state, authors) ->
       state.authors = authors
@@ -99,6 +105,7 @@ window.Store = new Vuex.Store
     removeAuthor: (state, author) ->
       state.authors.splice(state.authors.indexOf(author), 1)
 
+    # Publishers
 
     setPublishers: (state, publishers) ->
       state.publishers = publishers
@@ -120,6 +127,7 @@ window.Store = new Vuex.Store
     removePublisher: (state, publisher) ->
       state.publishers.splice(state.publishers.indexOf(publisher), 1)
 
+    # Categories
 
     setCategory: (state, category) ->
       state.category = category

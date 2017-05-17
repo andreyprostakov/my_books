@@ -43,21 +43,24 @@
 
         template
           #current_selection_info
-            template v-if='author'
+            template[v-if='author']
               .type
                 = t('authors.one')
                 | :
-              .value v-html='author'
-            template v-if='publisher'
+              .value[v-html='author']
+
+            template[v-if='publisher']
               .type
                 = t('publishers.one')
                 | :
-              .value v-html='publisher'
+              .value[v-html='publisher']
+
             .editions-count
               => t('editions.count')
-              span.editions-count-value v-html='editionsCount'
+              span.editions-count-value[v-html='editionsCount']
               => '.'
-              a.add-new-edition @click='addNewEdition' = t('editions.add_new')
+              a.add-new-edition[@click='addNewEdition']
+                = t('editions.add_new')
 
           categories-tabs
 

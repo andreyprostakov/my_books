@@ -12,6 +12,7 @@ Vue.component 'editions-index',
     author: 'author'
     publisher: 'publisher'
     category: 'category'
+    currentOrder: 'editionsOrder'
     routes: -> Routes
 
     editionsCount: ->
