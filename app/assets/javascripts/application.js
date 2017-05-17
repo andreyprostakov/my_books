@@ -13,12 +13,13 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require jquery.tagsinput
 //= require cocoon
 //= require js-routes
 //= require vue@2.2.4
 //= require vuex@2.2.1
 //= require underscore
 //= require autolink-min
+//= require spin.min
+//= require jquery.spin
 //
 //= require edition_form

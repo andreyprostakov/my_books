@@ -23,7 +23,9 @@ Vue.component 'editions-index',
       @editions.filter((e) => e.category.code == categoryCode)
 
     loadEditions: ->
+      $('#editions_list').spin()
       DataRefresher.loadEditions(@$store).then (editions) =>
+        $('#editions_list').spin(false)
         @$store.commit('setEditions', editions)
 
     addNewEdition: ->
