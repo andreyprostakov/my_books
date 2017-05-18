@@ -1,8 +1,10 @@
 Vue.component 'selected-edition',
   template: '#selected_edition_template'
 
+  data: ->
+    edition: null
+
   computed: Vuex.mapState
-    edition: 'selectedEdition'
     openedEdition: 'openedEdition'
     editionIsOpened: ->
       @openedEdition && (@edition.id == @openedEdition.id)
@@ -10,8 +12,10 @@ Vue.component 'selected-edition',
 
   mounted: ->
     EventsDispatcher.$on 'selectEdition', (edition) =>
-      @$store.commit('setSelectedEdition', edition)
-      @openEdition()
+      DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>
+        @edition =  detailedEdition
+        @$store.commit('setSelectedEditionId', @edition)
+        @openEdition()
 
   methods:
     editEdition: ->

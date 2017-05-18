@@ -149,3 +149,8 @@ Vue.component 'side-list',
         element = @$refs[ref]
         element = element[0] || element
         element.focus() if element
+
+    urlForItem: (item) ->
+      params = {}
+      params[@selectedItemName + '_name'] = item.name
+      Routes.root_path(params)

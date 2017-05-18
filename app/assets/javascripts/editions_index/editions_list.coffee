@@ -6,6 +6,7 @@ Vue.component 'editions-list',
       @$store.getters.currentPageEditions
     selectionMode: 'selectionMode'
     selectedEditionIds: 'selectedEditionIds'
+    routes: -> Routes
 
   methods:
     show: ->

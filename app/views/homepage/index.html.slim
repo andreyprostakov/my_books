@@ -4,7 +4,13 @@
 = render 'editions/vue_templates'
 
 #editions_index
-  editions-index[inline-template]
+  editions-index[
+    inline-template
+    initial-selected-edition-id=(params[:edition_id])
+    initial-author-name=(params[:author_name])
+    initial-publisher-name=(params[:publisher_name])
+    initial-category-code=(params[:category_code])
+  ]
     div.columns.is-multiline
       .page-left-column.column.is-3
         selected-edition

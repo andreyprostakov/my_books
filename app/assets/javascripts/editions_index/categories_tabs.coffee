@@ -4,6 +4,8 @@ Vue.component 'categories-tabs',
   computed: Vuex.mapState
     currentCategory: 'category'
     editions: 'editions'
+    author: 'author'
+    publisher: 'publisher'
 
   methods:
     switchToCategory: (categoryCode) ->
@@ -17,3 +19,10 @@ Vue.component 'categories-tabs',
 
     anyEditionsOfCategory: (categoryToCheck) ->
       !!@editionsOfCategory(categoryToCheck).length
+
+    urlForCategory: (categoryCode) ->
+      Routes.root_path(
+        author_name: @author,
+        publisher_name: @publisher,
+        category_code: categoryCode
+      )

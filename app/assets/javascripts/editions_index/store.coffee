@@ -1,7 +1,7 @@
 window.Store = new Vuex.Store
   state:
     editions: []
-    selectedEdition: null
+    selectedEditionId: null
     selectionMode: false
     selectedEditionIds: []
     openedEdition: null
@@ -35,8 +35,8 @@ window.Store = new Vuex.Store
     setEditions: (state, editions) ->
       state.editions = editions
 
-    setSelectedEdition: (state, edition) ->
-      state.selectedEdition = edition
+    setSelectedEditionId: (state, id) ->
+      state.selectedEditionId = id
 
     setOpenedEdition: (state, edition) ->
       state.openedEdition = edition

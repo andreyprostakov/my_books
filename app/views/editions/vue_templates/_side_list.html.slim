@@ -51,7 +51,11 @@ script#side_list_template[type='text/x-document']
         tr[v-for='item in filteredItems' :class='{"is-active": currentItemIs(item)}' :key='item.id']
           template[v-if='item != editedItem']
             td
-              a.name[@click=('select(item)') v-html='item.name']
+              a.name[
+                :href='urlForItem(item)'
+                @click.prevent=('select(item)')
+                v-html='item.name'
+              ]
             td
               a.details.link-edit[@click='showEditInput(item)'] E
             td

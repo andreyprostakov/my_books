@@ -1,5 +1,14 @@
 Vue.component 'editions-index',
+  props: [
+    'initialSelectedEditionId',
+    'initialAuthorName',
+    'initialCategoryCode',
+    'initialPublisherName'
+  ]
+
   mounted: ->
+    @presetInitialFilters()
+
     @loadEditions()
     @$watch 'currentOrder', @loadEditions
     @$watch 'author', @loadEditions
@@ -19,6 +28,13 @@ Vue.component 'editions-index',
       @$store.getters.filteredEditions.length
 
   methods:
+    presetInitialFilters: ->
+      @$store.commit('setAuthor', @initialAuthorName) if @initialAuthorName
+      @$store.commit('setPublisher', @initialPublisherName) if @initialPublisherName
+      @$store.commit('setCategory', @initialCategoryCode) if @initialCategoryCode
+      if @initialSelectedEditionId
+        EventsDispatcher.$emit('selectEdition', id: @initialSelectedEditionId)
+
     editionsOfCategory: (categoryCode) ->
       @editions.filter((e) => e.category.code == categoryCode)
 
