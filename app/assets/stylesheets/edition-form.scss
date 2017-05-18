@@ -7,39 +7,55 @@
     width: 100%;
   }
 
+  .error {
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+    color: red;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 300;
+  }
+
   .input-fields {
     overflow: auto;
     box-sizing: border-box;
     padding: 10px;
 
-    .field.author {
+    .authors {
       text-align: center;
-      margin-bottom: 0;
 
-      input {
-        position: static;
-        width: 180px;
-        margin: 5px;
-        padding-right: 24px;
-        text-align: center;
-        font-family: Times New Roman;
-        font-size: 16px;
-        font-weight: bold;
-        color: #00d1b2;
-      }
-
-      .link-remove-author {
+      .field.author {
         display: inline-block;
-        color: darkgray;
-        margin: 5px 5px 5px -24px;
+        width: 190px;
+        vertical-align: top;
+        margin: 5px;
 
-        i {
+        input {
+          position: static;
+          width: calc(100% - 10px);
+          padding-right: 24px;
+          text-align: center;
+          font-family: Times New Roman;
           font-size: 16px;
-          line-height: 36px;
+          font-weight: bold;
+          color: #00d1b2;
         }
 
-        &:hover {
-          color: red;
+        .link-remove-author {
+          display: inline-block;
+          width: 10px;
+          color: darkgray;
+          margin: 0 0 0 -24px;
+
+          i {
+            font-size: 16px;
+            line-height: 36px;
+          }
+
+          &:hover {
+            color: red;
+          }
         }
       }
 
@@ -98,14 +114,23 @@
       color: #00d1b2;
     }
 
-    .field.edition-info-line {
+    .edition-info-line {
       line-height: 36px;
 
-      .select.category select {
-        width: 190px;
+      .field {
+        display: inline-block;
+        vertical-align: top;
       }
 
-      input.publisher {
+      .field.category {
+        width: 190px;
+
+        .select {
+          width: 100%;
+        }
+      }
+
+      .field.publisher {
         width:190px;
         font-family: Times New Roman;
         color: #00d1b2;
