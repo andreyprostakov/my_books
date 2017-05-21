@@ -57,7 +57,7 @@ Vue.component 'side-list',
     select: (item) ->
       @hideCreationInput()
       @hideEditInput()
-      @$store.commit('set' + @mutationItemName, (item || {name: null}).name)
+      @$store.commit('set' + @mutationItemName + 'Name', (item || {name: null}).name)
       @expand() if item
 
     expand: ->

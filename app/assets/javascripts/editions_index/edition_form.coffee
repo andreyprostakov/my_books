@@ -15,9 +15,12 @@ Vue.component 'edition-form',
         @show()
 
   computed: Vuex.mapState
-    preselectedAuthor: 'author'
-    preselectedPublisher: 'publisher'
-    preselectedCategory: 'category'
+    preselectedAuthor: ->
+      @$store.getters.authorName
+    preselectedPublisher: ->
+      @$store.getters.publisherName
+    preselectedCategory: ->
+      @$store.getters.categoryCode
 
     canBeShown: ->
       @enabled

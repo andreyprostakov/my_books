@@ -43,23 +43,25 @@
         ]
 
       .page-right-column.column.is-9
+        div v-html='pageState'
+
         edition-form
 
         edition-details
 
         template
           #current_selection_info
-            template[v-if='author']
+            template[v-if='authorName']
               .type
                 = t('authors.one')
                 | :
-              .value[v-html='author']
+              .value[v-html='authorName']
 
-            template[v-if='publisher']
+            template[v-if='publisherName']
               .type
                 = t('publishers.one')
                 | :
-              .value[v-html='publisher']
+              .value[v-html='publisherName']
 
             .editions-count
               => t('editions.count')

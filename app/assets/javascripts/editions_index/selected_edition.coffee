@@ -12,6 +12,10 @@ Vue.component 'selected-edition',
 
   mounted: ->
     EventsDispatcher.$on 'selectEdition', (edition) =>
+      if !edition.id
+        @$store.commit('setSelectedEditionId', null)
+        @$store.commit('setOpenedEdition', null)
+        return
       DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>
         @edition =  detailedEdition
         @$store.commit('setSelectedEditionId', @edition)

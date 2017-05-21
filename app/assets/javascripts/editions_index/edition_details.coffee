@@ -55,7 +55,7 @@ Vue.component 'edition-details',
       @$store.commit('setOpenedEdition', null)
 
     switchToAuthor: (author) ->
-      @$store.commit('setAuthor', author.name)
+      @$store.commit('setAuthorName', author.name)
       @close()
 
     switchToPublisher: (publisher) ->
@@ -63,5 +63,5 @@ Vue.component 'edition-details',
       @close()
 
     switchToCategory: (category) ->
-      @$store.commit('setCategory', category.code)
+      @$store.commit('setCategoryCode', category.code)
       @close()

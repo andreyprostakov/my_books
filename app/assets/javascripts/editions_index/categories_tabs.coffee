@@ -2,14 +2,14 @@ Vue.component 'categories-tabs',
   template: '#categories_tabs_template'
 
   computed: Vuex.mapState
-    currentCategory: 'category'
+    currentCategory: ->
+      @$store.getters.categoryCode
     editions: 'editions'
-    author: 'author'
-    publisher: 'publisher'
+    pageState: 'pageState'
 
   methods:
     switchToCategory: (categoryCode) ->
-      @$store.commit('setCategory', categoryCode)
+      @$store.commit('setCategoryCode', categoryCode)
 
     currentCategoryIs: (categoryToCheck) ->
       @currentCategory == categoryToCheck
@@ -21,8 +21,5 @@ Vue.component 'categories-tabs',
       !!@editionsOfCategory(categoryToCheck).length
 
     urlForCategory: (categoryCode) ->
-      Routes.root_path(
-        author_name: @author,
-        publisher_name: @publisher,
-        category_code: categoryCode
-      )
+      @pageState.changedStateUrl
+        categoryCode: categoryCode

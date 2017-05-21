@@ -28,7 +28,7 @@ Vue.component 'editions-list',
       _.contains @selectedEditionIds, edition.id
 
     switchToAuthor: (author) ->
-      @$store.commit('setAuthor', author.name)
+      @$store.commit('setAuthorName', author.name)
       @close()
 
     editionsCount: ->

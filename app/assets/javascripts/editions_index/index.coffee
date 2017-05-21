@@ -11,17 +11,19 @@ Vue.component 'editions-index',
 
     @loadEditions()
     @$watch 'currentOrder', @loadEditions
-    @$watch 'author', @loadEditions
-    @$watch 'publisher', @loadEditions
+    @$watch 'authorName', @loadEditions
+    @$watch 'publisherName', @loadEditions
     EventsDispatcher.$on 'reloadEditions', =>
       @loadEditions()
 
   computed: Vuex.mapState
     editions: 'editions'
-    author: 'author'
-    publisher: 'publisher'
-    category: 'category'
+    authorName: ->
+      @$store.getters.authorName
+    publisherName: ->
+      @$store.getters.publisherName
     currentOrder: 'editionsOrder'
+    pageState: 'pageState'
     routes: -> Routes
 
     editionsCount: ->
@@ -29,11 +31,11 @@ Vue.component 'editions-index',
 
   methods:
     presetInitialFilters: ->
-      @$store.commit('setAuthor', @initialAuthorName) if @initialAuthorName
-      @$store.commit('setPublisher', @initialPublisherName) if @initialPublisherName
-      @$store.commit('setCategory', @initialCategoryCode) if @initialCategoryCode
-      if @initialSelectedEditionId
-        EventsDispatcher.$emit('selectEdition', id: @initialSelectedEditionId)
+      @pageState.setState
+        authorName: @initialAuthorName,
+        publisherName: @initialPublisherName
+        categoryCode: @initialCategoryCode
+        edition_id: @initialSelectedEditionId
 
     editionsOfCategory: (categoryCode) ->
       @editions.filter((e) => e.category.code == categoryCode)
