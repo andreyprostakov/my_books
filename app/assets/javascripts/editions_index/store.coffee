@@ -1,10 +1,9 @@
 window.Store = new Vuex.Store
   state:
     editions: []
-    selectedEditionId: null
     selectionMode: false
     selectedEditionIds: []
-    openedEdition: null
+    selectedEditionId: null
     editionsOrder: null
     authors: []
     publishers: []
@@ -20,6 +19,9 @@ window.Store = new Vuex.Store
     currentPageEditions: (state, getters) ->
       startIndex = state.pageSize * (state.page - 1)
       getters.filteredEditions.slice startIndex, startIndex + state.pageSize
+
+    openedEditionId: (state) ->
+      state.pageState.state.editionId
 
     authorName: (state) ->
       state.pageState.state.authorName
@@ -44,9 +46,10 @@ window.Store = new Vuex.Store
 
     setSelectedEditionId: (state, id) ->
       state.selectedEditionId = id
+      state.pageState.goToEdition(id: id)
 
-    setOpenedEdition: (state, edition) ->
-      state.openedEdition = edition
+    setOpenedEditionId: (state, id) ->
+      state.pageState.goToEdition(id: id)
 
     addEdition: (state, edition) ->
       state.editions.splice(0, 0, edition)
@@ -96,11 +99,7 @@ window.Store = new Vuex.Store
       state.authors = authors
 
     setAuthorName: (state, authorName) ->
-      state.pageState.changeState
-        publisherName: null
-        authorName: authorName
-        categoryCode: null
-        editionId: null
+      state.pageState.goToAuthor(authorName)
       state.page = 1
 
     addAuthor: (state, newAuthor) ->
@@ -119,11 +118,7 @@ window.Store = new Vuex.Store
       state.publishers = publishers
 
     setPublisherName: (state, publisherName) ->
-      state.pageState.changeState
-        publisherName: publisherName
-        authorName: null
-        categoryCode: null
-        editionId: null
+      state.pageState.goToPublisher(publisherName)
       state.page = 1
 
     addPublisher: (state, newPublisher) ->
@@ -138,10 +133,6 @@ window.Store = new Vuex.Store
 
     # Categories
 
-    setCategory: (state, category) ->
-      state.category = category
-      state.page = 1
-
     setCategoryCode: (state, categoryCode) ->
-      state.pageState.changeState(categoryCode: categoryCode)
+      state.pageState.goToCategory(code: categoryCode)
       state.page = 1

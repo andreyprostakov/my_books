@@ -11,7 +11,7 @@ script#editions_list_template[type='text/x-document']
           template[v-else]
             i.fa.fa-circle-o
         a.edition-preview-cover[
-          :href="routes.root_path({edition_id: edition.id})"
+          :href="urlForEdition(edition)"
           @click.prevent='selectEdition(edition)'
         ]
           img[:src='edition.cover_url']

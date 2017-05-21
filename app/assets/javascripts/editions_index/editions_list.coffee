@@ -16,7 +16,7 @@ Vue.component 'editions-list',
       @enabled = false
 
     selectEdition: (edition) ->
-      EventsDispatcher.$emit('selectEdition', edition)
+      @$store.commit('setOpenedEditionId', edition.id)
 
     toggleEditionFromSelection: (edition) ->
       if @editionIsSelected(edition)
@@ -33,3 +33,6 @@ Vue.component 'editions-list',
 
     editionsCount: ->
       @editions.length
+
+    urlForEdition: (edition) ->
+      @$store.state.pageState.urlForEdition(edition)

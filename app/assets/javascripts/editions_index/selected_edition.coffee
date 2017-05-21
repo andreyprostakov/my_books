@@ -6,30 +6,32 @@ Vue.component 'selected-edition',
 
   computed: Vuex.mapState
     openedEdition: 'openedEdition'
+    selectedEditionId: 'selectedEditionId'
+    openedEditionId: ->
+      @$store.getters.openedEditionId
     editionIsOpened: ->
-      @openedEdition && (@edition.id == @openedEdition.id)
+      @selectedEditionId == @openedEditionId
     routes: -> Routes
 
   mounted: ->
-    EventsDispatcher.$on 'selectEdition', (edition) =>
-      if !edition.id
-        @$store.commit('setSelectedEditionId', null)
-        @$store.commit('setOpenedEdition', null)
-        return
-      DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>
-        @edition =  detailedEdition
-        @$store.commit('setSelectedEditionId', @edition)
-        @openEdition()
+    @$watch 'selectedEditionId', @refresh
 
   methods:
+    refresh: ->
+      if @selectedEditionId
+        DataRefresher.loadEditionDetails(id: @selectedEditionId).then (detailedEdition) =>
+          @edition = detailedEdition
+      else
+        @edition = null
+
     editEdition: ->
       EventsDispatcher.$emit('editEdition', @edition)
 
     openEdition: ->
-      EventsDispatcher.$emit('showEditionDetails', @edition)
+      @$store.commit('setOpenedEditionId', @selectedEditionId)
 
     closeEdition: ->
-      EventsDispatcher.$emit('hideEditionDetails')
+      @$store.commit('setOpenedEditionId', null)
 
     changeReadStatus: (edition) ->
       $.ajax(

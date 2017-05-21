@@ -131,4 +131,4 @@ Vue.component 'edition-form',
     showEditionDetails: (edition) ->
       @close()
       return unless edition.id
-      EventsDispatcher.$emit('selectEdition', edition)
+      @$store.commit('setSelectEditionId', edition.id)

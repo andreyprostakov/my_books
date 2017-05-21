@@ -23,7 +23,6 @@ Vue.component 'editions-index',
     publisherName: ->
       @$store.getters.publisherName
     currentOrder: 'editionsOrder'
-    pageState: 'pageState'
     routes: -> Routes
 
     editionsCount: ->
@@ -31,11 +30,11 @@ Vue.component 'editions-index',
 
   methods:
     presetInitialFilters: ->
-      @pageState.setState
+      @$store.state.pageState.setState
         authorName: @initialAuthorName,
         publisherName: @initialPublisherName
         categoryCode: @initialCategoryCode
-        edition_id: @initialSelectedEditionId
+        editionId: @initialSelectedEditionId
 
     editionsOfCategory: (categoryCode) ->
       @editions.filter((e) => e.category.code == categoryCode)

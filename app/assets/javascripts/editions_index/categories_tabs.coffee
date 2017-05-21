@@ -5,7 +5,6 @@ Vue.component 'categories-tabs',
     currentCategory: ->
       @$store.getters.categoryCode
     editions: 'editions'
-    pageState: 'pageState'
 
   methods:
     switchToCategory: (categoryCode) ->
@@ -21,5 +20,4 @@ Vue.component 'categories-tabs',
       !!@editionsOfCategory(categoryToCheck).length
 
     urlForCategory: (categoryCode) ->
-      @pageState.changedStateUrl
-        categoryCode: categoryCode
+      @$store.state.pageState.urlForCategory(code: categoryCode)

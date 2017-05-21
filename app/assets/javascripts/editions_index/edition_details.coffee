@@ -2,27 +2,21 @@ Vue.component 'edition-details',
   template: '#edition_details_template'
 
   data: ->
-    enabled: false
+    edition: null
 
   mounted: ->
-    EventsDispatcher.$on 'showEditionDetails', (edition) =>
-      DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>
-        @$store.commit('setOpenedEdition', detailedEdition)
-        @show()
-
-    EventsDispatcher.$on 'hideEditionDetails', =>
-      @close()
+    @$watch 'openedEditionId', @refresh
 
     Vue.nextTick =>
       $('body').on 'click', '[data-edition-details]', (event) =>
         if $(event.target).closest('[data-edition-details-content]').length == 0
-          @close()
+          @$store.commit('setOpenedEditionId', null)
 
   computed: Vuex.mapState
     editions: 'editions'
-    edition: 'openedEdition'
-    canBeShown: ->
-      @edition && @enabled
+
+    openedEditionId: ->
+      @$store.getters.openedEditionId
 
     annotation: ->
       @edition.annotation && @edition.annotation.autoLink(target: '_blank')
@@ -47,21 +41,19 @@ Vue.component 'edition-details',
 
 
   methods:
-    show: ->
-      @enabled = true
-
-    close: ->
-      @enabled = false
-      @$store.commit('setOpenedEdition', null)
+    refresh: ->
+      if @openedEditionId
+        @$store.commit('setSelectedEditionId', @openedEditionId)
+        DataRefresher.loadEditionDetails(id: @openedEditionId).then (detailedEdition) =>
+          @edition = detailedEdition
+      else
+        @edition = null
 
     switchToAuthor: (author) ->
       @$store.commit('setAuthorName', author.name)
-      @close()
 
     switchToPublisher: (publisher) ->
-      @$store.commit('setPublisher', publisher.name)
-      @close()
+      @$store.commit('setPublisherName', publisher.name)
 
     switchToCategory: (category) ->
       @$store.commit('setCategoryCode', category.code)
-      @close()
