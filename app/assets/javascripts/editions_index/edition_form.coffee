@@ -4,6 +4,7 @@ Vue.component 'edition-form',
   data: ->
     enabled: false
     edition: null
+    errors: {}
 
   mounted: ->
     EventsDispatcher.$on 'addNewEdition', =>
@@ -42,6 +43,7 @@ Vue.component 'edition-form',
 
   methods:
     show: ->
+      @clearErrors()
       @enabled = true
       @updateAuthorsAutocompletes()
       @updatePublisherAutocomplete()
@@ -55,8 +57,10 @@ Vue.component 'edition-form',
     addAuthor: (book) ->
       book.authors.push({})
 
-    removeAuthor: (book, authorIndex) ->
+    removeAuthor: (book, author) ->
+      authorIndex = book.authors.indexOf(author)
       book.authors.splice(authorIndex, 1)
+      @clearErrors(@authorErrorPath(book, author))
 
     updateAuthorsAutocompletes: ->
       Vue.nextTick =>
@@ -76,6 +80,7 @@ Vue.component 'edition-form',
     removeBook: (book) ->
       index = @edition.books.indexOf(book)
       @edition.books.splice(index, 1)
+      @clearErrors(@bookErrorPath(book))
 
     newEdition: ->
       {
@@ -94,6 +99,7 @@ Vue.component 'edition-form',
       }
 
     submit: ->
+      @clearErrors()
       if @edition.id
         @updateEdition()
       else
@@ -125,10 +131,40 @@ Vue.component 'edition-form',
         error: @handleErrorResponse
       )
 
+    handleErrorResponse: (response) ->
+      @errors = response.responseJSON
+
+    authorNameError: (book, author) ->
+      _.first @errors[@authorErrorPath(book, author, 'name')]
+
+    bookTitleError: (book) ->
+      _.first @errors[@bookErrorPath(book, 'title')]
+
+    authorErrorPath: (book, author, attribute) ->
+      authorIndex = book.authors.indexOf(author)
+      @bookErrorPath book, "authors[#{authorIndex}].#{attribute}"
+
+    bookErrorPath: (book, attribute) ->
+      bookIndex = @edition.books.indexOf(book)
+      "books[#{bookIndex}].#{attribute}"
+
+    coverError: ->
+      _.first @errors["cover"]
+
+    categoryError: ->
+      _.first @errors["category"]
+
+    clearErrors: (key = null) ->
+      if key
+        regexp = new RegExp("^#{key}")
+        @errors = _.omit(@errors, (v, k) => k.match(regexp))
+      else
+        @errors = {}
+
     editionFormData: ->
       _.extend(@edition, force_update_books: true)
 
     showEditionDetails: (edition) ->
       @close()
       return unless edition.id
-      @$store.commit('setSelectEditionId', edition.id)
+      @$store.commit('setSelectedEditionId', edition.id)

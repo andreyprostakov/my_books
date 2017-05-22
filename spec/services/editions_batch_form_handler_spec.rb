@@ -38,5 +38,21 @@ RSpec.describe EditionsBatchFormHandler do
         expect(edition.publisher).to eq new_publisher
       end
     end
+
+    context 'when given edition is invalid' do
+      let(:raw_params) do
+        {
+          read: 13,
+          category: { code: '00000' },
+          publisher: { name: '00000' }
+        }
+      end
+
+      it 'raises error' do
+        expect do
+          handler.update_editions(editions)
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end
