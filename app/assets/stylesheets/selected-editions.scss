@@ -87,6 +87,21 @@
             width: calc(100% - #{$label-width});
           }
         }
+
+        &.selected-editions-series {
+          $label-width: 70px;
+
+          label {
+            display: inline-block;
+            width: $label-width;
+            padding: 5px 0;
+          }
+
+          input {
+            display: inline-block;
+            width: calc(100% - #{$label-width});
+          }
+        }
       }
 
       .selected-editions-updates-submit {

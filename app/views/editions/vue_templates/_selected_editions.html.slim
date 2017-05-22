@@ -40,6 +40,10 @@ script#selected_editions_template[type='text/x-document']
           label = t('selected_editions.publisher')
           input.input[data-publisher-autocomplete v-model='updates.publisher.name']
 
+        .field.selected-editions-series
+          label = t('selected_editions.series')
+          input.input[data-series-autocomplete v-model='updates.series.title']
+
         .field.selected-editions-updates-submit
           input.button.is-primary[
             type='submit'

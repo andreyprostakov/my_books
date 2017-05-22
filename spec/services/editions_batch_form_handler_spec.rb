@@ -7,11 +7,13 @@ RSpec.describe EditionsBatchFormHandler do
   let(:previous_category) { create :edition_category }
   let(:new_category) { create :edition_category }
   let(:new_publisher) { create :publisher }
+  let(:new_series) { create :series }
   let(:raw_params) do
     {
       read: true,
       category: { code: new_category.code },
-      publisher: { name: new_publisher.name }
+      publisher: { name: new_publisher.name },
+      series: { title: new_series.title }
     }
   end
 
@@ -30,12 +32,13 @@ RSpec.describe EditionsBatchFormHandler do
     end
 
     it 'updates editions with given params', :aggregate_failures do
-      handler.update_editions(editions)
-      editions.each(&:reload)
+      expect(handler.update_editions(editions)).to be_truthy
       editions.each do |edition|
+        edition.reload
         expect(edition).to be_read
         expect(edition.category).to eq new_category
         expect(edition.publisher).to eq new_publisher
+        expect(edition.series).to eq new_series
       end
     end
 
@@ -44,7 +47,8 @@ RSpec.describe EditionsBatchFormHandler do
         {
           read: 13,
           category: { code: '00000' },
-          publisher: { name: '00000' }
+          publisher: { name: '00000' },
+          series: { title: '0000' }
         }
       end
 

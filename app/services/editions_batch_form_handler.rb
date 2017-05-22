@@ -2,7 +2,8 @@ class EditionsBatchFormHandler
   BATCH_PARAMS = [
     :read,
     category: [:code],
-    publisher: [:name]
+    publisher: [:name],
+    series: [:title]
   ].freeze
 
   attr_reader :edition_with_errors
@@ -34,10 +35,13 @@ class EditionsBatchFormHandler
     edition_params = {}
     edition_params[:read] = batch_params[:read].presence
     if batch_params.dig(:category, :code).present?
-      edition_params[:edition_category_id] = find_category.try(:id)
+      edition_params[:category] = find_category
     end
     if batch_params.dig(:publisher, :name).present?
-      edition_params[:publisher_id] = find_publisher.try(:id)
+      edition_params[:publisher] = find_publisher
+    end
+    if batch_params.dig(:series, :title).present?
+      edition_params[:series] = find_series
     end
     edition_params.compact
   end
@@ -48,6 +52,10 @@ class EditionsBatchFormHandler
 
   def find_publisher
     Publisher.find_by!(name: batch_params[:publisher][:name])
+  end
+
+  def find_series
+    Series.find_by!(title: batch_params[:series][:title])
   end
 
   def batch_params

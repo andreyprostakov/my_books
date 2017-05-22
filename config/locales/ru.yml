@@ -54,6 +54,7 @@ ru:
       not_read: Не прочитано
     category: Категория
     publisher: Издательство
+    series: Серия
     apply_updates: Применить
   series:
     index: Серии
