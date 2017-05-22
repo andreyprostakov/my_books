@@ -163,4 +163,4 @@ Vue.component 'edition-form',
     showEditionDetails: (edition) ->
       @close()
       return unless edition.id
-      @$store.commit('setSelectEditionId', edition.id)
+      @$store.commit('setSelectedEditionId', edition.id)
