@@ -49,6 +49,7 @@ class EditionsController < ApplicationController
     end
     editions = editions.with_author(current_author_name) if current_author_name
     editions = editions.with_publisher(current_publisher_name) if current_publisher_name
+    editions = editions.from_series(current_series_title) if current_series_title
     EditionsOrderer.apply_to(editions, current_editions_order)
   end
 end

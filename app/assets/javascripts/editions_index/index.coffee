@@ -3,7 +3,8 @@ Vue.component 'editions-index',
     'initialSelectedEditionId',
     'initialAuthorName',
     'initialCategoryCode',
-    'initialPublisherName'
+    'initialPublisherName',
+    'initialSeriesTitle'
   ]
 
   mounted: ->
@@ -13,15 +14,19 @@ Vue.component 'editions-index',
     @$watch 'currentOrder', @loadEditions
     @$watch 'authorName', @loadEditions
     @$watch 'publisherName', @loadEditions
+    @$watch 'seriesTitle', @loadEditions
     EventsDispatcher.$on 'reloadEditions', =>
       @loadEditions()
 
   computed: Vuex.mapState
+    pageState: 'pageState'
     editions: 'editions'
     authorName: ->
       @$store.getters.authorName
     publisherName: ->
       @$store.getters.publisherName
+    seriesTitle: ->
+      @$store.getters.seriesTitle
     currentOrder: 'editionsOrder'
     routes: -> Routes
 
@@ -34,6 +39,7 @@ Vue.component 'editions-index',
         authorName: @initialAuthorName,
         publisherName: @initialPublisherName
         categoryCode: @initialCategoryCode
+        seriesTitle: @initialSeriesTitle
         editionId: parseInt(@initialSelectedEditionId)
 
     editionsOfCategory: (categoryCode) ->

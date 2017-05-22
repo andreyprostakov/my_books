@@ -4,7 +4,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_editions_order,
     :current_editions_category,
     :current_author_name,
-    :current_publisher_name
+    :current_publisher_name,
+    :current_series_title
 
   private
 
@@ -22,5 +23,9 @@ class ApplicationController < ActionController::Base
 
   def current_publisher_name
     params[:publisher]
+  end
+
+  def current_series_title
+    params[:series_title]
   end
 end

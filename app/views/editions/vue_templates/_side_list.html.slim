@@ -28,7 +28,7 @@ script#side_list_template[type='text/x-document']
                 input.input[
                   type='text'
                   v-model='newItemName'
-                  :ref='selectedItemName + "-create"'
+                  :ref='singleItemName + "-create"'
                   placeholder=(t('side_block.create'))
                 ]
 
@@ -39,7 +39,7 @@ script#side_list_template[type='text/x-document']
                 input.input[
                   type='text'
                   v-model='searchKey'
-                  :ref='selectedItemName + "-search"'
+                  :ref='singleItemName + "-search"'
                   placeholder=(t('side_block.search'))
                 ]
 
@@ -54,7 +54,7 @@ script#side_list_template[type='text/x-document']
               a.name[
                 :href='urlForItem(item)'
                 @click.prevent=('select(item)')
-                v-html='item.name'
+                v-html='keyForItem(item)'
               ]
             td
               a.details.link-edit[@click='showEditInput(item)'] E
@@ -65,4 +65,4 @@ script#side_list_template[type='text/x-document']
             td
               form[@submit.prevent='updateItemName(item)']
                 .field
-                  input.input[type='text' v-model='inputItemName' :ref='selectedItemName + "-edit-" + item.id']
+                  input.input[type='text' v-model='inputItemName' :ref='singleItemName + "-edit-" + item.id']

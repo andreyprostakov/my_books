@@ -1,5 +1,5 @@
 class window.StateMachine
-  ALLOWED_ATTRIBUTES = ['editionId', 'authorName', 'publisherName', 'categoryCode']
+  ALLOWED_ATTRIBUTES = ['editionId', 'authorName', 'publisherName', 'categoryCode', 'seriesTitle']
 
   constructor: (state = {}) ->
     @state = state
@@ -50,7 +50,7 @@ class window.StateMachine
   goToAuthor: (authorName) ->
     @changeState(@stateForAuthor(authorName))
 
-  urlForAuthor: (authorName) ->
+  urlForAuthor: (authorName) =>
     @urlForState(@stateForAuthor(authorName))
 
   stateForAuthor: (authorName) ->
@@ -58,11 +58,12 @@ class window.StateMachine
     authorName: authorName
     categoryCode: null
     editionId: null
+    seriesTitle: null
 
   goToPublisher: (publisherName) ->
     @changeState(@stateForPublisher(publisherName))
 
-  urlForPublisher: (publisherName) ->
+  urlForPublisher: (publisherName) =>
     @urlForState(@stateForPublisher(publisherName))
 
   stateForPublisher: (publisherName) ->
@@ -70,6 +71,20 @@ class window.StateMachine
     authorName: null
     categoryCode: null
     editionId: null
+    seriesTitle: null
+
+  goToSeries: (seriesTitle) ->
+    @changeState(@stateForSeries(seriesTitle))
+
+  urlForSeries: (seriesTitle) =>
+    @urlForState(@stateForSeries(seriesTitle))
+
+  stateForSeries: (seriesTitle) ->
+    publisherName: null
+    authorName: null
+    categoryCode: null
+    editionId: null
+    seriesTitle: seriesTitle
 
   changedStateUrl: (changes) ->
     filteredChanges = @filterStateAttributes(changes)
@@ -83,3 +98,4 @@ class window.StateMachine
       author_name: state.authorName
       publisher_name: state.publisherName
       category_code: state.categoryCode
+      series_title: state.seriesTitle

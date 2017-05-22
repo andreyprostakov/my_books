@@ -16,11 +16,13 @@
 #  created_at          :datetime
 #  updated_at          :datetime
 #  read                :boolean          default(FALSE)
+#  series_id           :integer
 #
 # Indexes
 #
 #  index_editions_on_edition_category_id  (edition_category_id)
 #  index_editions_on_publisher_id         (publisher_id)
+#  index_editions_on_series_id            (series_id)
 #
 
 class Edition < ApplicationRecord
@@ -28,6 +30,7 @@ class Edition < ApplicationRecord
     class_name: EditionCategory,
     foreign_key: :edition_category_id
   belongs_to :publisher, optional: true
+  belongs_to :series, optional: true
   has_many :book_in_editions, inverse_of: :edition, dependent: :destroy
   has_many :books, through: :book_in_editions, inverse_of: :editions
   has_many :authors, -> { group('authors.id') }, through: :books
@@ -49,7 +52,13 @@ class Edition < ApplicationRecord
       joins(:publisher).where('publishers.name = ?', publisher.to_s)
     end
   }
-
+  scope :from_series, lambda { |series|
+    if series.is_a? Series
+      joins(:series).where('series.id = ?', series)
+    else
+      joins(:series).where('series.title = ?', series.to_s)
+    end
+  }
   scope :by_book_titles, lambda {
     includes(:books).order('books.title').group('editions.id')
   }

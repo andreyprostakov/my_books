@@ -6,13 +6,19 @@ Vue.component 'side-list',
     preselectedItem: { default: null }
 
     loadMethodName: { required: true }
-    itemsName: { required: true }
-    selectedItemName: { required: true }
-    mutationItemName: { required: true }
+    collectionName: { required: true }
+    currentItemMethodName: { required: true }
+    setAllMethodName: { required: true }
+    selectItemMethodName: { require: true }
 
-    createItemUrl: {}
-    updateItemUrl: {}
-    removeItemUrl: {}
+    itemKeyAttribute: { required: true }
+    singleItemName: { required: true }
+    pascalItemName: { required: true }
+    pluralItemName: { required: true }
+
+    apiItemUrl: { required: true }
+    apiIndexUrl: { required: true }
+    selectItemUrl: { required: true }
 
   data: ->
     toggledExpanded: false
@@ -27,17 +33,17 @@ Vue.component 'side-list',
 
   computed: Vuex.mapState
     selectedItem: ->
-      @$store.getters["#{@selectedItemName}Name"]
+      @$store.getters[@currentItemMethodName]
 
     expanded: ->
       @toggledExpanded || @selectedItem
 
     filteredItems: ->
       return @items if !@searchMode
-      @items.filter((i) => i.name.match(new RegExp(@searchKey, 'i')))
+      @items.filter((i) => i[@itemKeyAttribute].match(new RegExp(@searchKey, 'i')))
 
     items: ->
-      @$store.state[@itemsName]
+      @$store.state[@collectionName]
 
   mounted: ->
     @loadItems()
@@ -50,17 +56,26 @@ Vue.component 'side-list',
     mounted: ->
       @select(@preselectedItem)
 
+    keyForItem: (item) ->
+      item[@itemKeyAttribute]
+
     loadItems: ->
       DataRefresher[@loadMethodName]().then (items) =>
-        @$store.commit('set' + @mutationItemName + 's', items)
+        @$store.commit(@setAllMethodName, items)
 
     currentItemIs: (item) ->
-      (item || {name: null}).name == @selectedItem
+      if item
+        item[@itemKeyAttribute] == @selectedItem
+      else
+        @selectedItem == null
 
     select: (item) ->
       @hideCreationInput()
       @hideEditInput()
-      @$store.commit('set' + @mutationItemName + 'Name', (item || {name: null}).name)
+      if item
+        @$store.commit(@selectItemMethodName, item[@itemKeyAttribute])
+      else
+        @$store.commit(@selectItemMethodName, null)
       @expand() if item
 
     expand: ->
@@ -77,7 +92,7 @@ Vue.component 'side-list',
       @hideSearchInput()
       @creationMode = true
       @expand()
-      @focusOn(@selectedItemName + '-create')
+      @focusOn(@singleItemName + '-create')
 
     hideCreationInput: ->
       @creationMode = false
@@ -85,9 +100,9 @@ Vue.component 'side-list',
     showEditInput: (item) ->
       @hideCreationInput()
       @hideSearchInput()
-      @inputItemName = item.name
+      @inputItemName = item[@itemKeyAttribute]
       @editedItem = item
-      @focusOn(@selectedItemName + '-edit-' + item.id)
+      @focusOn(@singleItemName + '-edit-' + item.id)
 
     hideEditInput: ->
       @editedItem = null
@@ -98,7 +113,7 @@ Vue.component 'side-list',
       @searchKey = ''
       @searchMode = true
       @expand()
-      @focusOn(@selectedItemName + '-search')
+      @focusOn(@singleItemName + '-search')
 
     hideSearchInput: ->
       @searchMode = false
@@ -106,11 +121,11 @@ Vue.component 'side-list',
     createNewItem: ->
       $.ajax(
         type: 'POST'
-        url: @createItemUrl()
+        url: @apiIndexUrl()
         dataType: 'json'
         data: @requestDataWithItemName(@newItemName)
         success: (createdItem) =>
-          @$store.commit('add' + @mutationItemName, createdItem)
+          @$store.commit("add#{@pascalItemName}", createdItem)
           @hideCreationInput()
           @newItemName = null
         error: @handleErrorResponse
@@ -119,11 +134,11 @@ Vue.component 'side-list',
     updateItemName: (item) ->
       $.ajax(
         type: 'PUT'
-        url: @updateItemUrl(item.id)
+        url: @apiItemUrl(item.id)
         dataType: 'json'
         data: @requestDataWithItemName(@inputItemName)
         success: (updatedItem) =>
-          @$store.commit('update' + @mutationItemName, updatedItem)
+          @$store.commit("update#{@pascalItemName}", updatedItem)
           @hideEditInput()
         error: @handleErrorResponse
       )
@@ -131,16 +146,17 @@ Vue.component 'side-list',
     removeItem: (item) ->
       $.ajax(
         type: 'DELETE'
-        url: @removeItemUrl(item.id)
+        url: @apiItemUrl(item.id)
         dataType: 'json'
         success: =>
-          @$store.commit('remove' + @mutationItemName, item)
+          @$store.commit("remove#{@pascalItemName}", item)
         error: @handleErrorResponse
       )
 
     requestDataWithItemName: (itemName) ->
       data = {}
-      data[@selectedItemName] = { name: itemName }
+      data[@singleItemName] = {}
+      data[@singleItemName][@itemKeyAttribute] = itemName
       data
 
     handleErrorResponse: (response) ->
@@ -154,4 +170,4 @@ Vue.component 'side-list',
         element.focus() if element
 
     urlForItem: (item) ->
-      @$store.state.pageState["urlFor#{@mutationItemName}"](item.name)
+      @selectItemUrl(item[@itemKeyAttribute])

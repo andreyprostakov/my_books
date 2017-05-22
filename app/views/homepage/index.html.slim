@@ -7,9 +7,10 @@
   editions-index[
     inline-template
     initial-selected-edition-id=(params[:edition_id])
-    initial-author-name=(params[:author_name])
-    initial-publisher-name=(params[:publisher_name])
+    initial-author-name=(current_author_name)
+    initial-publisher-name=(current_publisher_name)
     initial-category-code=(params[:category_code])
+    initial-series-title=(current_series_title)
   ]
     div.columns.is-multiline
       .page-left-column.column.is-3
@@ -21,25 +22,52 @@
         side-list[
           title=(t('authors.index'))
           load-method-name='loadAuthors'
-          items-name='authors'
-          selected-item-name='author'
-          mutation-item-name='Author'
+          set-all-method-name='setAuthors'
+          select-item-method-name='setAuthorName'
+          current-item-method-name='authorName'
+          collection-name='authors'
+          pascal-item-name='Author'
+          single-item-name='author'
+          plural-item-name='authors'
+          item-key-attribute='name'
           preselected-item=(current_author_name)
-          :create-item-url='routes.authors_path'
-          :update-item-url='routes.author_path'
-          :remove-item-url='routes.author_path'
+          :api-index-url='routes.authors_path'
+          :api-item-url='routes.author_path'
+          :select-item-url='pageState.urlForAuthor'
+        ]
+
+        side-list[
+          title=(t('series.index'))
+          load-method-name='loadSeries'
+          set-all-method-name='setAllSeries'
+          select-item-method-name='setSeriesTitle'
+          current-item-method-name='seriesTitle'
+          collection-name='allSeries'
+          pascal-item-name='Series'
+          single-item-name='series'
+          plural-item-name='series'
+          item-key-attribute='title'
+          preselected-item=(current_series_title)
+          :api-index-url='routes.series_index_path'
+          :api-item-url='routes.series_path'
+          :select-item-url='pageState.urlForSeries'
         ]
 
         side-list[
           title=(t('publishers.index'))
           load-method-name='loadPublishers'
-          items-name='publishers'
-          selected-item-name='publisher'
-          mutation-item-name='Publisher'
+          set-all-method-name='setPublishers'
+          select-item-method-name='setPublisherName'
+          current-item-method-name='publisherName'
+          collection-name='publishers'
+          pascal-item-name='Publisher'
+          single-item-name='publisher'
+          plural-item-name='publishers'
+          item-key-attribute='name'
           preselected-item=(current_publisher_name)
-          :create-item-url='routes.publishers_path'
-          :update-item-url='routes.publisher_path'
-          :remove-item-url='routes.publisher_path'
+          :api-index-url='routes.publishers_path'
+          :api-item-url='routes.publisher_path'
+          :select-item-url='pageState.urlForPublisher'
         ]
 
       .page-right-column.column.is-9
@@ -54,6 +82,12 @@
                 = t('authors.one')
                 | :
               .value[v-html='authorName']
+
+            template[v-if='seriesTitle']
+              .type
+                = t('series.one')
+                | :
+              .value[v-html='seriesTitle']
 
             template[v-if='publisherName']
               .type

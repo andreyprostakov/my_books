@@ -55,6 +55,10 @@ ru:
     category: Категория
     publisher: Издательство
     apply_updates: Применить
+  series:
+    index: Серии
+    one: Серия
+    add_new: Добавить серию
   side_block:
     search: Поиск
     create: Новая запись

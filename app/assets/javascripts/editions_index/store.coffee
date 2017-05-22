@@ -5,8 +5,12 @@ window.Store = new Vuex.Store
     selectedEditionIds: []
     selectedEditionId: null
     editionsOrder: null
+
     authors: []
     publishers: []
+    allSeries: []
+    series: null
+
     page: 1
     pageSize: 18
     pageState: new StateMachine()
@@ -37,6 +41,9 @@ window.Store = new Vuex.Store
 
     categoryCode: (state) ->
       state.pageState.state.categoryCode
+
+    seriesTitle: (state) ->
+      state.pageState.state.seriesTitle
 
   mutations:
     # Editions
@@ -130,6 +137,25 @@ window.Store = new Vuex.Store
 
     removePublisher: (state, publisher) ->
       state.publishers.splice(state.publishers.indexOf(publisher), 1)
+
+    # Series
+
+    setAllSeries: (state, allSeries) ->
+      state.allSeries = allSeries
+
+    setSeriesTitle: (state, title) ->
+      state.pageState.goToSeries(title)
+      state.page = 1
+
+    addSeries: (state, newSeries) ->
+      state.allSeries.splice(0, 0, newSeries)
+
+    updateSeries: (state, updatedSeries) ->
+      oldSeries = state.publishers.find((p) => p.id == updatedSeries.id)
+      state.allSeries.splice(state.allSeries.indexOf(oldSeries), 1, updatedSeries)
+
+    removeSeries: (state, series) ->
+      state.allSeries.splice(state.allSeries.indexOf(series), 1)
 
     # Categories
 
