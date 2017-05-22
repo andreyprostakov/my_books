@@ -3,6 +3,7 @@ ru:
     edit: Редактировать
     remove: Удалить
   authors:
+    any: Любой
     index: Авторы
     one: Автор
     add_new: Добавить автора
@@ -40,6 +41,7 @@ ru:
       new_first: Сначала новые
       last_updated: По последнему обновлению
   publishers:
+    any: Любое
     index: Издательства
     one: Издательство
     add_new: Добавить издательство
@@ -57,6 +59,7 @@ ru:
     series: Серия
     apply_updates: Применить
   series:
+    any: Любая
     index: Серии
     one: Серия
     add_new: Добавить серию

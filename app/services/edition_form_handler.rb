@@ -11,6 +11,7 @@ class EditionFormHandler
     :read,
     category: [:code],
     publisher: [:name],
+    series: [:title],
     books: BOOKS_PARAMS
   ].freeze
   EDITION_RAW_PARAMS = %i(
@@ -58,6 +59,10 @@ class EditionFormHandler
     if filtered_params[:publisher]
       assign_publisher_params_to_edition(edition, filtered_params[:publisher])
     end
+
+    if filtered_params[:series]
+      assign_series_params_to_edition(edition, filtered_params[:series])
+    end
   end
 
   def assign_books_params_to_edition(edition, books_params)
@@ -72,6 +77,10 @@ class EditionFormHandler
 
   def assign_publisher_params_to_edition(edition, publisher_params)
     edition.publisher = Publisher.where(name: publisher_params[:name]).first_or_initialize
+  end
+
+  def assign_series_params_to_edition(edition, series_params)
+    edition.series = Series.where(title: series_params[:title]).first_or_initialize
   end
 
   def create_book_for_edition(edition, book_params)

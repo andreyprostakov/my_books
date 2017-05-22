@@ -25,20 +25,6 @@ Vue.component 'selected-editions',
         @$store.commit('stopSelectingEditions')
       else
         @$store.commit('startSelectingEditions')
-        @updatePublisherAutocomplete()
-        @updateSeriesAutocomplete()
-
-    updatePublisherAutocomplete: ->
-      Vue.nextTick =>
-        $('[data-publisher-autocomplete]').autocomplete
-          source: @publisherNames
-          minLength: 0
-
-    updateSeriesAutocomplete: ->
-      Vue.nextTick =>
-        $('[data-series-autocomplete]').autocomplete
-          source: @seriesTitles
-          minLength: 0
 
     updateBatchReadStatus: (status) ->
       @sendUpdates(read: status)

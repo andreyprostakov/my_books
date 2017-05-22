@@ -20,6 +20,8 @@ Vue.component 'side-list',
     apiIndexUrl: { required: true }
     selectItemUrl: { required: true }
 
+    anyItemLabel: { required: true }
+
   data: ->
     toggledExpanded: false
     creationMode: false
@@ -48,6 +50,7 @@ Vue.component 'side-list',
   mounted: ->
     @loadItems()
     EventsDispatcher.$on 'editionCreated', @loadItems
+    EventsDispatcher.$on 'editionUpdated', @loadItems
 
     @$watch 'selectedItem', =>
       @toggledExpanded = true if @selectedItem

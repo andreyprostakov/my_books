@@ -13,6 +13,7 @@ class EditionDetailsSerializer < EditionSerializer
   has_many :authors
   has_one :category
   has_one :publisher
+  has_one :series
 
   def title
     object.title
