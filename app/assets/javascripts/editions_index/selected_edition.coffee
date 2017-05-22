@@ -1,29 +1,19 @@
 Vue.component 'selected-edition',
   template: '#selected_edition_template'
 
-  data: ->
-    edition: null
-
   computed: Vuex.mapState
+    editions: 'editions'
     openedEdition: 'openedEdition'
     selectedEditionId: 'selectedEditionId'
+    edition: ->
+      _.find @editions, id: @selectedEditionId
     openedEditionId: ->
       @$store.getters.openedEditionId
     editionIsOpened: ->
       @selectedEditionId == @openedEditionId
     routes: -> Routes
 
-  mounted: ->
-    @$watch 'selectedEditionId', @refresh
-
   methods:
-    refresh: ->
-      if @selectedEditionId
-        DataRefresher.loadEditionDetails(id: @selectedEditionId).then (detailedEdition) =>
-          @edition = detailedEdition
-      else
-        @edition = null
-
     editEdition: ->
       EventsDispatcher.$emit('editEdition', @edition)
 

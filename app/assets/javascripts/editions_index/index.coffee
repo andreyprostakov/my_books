@@ -34,7 +34,7 @@ Vue.component 'editions-index',
         authorName: @initialAuthorName,
         publisherName: @initialPublisherName
         categoryCode: @initialCategoryCode
-        editionId: @initialSelectedEditionId
+        editionId: parseInt(@initialSelectedEditionId)
 
     editionsOfCategory: (categoryCode) ->
       @editions.filter((e) => e.category.code == categoryCode)
