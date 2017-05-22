@@ -20,4 +20,4 @@ Vue.component 'categories-tabs',
       !!@editionsOfCategory(categoryToCheck).length
 
     urlForCategory: (categoryCode) ->
-      @$store.state.pageState.urlForCategory(code: categoryCode)
+      @$store.state.pageState.urlForCategory(categoryCode)

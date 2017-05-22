@@ -46,10 +46,10 @@ window.Store = new Vuex.Store
 
     setSelectedEditionId: (state, id) ->
       state.selectedEditionId = id
-      state.pageState.goToEdition(id: id)
+      state.pageState.goToEdition(id)
 
     setOpenedEditionId: (state, id) ->
-      state.pageState.goToEdition(id: id)
+      state.pageState.goToEdition(id)
 
     addEdition: (state, edition) ->
       state.editions.splice(0, 0, edition)
@@ -134,5 +134,5 @@ window.Store = new Vuex.Store
     # Categories
 
     setCategoryCode: (state, categoryCode) ->
-      state.pageState.goToCategory(code: categoryCode)
+      state.pageState.goToCategory(categoryCode)
       state.page = 1

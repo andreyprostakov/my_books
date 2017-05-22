@@ -6,7 +6,6 @@ Vue.component 'editions-list',
       @$store.getters.currentPageEditions
     selectionMode: 'selectionMode'
     selectedEditionIds: 'selectedEditionIds'
-    routes: -> Routes
 
   methods:
     show: ->
@@ -35,4 +34,4 @@ Vue.component 'editions-list',
       @editions.length
 
     urlForEdition: (edition) ->
-      @$store.state.pageState.urlForEdition(edition)
+      @$store.state.pageState.urlForEdition(edition.id)

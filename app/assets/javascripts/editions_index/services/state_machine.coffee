@@ -31,17 +31,21 @@ class window.StateMachine
     _.mapObject state, (v, k) =>
       if v == undefined then null else v
 
-  goToEdition: (edition) ->
-    @changeState(editionId: edition.id)
+  goToEdition: (id) ->
+    @changeState(editionId: id)
 
-  urlForEdition: (edition) ->
-    @changedStateUrl(editionId: edition.id)
+  urlForEdition: (id) ->
+    @changedStateUrl(editionId: id)
 
-  goToCategory: (category) ->
-    @changeState(categoryCode: category.code)
+  goToCategory: (categoryCode) ->
+    @changeState(@stateForCategory(categoryCode))
 
-  urlForCategory: (category) ->
-    @changedStateUrl(categoryCode: category.code)
+  urlForCategory: (categoryCode) ->
+    @changedStateUrl(@stateForCategory(categoryCode))
+
+  stateForCategory: (categoryCode) ->
+    categoryCode: categoryCode
+    editionId: null
 
   goToAuthor: (authorName) ->
     @changeState(@stateForAuthor(authorName))
