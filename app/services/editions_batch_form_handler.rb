@@ -5,15 +5,30 @@ class EditionsBatchFormHandler
     publisher: [:name]
   ].freeze
 
+  attr_reader :edition_with_errors
+
   def initialize(params)
     @params = params
   end
 
   def update_editions(editions)
-    Edition.where(id: editions).update_all(build_edition_params)
+    Edition.transaction do
+      Edition.where(id: editions).find_each do |edition|
+        @edition = edition
+        edition.update!(edition_params)
+      end
+    end
+    true
+  rescue ActiveRecord::RecordInvalid => e
+    @edition_with_errors = e.record
+    false
   end
 
   private
+
+  def edition_params
+    @edition_params ||= build_edition_params
+  end
 
   def build_edition_params
     edition_params = {}

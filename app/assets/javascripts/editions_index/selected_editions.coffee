@@ -6,6 +6,7 @@ Vue.component 'selected-editions',
       read: null
       category: {}
       publisher: {}
+    errors: {}
 
   computed: Vuex.mapState
     editionIds: 'selectedEditionIds'
@@ -56,5 +57,5 @@ Vue.component 'selected-editions',
         success: (response) =>
           EventsDispatcher.$emit('reloadEditions')
         error: (response) =>
-          $('[data-selected-editions-updates-error]').show()
+          @errors = response.responseJSON
       )
