@@ -15,9 +15,12 @@ Vue.component 'edition-form',
         @show()
 
   computed: Vuex.mapState
-    preselectedAuthor: 'author'
-    preselectedPublisher: 'publisher'
-    preselectedCategory: 'category'
+    preselectedAuthor: ->
+      @$store.getters.authorName
+    preselectedPublisher: ->
+      @$store.getters.publisherName
+    preselectedCategory: ->
+      @$store.getters.categoryCode
 
     canBeShown: ->
       @enabled
@@ -128,4 +131,4 @@ Vue.component 'edition-form',
     showEditionDetails: (edition) ->
       @close()
       return unless edition.id
-      EventsDispatcher.$emit('selectEdition', edition)
+      @$store.commit('setSelectEditionId', edition.id)

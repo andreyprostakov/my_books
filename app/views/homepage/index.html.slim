@@ -4,7 +4,13 @@
 = render 'editions/vue_templates'
 
 #editions_index
-  editions-index[inline-template]
+  editions-index[
+    inline-template
+    initial-selected-edition-id=(params[:edition_id])
+    initial-author-name=(params[:author_name])
+    initial-publisher-name=(params[:publisher_name])
+    initial-category-code=(params[:category_code])
+  ]
     div.columns.is-multiline
       .page-left-column.column.is-3
         selected-edition
@@ -43,17 +49,17 @@
 
         template
           #current_selection_info
-            template[v-if='author']
+            template[v-if='authorName']
               .type
                 = t('authors.one')
                 | :
-              .value[v-html='author']
+              .value[v-html='authorName']
 
-            template[v-if='publisher']
+            template[v-if='publisherName']
               .type
                 = t('publishers.one')
                 | :
-              .value[v-html='publisher']
+              .value[v-html='publisherName']
 
             .editions-count
               => t('editions.count')

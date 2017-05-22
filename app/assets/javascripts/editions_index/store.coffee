@@ -1,33 +1,42 @@
 window.Store = new Vuex.Store
   state:
     editions: []
-    selectedEdition: null
     selectionMode: false
     selectedEditionIds: []
-    openedEdition: null
+    selectedEditionId: null
     editionsOrder: null
     authors: []
-    author: null
     publishers: []
-    publisher: null
-    category: null
     page: 1
     pageSize: 18
+    pageState: new StateMachine()
 
   getters:
-    filteredEditions: (state) ->
-      return state.editions unless state.category
-      state.editions.filter((e) => e.category.code == state.category)
+    filteredEditions: (state, getters) ->
+      return state.editions unless getters.categoryCode
+      state.editions.filter((e) => e.category.code == getters.categoryCode)
 
     currentPageEditions: (state, getters) ->
       startIndex = state.pageSize * (state.page - 1)
       getters.filteredEditions.slice startIndex, startIndex + state.pageSize
 
+    openedEditionId: (state) ->
+      state.pageState.state.editionId
+
+    authorName: (state) ->
+      state.pageState.state.authorName
+
     authorNames: (state) ->
       _.map state.authors, 'name'
 
+    publisherName: (state) ->
+      state.pageState.state.publisherName
+
     publisherNames: (state) ->
       _.map state.publishers, 'name'
+
+    categoryCode: (state) ->
+      state.pageState.state.categoryCode
 
   mutations:
     # Editions
@@ -35,11 +44,12 @@ window.Store = new Vuex.Store
     setEditions: (state, editions) ->
       state.editions = editions
 
-    setSelectedEdition: (state, edition) ->
-      state.selectedEdition = edition
+    setSelectedEditionId: (state, id) ->
+      state.selectedEditionId = id
+      state.pageState.goToEdition(id)
 
-    setOpenedEdition: (state, edition) ->
-      state.openedEdition = edition
+    setOpenedEditionId: (state, id) ->
+      state.pageState.goToEdition(id)
 
     addEdition: (state, edition) ->
       state.editions.splice(0, 0, edition)
@@ -88,11 +98,8 @@ window.Store = new Vuex.Store
     setAuthors: (state, authors) ->
       state.authors = authors
 
-    setAuthor: (state, author) ->
-      state.publisher = null
-      state.author = author
-      state.category = null
-      state.openedEdition = null
+    setAuthorName: (state, authorName) ->
+      state.pageState.goToAuthor(authorName)
       state.page = 1
 
     addAuthor: (state, newAuthor) ->
@@ -110,11 +117,8 @@ window.Store = new Vuex.Store
     setPublishers: (state, publishers) ->
       state.publishers = publishers
 
-    setPublisher: (state, publisher) ->
-      state.publisher = publisher
-      state.author = null
-      state.category = null
-      state.openedEdition = null
+    setPublisherName: (state, publisherName) ->
+      state.pageState.goToPublisher(publisherName)
       state.page = 1
 
     addPublisher: (state, newPublisher) ->
@@ -129,6 +133,6 @@ window.Store = new Vuex.Store
 
     # Categories
 
-    setCategory: (state, category) ->
-      state.category = category
+    setCategoryCode: (state, categoryCode) ->
+      state.pageState.goToCategory(categoryCode)
       state.page = 1

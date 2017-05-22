@@ -10,7 +10,10 @@ script#editions_list_template[type='text/x-document']
             i.fa.fa-check-circle
           template[v-else]
             i.fa.fa-circle-o
-        .edition-preview-cover[@click='selectEdition(edition)']
+        a.edition-preview-cover[
+          :href="urlForEdition(edition)"
+          @click.prevent='selectEdition(edition)'
+        ]
           img[:src='edition.cover_url']
 
     .editions-pagination.column.is-12

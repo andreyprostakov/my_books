@@ -1,17 +1,27 @@
 Vue.component 'editions-index',
+  props: [
+    'initialSelectedEditionId',
+    'initialAuthorName',
+    'initialCategoryCode',
+    'initialPublisherName'
+  ]
+
   mounted: ->
+    @presetInitialFilters()
+
     @loadEditions()
     @$watch 'currentOrder', @loadEditions
-    @$watch 'author', @loadEditions
-    @$watch 'publisher', @loadEditions
+    @$watch 'authorName', @loadEditions
+    @$watch 'publisherName', @loadEditions
     EventsDispatcher.$on 'reloadEditions', =>
       @loadEditions()
 
   computed: Vuex.mapState
     editions: 'editions'
-    author: 'author'
-    publisher: 'publisher'
-    category: 'category'
+    authorName: ->
+      @$store.getters.authorName
+    publisherName: ->
+      @$store.getters.publisherName
     currentOrder: 'editionsOrder'
     routes: -> Routes
 
@@ -19,6 +29,13 @@ Vue.component 'editions-index',
       @$store.getters.filteredEditions.length
 
   methods:
+    presetInitialFilters: ->
+      @$store.state.pageState.setState
+        authorName: @initialAuthorName,
+        publisherName: @initialPublisherName
+        categoryCode: @initialCategoryCode
+        editionId: @initialSelectedEditionId
+
     editionsOfCategory: (categoryCode) ->
       @editions.filter((e) => e.category.code == categoryCode)
 

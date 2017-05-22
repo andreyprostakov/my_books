@@ -26,8 +26,8 @@ Vue.component 'side-list',
     inputItemName: null
 
   computed: Vuex.mapState
-    selectedItem: (state) ->
-      state[@selectedItemName]
+    selectedItem: ->
+      @$store.getters["#{@selectedItemName}Name"]
 
     expanded: ->
       @toggledExpanded || @selectedItem
@@ -43,6 +43,9 @@ Vue.component 'side-list',
     @loadItems()
     EventsDispatcher.$on 'editionCreated', @loadItems
 
+    @$watch 'selectedItem', =>
+      @toggledExpanded = true if @selectedItem
+
   methods:
     mounted: ->
       @select(@preselectedItem)
@@ -57,7 +60,7 @@ Vue.component 'side-list',
     select: (item) ->
       @hideCreationInput()
       @hideEditInput()
-      @$store.commit('set' + @mutationItemName, (item || {name: null}).name)
+      @$store.commit('set' + @mutationItemName + 'Name', (item || {name: null}).name)
       @expand() if item
 
     expand: ->
@@ -149,3 +152,6 @@ Vue.component 'side-list',
         element = @$refs[ref]
         element = element[0] || element
         element.focus() if element
+
+    urlForItem: (item) ->
+      @$store.state.pageState["urlFor#{@mutationItemName}"](item.name)
