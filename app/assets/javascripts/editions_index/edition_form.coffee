@@ -98,6 +98,7 @@ Vue.component 'edition-form',
       }
 
     submit: ->
+      @clearErrors()
       if @edition.id
         @updateEdition()
       else

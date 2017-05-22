@@ -40,7 +40,11 @@ Vue.component 'selected-editions',
     deselectFilteredEditions: ->
       @$store.commit('deselectFilteredEditions')
 
+    clearErrors: ->
+      $('[data-selected-editions-updates-error]').hide()
+
     submitUpdates: ->
+      @clearErrors()
       @sendUpdates(@updates)
 
     sendUpdates: (updates) ->
@@ -52,6 +56,5 @@ Vue.component 'selected-editions',
         success: (response) =>
           EventsDispatcher.$emit('reloadEditions')
         error: (response) =>
-          console.log('Error')
-          console.log(response)
+          $('[data-selected-editions-updates-error]').show()
       )
