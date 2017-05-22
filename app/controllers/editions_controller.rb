@@ -13,7 +13,7 @@ class EditionsController < ApplicationController
     if @edition.valid?
       render json: @edition
     else
-      render json: @edition.errors.as_json, status: 422
+      render json: @edition.errors, status: 422
     end
   end
 
@@ -22,7 +22,7 @@ class EditionsController < ApplicationController
     if form_handler.update_edition(@edition).valid?
       render json: @edition
     else
-      render json: @edition.errors.as_json, status: 422
+      render json: @edition.errors, status: 422
     end
   end
 

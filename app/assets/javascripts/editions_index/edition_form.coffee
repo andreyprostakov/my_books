@@ -43,6 +43,7 @@ Vue.component 'edition-form',
 
   methods:
     show: ->
+      @clearErrors()
       @enabled = true
       @updateAuthorsAutocompletes()
       @updatePublisherAutocomplete()
@@ -154,8 +155,11 @@ Vue.component 'edition-form',
       _.first @errors["category"]
 
     clearErrors: (key = null) ->
-      regexp = new RegExp("^#{key}")
-      @errors = _.omit(@errors, (v, k) => k.match(regexp))
+      if key
+        regexp = new RegExp("^#{key}")
+        @errors = _.omit(@errors, (v, k) => k.match(regexp))
+      else
+        @errors = {}
 
     editionFormData: ->
       _.extend(@edition, force_update_books: true)
