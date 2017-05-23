@@ -23,32 +23,37 @@
     overflow-x: hidden;
     padding: 0;
 
+    .side-list-selected-item {
+      .item-label {
+        display: inline-block;
+        max-width: calc(100% - 20px);
+        padding: 5px;
+        font-weight: bold;
+        text-decoration: underline;
+        color: #4a4a4a;
+      }
+
+      .link-deselect {
+        float: right;
+        display: inline-block;
+        width: 20px;
+        color: grey;
+        padding: 5px;
+        cursor: pointer;
+      }
+    }
+
     table {
       margin-bottom: 0;
 
       tr td {
         border: none;
 
-        a.details {
-          display: none;
-        }
-      }
-
-      tr.is-active, tr:hover {
-        td a.details {
-          display: inline;
-
-          &.link-remove {
-            color: red;
-          }
-        }
-      }
-
-      tr.is-active {
-        a.name {
-          font-weight: bold;
-          text-decoration: underline;
-          color: #4a4a4a;
+        a.list-item-label {
+          display: block;
+          width: 100%;
+          padding: 2px 5px;
+          font-size: 14px;
         }
       }
     }

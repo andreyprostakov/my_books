@@ -3,7 +3,7 @@ Vue.component 'side-list',
 
   props:
     title: { required: true }
-    preselectedItem: { default: null }
+    preselectedItemValue: { default: null }
 
     loadMethodName: { required: true }
     collectionName: { required: true }
@@ -34,11 +34,16 @@ Vue.component 'side-list',
     inputItemName: null
 
   computed: Vuex.mapState
-    selectedItem: ->
+    selectedItemValue: ->
       @$store.getters[@currentItemMethodName]
 
+    selectedItem: ->
+      return unless @selectedItemValue
+      _.find @items, (item) =>
+        item[@itemKeyAttribute] == @selectedItemValue
+
     expanded: ->
-      @toggledExpanded || @selectedItem
+      @toggledExpanded || @selectedItemValue
 
     filteredItems: ->
       return @items if !@searchMode
@@ -52,12 +57,12 @@ Vue.component 'side-list',
     EventsDispatcher.$on 'editionCreated', @loadItems
     EventsDispatcher.$on 'editionUpdated', @loadItems
 
-    @$watch 'selectedItem', =>
-      @toggledExpanded = true if @selectedItem
+    @$watch 'selectedItemValue', =>
+      @toggledExpanded = true if @selectedItemValue
 
   methods:
     mounted: ->
-      @select(@preselectedItem)
+      @select(@preselectedItemValue)
 
     keyForItem: (item) ->
       item[@itemKeyAttribute]
@@ -68,9 +73,9 @@ Vue.component 'side-list',
 
     currentItemIs: (item) ->
       if item
-        item[@itemKeyAttribute] == @selectedItem
+        item[@itemKeyAttribute] == @selectedItemValue
       else
-        @selectedItem == null
+        @selectedItemValue == null
 
     select: (item) ->
       @hideCreationInput()
@@ -174,3 +179,6 @@ Vue.component 'side-list',
 
     urlForItem: (item) ->
       @selectItemUrl(item[@itemKeyAttribute])
+
+    deselect: ->
+      @select(null)

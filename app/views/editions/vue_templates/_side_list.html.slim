@@ -3,7 +3,7 @@ script#side_list_template[type='text/x-document']
     .side-block-heading
       span[v-html='title']
 
-      .actions
+      .actions[v-if='!selectedItem']
         a[v-if='!searchMode' @click='showSearchInput']
           i.fa.fa-search
         a.grey[v-else @click='hideSearchInput']
@@ -20,7 +20,21 @@ script#side_list_template[type='text/x-document']
           i.fa.fa-chevron-circle-up
 
     .side-block-content[v-if='expanded']
-      table.table.is-striped.is-narrow
+      .side-list-selected-item[v-if='selectedItem']
+        template[v-if='selectedItem != editedItem']
+          .item-label[
+            @click='showEditInput(selectedItem)'
+            v-html='keyForItem(selectedItem)'
+          ]
+          .link-deselect[@click='deselect'] X
+
+        template[v-else]
+          td
+            form[@submit.prevent='updateItemName(selectedItem)']
+              .field
+                input.input[type='text' v-model='inputItemName' :ref='singleItemName + "-edit-" + selectedItem.id']
+
+      table.table.is-striped.is-narrow[v-else]
         tr[v-if='creationMode']
           td
             form[@submit.prevent='createNewItem']
@@ -50,18 +64,8 @@ script#side_list_template[type='text/x-document']
         tr[v-for='item in filteredItems' :class='{"is-active": currentItemIs(item)}' :key='item.id']
           template[v-if='item != editedItem']
             td
-              a.name[
+              a.list-item-label[
                 :href='urlForItem(item)'
                 @click.prevent=('select(item)')
                 v-html='keyForItem(item)'
               ]
-            td
-              a.details.link-edit[@click='showEditInput(item)'] E
-            td
-              a.details.link-remove[@click='removeItem(item)'] X
-
-          template[v-if='item == editedItem']
-            td
-              form[@submit.prevent='updateItemName(item)']
-                .field
-                  input.input[type='text' v-model='inputItemName' :ref='singleItemName + "-edit-" + item.id']
