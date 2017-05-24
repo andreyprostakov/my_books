@@ -37,7 +37,7 @@ Vue.component 'publisher-info',
       )
 
     remove: ->
-      return unless confirm("Удалить автора \"#{@currentPublisher.name}\"?")
+      return unless confirm("Удалить издательство \"#{@currentPublisher.name}\"?")
       $.ajax(
         type: 'DELETE'
         url: Routes.publisher_path(@currentPublisher.id)

@@ -14,12 +14,8 @@ window.Store = new Vuex.Store
     editionsOrder: null
 
     allAuthors: []
-    filteredAuthorIds: []
     allPublishers: []
-    filteredPublisherIds: []
     allSeries: []
-    filteredSeriesIds: []
-    series: null
 
     page: 1
     pageSize: 18
@@ -44,11 +40,6 @@ window.Store = new Vuex.Store
       return null unless getters.currentAuthorName
       _.find state.allAuthors, name: getters.currentAuthorName
 
-    filteredAuthors: (state) ->
-      authors = _.select state.allAuthors, (author) =>
-        _.contains state.filteredAuthorIds, author.id
-      _.sortBy authors, 'name'
-
     authorNames: (state) ->
       _.map state.allAuthors, 'name'
 
@@ -58,11 +49,6 @@ window.Store = new Vuex.Store
     currentPublisher: (state, getters) ->
       return null unless getters.currentPublisherName
       _.find state.allPublishers, name: getters.currentPublisherName
-
-    filteredPublishers: (state) ->
-      publishers = _.select state.allPublishers, (publisher) =>
-        _.contains state.filteredPublisherIds, publisher.id
-      _.sortBy publishers, 'name'
 
     publisherNames: (state) ->
       _.map state.allPublishers, 'name'
@@ -76,11 +62,6 @@ window.Store = new Vuex.Store
     currentSeries: (state, getters) ->
       return null unless getters.currentSeriesTitle
       _.find state.allSeries, title: getters.currentSeriesTitle
-
-    filteredSeries: (state) ->
-      series = _.select state.allSeries, (series) =>
-        _.contains state.filteredSeriesIds, series.id
-      _.sortBy series, 'name'
 
     seriesTitles: (state) ->
       _.map state.allSeries, 'title'
@@ -145,15 +126,13 @@ window.Store = new Vuex.Store
     setAuthors: (state, allAuthors) ->
       state.allAuthors = allAuthors
 
-    setFilteredAuthors: (state, authors) ->
-      state.filteredAuthorIds = _.map(authors, 'id')
-
     setCurrentAuthor: (state, author) ->
       state.pageState.goToAuthor((author || {}).name)
       state.page = 1
 
     addAuthor: (state, newAuthor) ->
       state.allAuthors.splice(0, 0, newAuthor)
+      state.pageState.goToAuthor(newAuthor.name)
 
     updateAuthor: (state, updatedAuthor) ->
       oldAuthor = updateItemInArray(state.allAuthors, updatedAuthor)
@@ -169,15 +148,13 @@ window.Store = new Vuex.Store
     setPublishers: (state, publishers) ->
       state.allPublishers = publishers
 
-    setFilteredPublishers: (state, publishers) ->
-      state.filteredPublisherIds = _.map(publishers, 'id')
-
     setCurrentPublisher: (state, publisher) ->
       state.pageState.goToPublisher((publisher || {}).name)
       state.page = 1
 
     addPublisher: (state, newPublisher) ->
       state.allPublishers.splice(0, 0, newPublisher)
+      state.pageState.goToPublisher(newPublisher.name)
 
     updatePublisher: (state, updatedPublisher) ->
       oldPublisher = updateItemInArray(state.allPublishers, updatedPublisher)
@@ -193,15 +170,13 @@ window.Store = new Vuex.Store
     setAllSeries: (state, allSeries) ->
       state.allSeries = allSeries
 
-    setFilteredSeries: (state, series) ->
-      state.filteredSeriesIds = _.map series, 'id'
-
     setCurrentSeries: (state, series) ->
       state.pageState.goToSeries((series || {}).title)
       state.page = 1
 
     addSeries: (state, newSeries) ->
       state.allSeries.splice(0, 0, newSeries)
+      state.pageState.goToSeries(newSeries.title)
 
     updateSeries: (state, updatedSeries) ->
       oldSeries = updateItemInArray(state.allSeries, updatedSeries)
@@ -210,7 +185,7 @@ window.Store = new Vuex.Store
 
     removeSeries: (state, series) ->
       state.allSeries.splice(state.allSeries.indexOf(series), 1)
-      state.pageState.goToSeries(null) if Store.getters.currentSeriesTitle == oldSeries.title
+      state.pageState.goToSeries(null) if Store.getters.currentSeriesTitle == series.title
 
     # Categories
 

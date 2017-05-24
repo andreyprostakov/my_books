@@ -17,6 +17,7 @@
       display: inline-block;
       font-weight: bold;
       font-size: 32px;
+      cursor: default;
     }
 
     .info-edit-form {
@@ -24,23 +25,23 @@
 
       input {
         display: inline-block;
-        display: inline-block;
         font-size: 32px;
         padding: 0px 5px;
         height: auto;
+        width: 350px;
       }
     }
 
     .info-actions {
       display: none;
-      margin-left: 20px;
+      vertical-align: top;
+      padding: 13px 0px 8px 10px;
+      font-size: 18px;
 
       .info-action {
         display: inline-block;
-        padding: 17px 10px;
+        padding: 0 3px;
         vertical-align: top;
-        font-size: 18px;
-        line-height: 18px;
         text-transform: lowercase;
       }
     }

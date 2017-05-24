@@ -57,7 +57,6 @@ Vue.component 'publishers-side-list',
           publisher: { name: publisherName }
         success: (createdItem) =>
           @$store.commit('addPublisher', createdItem)
-          @showedPublisherIds.push(createdItem.id)
         error: @handleErrorResponse
       )
 

@@ -4,10 +4,11 @@ script#side_list_template[type='text/x-document']
       span[v-html='title']
 
       .actions
-        a[v-if='!searchMode' @click='showSearchInput']
-          i.fa.fa-search
-        a.grey[v-else @click='hideSearchInput']
-          i.fa.fa-search
+        template[v-if='itemsAreMany']
+          a[v-if='!searchMode' @click='showSearchInput']
+            i.fa.fa-search
+          a.grey[v-else @click='hideSearchInput']
+            i.fa.fa-search
 
         a[v-if='!creationMode' @click='showCreationInput']
           i.fa.fa-plus-circle
@@ -39,17 +40,17 @@ script#side_list_template[type='text/x-document']
                 ]
 
         tr[v-show='showLinkToAny']
-          td
-            a.list-item-label[@click='select(null)' v-html='anyItemLabel']
+          td.any-item
+            a[@click='select(null)' v-html='anyItemLabel']
 
-        tr[v-for='item, label in filteredItems' :key='item.id']
+        tr[v-for='item, label in searchedItems' :key='item.id']
           template
-            td
-              a.list-item-label[
+            td.list-item
+              a[
                 :href='urlForItem(item)'
                 @click.prevent=('select(item)')
                 v-html='label'
               ]
 
         tr[v-show='listIsEmpty']
-          td = t('side_block.none')
+          td.no-items = t('side_block.none')

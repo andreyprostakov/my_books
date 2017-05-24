@@ -20,7 +20,7 @@ Vue.component 'side-list',
     searchKey: ''
 
   computed: Vuex.mapState
-    filteredItems: ->
+    searchedItems: ->
       return @items if !@searchMode
       _.pick @items, (item, label) => label.match(new RegExp(@searchKey, 'i'))
 
@@ -31,10 +31,13 @@ Vue.component 'side-list',
       "#{@id}-search-form"
 
     listIsEmpty: ->
-      _.values(@filteredItems).length == 0
+      _.values(@searchedItems).length == 0
 
     showLinkToAny: ->
-      !@creationMode && !@searchMode && _.values(@items).length > 1
+      !@creationMode && !@searchMode && @itemsAreMany
+
+    itemsAreMany: ->
+      _.values(@items).length > 1
 
   mounted: ->
     @$watch 'items', =>

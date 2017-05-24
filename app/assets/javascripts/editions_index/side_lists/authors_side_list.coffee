@@ -57,7 +57,6 @@ Vue.component 'authors-side-list',
           author: { name: authorName }
         success: (createdItem) =>
           @$store.commit('addAuthor', createdItem)
-          @showedAuthorIds.push(createdItem.id)
         error: @handleErrorResponse
       )
 

@@ -37,7 +37,7 @@ Vue.component 'series-info',
       )
 
     remove: ->
-      return unless confirm("Удалить автора \"#{@currentSeries.title}\"?")
+      return unless confirm("Удалить серию \"#{@currentSeries.title}\"?")
       $.ajax(
         type: 'DELETE'
         url: Routes.series_path(@currentSeries.id)

@@ -57,7 +57,6 @@ Vue.component 'series-side-list',
           series: { title: seriesTitle }
         success: (createdItem) =>
           @$store.commit('addSeries', createdItem)
-          @showedSeriesIds.push(createdItem.id)
         error: @handleErrorResponse
       )
 
