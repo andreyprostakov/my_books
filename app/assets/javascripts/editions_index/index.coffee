@@ -13,7 +13,7 @@ Vue.component 'editions-index',
 
     @loadEditions()
     @$watch 'currentOrder', @loadEditions
-    @$watch 'authorName', @loadEditions
+    @$watch 'currentAuthorName', @loadEditions
     @$watch 'publisherName', @loadEditions
     @$watch 'seriesTitle', @loadEditions
     EventsDispatcher.$on 'reloadEditions', =>
@@ -22,8 +22,8 @@ Vue.component 'editions-index',
   computed: Vuex.mapState
     pageState: 'pageState'
     editions: 'editions'
-    authorName: ->
-      @$store.getters.authorName
+    currentAuthorName: ->
+      @$store.getters.currentAuthorName
     publisherName: ->
       @$store.getters.publisherName
     seriesTitle: ->

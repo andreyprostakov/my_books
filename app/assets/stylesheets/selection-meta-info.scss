@@ -2,6 +2,12 @@
   font-size: 32px;
 
   .selection-meta-info-line {
+    &:hover {
+      .info-actions {
+        display: block;
+      }
+    }
+
     .info-type {
       display: inline-block;
       font-size: 32px;
@@ -11,6 +17,32 @@
       display: inline-block;
       font-weight: bold;
       font-size: 32px;
+    }
+
+    .info-edit-form {
+      display: inline-block;
+
+      input {
+        display: inline-block;
+        display: inline-block;
+        font-size: 32px;
+        padding: 0px 5px;
+        height: auto;
+      }
+    }
+
+    .info-actions {
+      display: none;
+      float: right;
+
+      .info-action {
+        display: inline-block;
+        padding: 17px 10px;
+        vertical-align: top;
+        font-size: 18px;
+        line-height: 18px;
+        text-transform: lowercase;
+      }
     }
   }
 

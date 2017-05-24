@@ -19,62 +19,7 @@
 
         order-select initial-order=(current_editions_order)
 
-        side-list[
-          v-if='!authorName'
-          title=(t('authors.index'))
-          load-method-name='loadAuthors'
-          set-all-method-name='setFilteredAuthors'
-          select-item-method-name='setAuthorName'
-          current-item-method-name='authorName'
-          collection-name='filteredAuthors'
-          pascal-item-name='Author'
-          single-item-name='author'
-          plural-item-name='authors'
-          item-key-attribute='name'
-          preselected-item=(current_author_name)
-          any-item-label=(t('authors.any'))
-          :api-index-url='routes.authors_path'
-          :api-item-url='routes.author_path'
-          :select-item-url='pageState.urlForAuthor'
-        ]
-
-        side-list[
-          v-if='!seriesTitle'
-          title=(t('series.index'))
-          load-method-name='loadSeries'
-          set-all-method-name='setFilteredSeries'
-          select-item-method-name='setSeriesTitle'
-          current-item-method-name='seriesTitle'
-          collection-name='filteredSeries'
-          pascal-item-name='Series'
-          single-item-name='series'
-          plural-item-name='series'
-          item-key-attribute='title'
-          preselected-item=(current_series_title)
-          any-item-label=(t('series.any'))
-          :api-index-url='routes.series_index_path'
-          :api-item-url='routes.series_path'
-          :select-item-url='pageState.urlForSeries'
-        ]
-
-        side-list[
-          v-if='!publisherName'
-          title=(t('publishers.index'))
-          load-method-name='loadPublishers'
-          set-all-method-name='setFilteredPublishers'
-          select-item-method-name='setPublisherName'
-          current-item-method-name='publisherName'
-          collection-name='filteredPublishers'
-          pascal-item-name='Publisher'
-          single-item-name='publisher'
-          plural-item-name='publishers'
-          item-key-attribute='name'
-          preselected-item=(current_publisher_name)
-          any-item-label=(t('publishers.any'))
-          :api-index-url='routes.publishers_path'
-          :api-item-url='routes.publisher_path'
-          :select-item-url='pageState.urlForPublisher'
-        ]
+        authors-side-list
 
       .page-right-column.column.is-9
         edition-form

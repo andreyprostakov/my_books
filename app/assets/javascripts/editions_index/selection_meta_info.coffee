@@ -8,11 +8,13 @@ Vue.component 'selection-meta-info',
       publisher: {}
       series: {}
     errors: {}
+    editAuthorMode: false
+    authorFormName: ''
 
   computed: Vuex.mapState
     editions: 'editions'
-    authorName: ->
-      @$store.getters.authorName
+    currentAuthor: ->
+      @$store.getters.currentAuthor
     publisherName: ->
       @$store.getters.publisherName
     seriesTitle: ->
@@ -26,7 +28,38 @@ Vue.component 'selection-meta-info',
       EventsDispatcher.$emit('addNewEdition')
 
     deselectAuthor: ->
-      @$store.commit('setAuthorName', null)
+      @$store.commit('setCurrentAuthor', null)
+
+    editAuthor: ->
+      @authorFormName = @currentAuthor.name
+      @editAuthorMode = true
+
+    updateAuthor: ->
+      $.ajax(
+        type: 'PUT'
+        url: Routes.author_path(@currentAuthor.id)
+        dataType: 'json'
+        data:
+          author: { name: @authorFormName }
+        success: (updatedItem) =>
+          @$store.commit('updateAuthor', updatedItem)
+          @editAuthorMode = false
+        error: @handleErrorResponse
+      )
+
+    deleteAuthor: ->
+      return unless confirm("Удалить автора \"#{@currentAuthor.name}\"?")
+      $.ajax(
+        type: 'DELETE'
+        url: Routes.author_path(@currentAuthor.id)
+        dataType: 'json'
+        success: =>
+          @$store.commit('removeAuthor', @currentAuthor)
+        error: @handleErrorResponse
+      )
+
+    cancelAuthorEditMode: ->
+      @editAuthorMode = false
 
     deselectPublisher: ->
       @$store.commit('setPublisherName', null)

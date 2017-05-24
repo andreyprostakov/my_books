@@ -1,3 +1,10 @@
+updateItemInArray = (array, updatedItem) ->
+  index = _.findIndex array, id: updatedItem.id
+  return null if index < 0
+  oldItem = array[index]
+  array.splice(index, 1, updatedItem)
+  oldItem
+
 window.Store = new Vuex.Store
   state:
     editions: []
@@ -30,8 +37,12 @@ window.Store = new Vuex.Store
     openedEditionId: (state) ->
       state.pageState.state.editionId
 
-    authorName: (state) ->
+    currentAuthorName: (state) ->
       state.pageState.state.authorName
+
+    currentAuthor: (state, getters) ->
+      return null unless getters.currentAuthorName
+      _.find state.allAuthors, name: getters.currentAuthorName
 
     filteredAuthors: (state) ->
       authors = _.select state.allAuthors, (author) =>
@@ -129,19 +140,21 @@ window.Store = new Vuex.Store
     setFilteredAuthors: (state, authors) ->
       state.filteredAuthorIds = _.map(authors, 'id')
 
-    setAuthorName: (state, authorName) ->
-      state.pageState.goToAuthor(authorName)
+    setCurrentAuthor: (state, author) ->
+      state.pageState.goToAuthor((author || {}).name)
       state.page = 1
 
     addAuthor: (state, newAuthor) ->
       state.allAuthors.splice(0, 0, newAuthor)
 
     updateAuthor: (state, updatedAuthor) ->
-      oldAuthor = state.allAuthors.find((a) => a.id == updatedAuthor.id)
-      state.allAuthors.splice(state.allAuthors.indexOf(oldAuthor), 1, updatedAuthor)
+      oldAuthor = updateItemInArray(state.allAuthors, updatedAuthor)
+      return unless oldAuthor
+      state.pageState.goToAuthor(updatedAuthor.name) if Store.getters.currentAuthorName == oldAuthor.name
 
     removeAuthor: (state, author) ->
       state.allAuthors.splice(state.allAuthors.indexOf(author), 1)
+      state.pageState.goToAuthor(null) if Store.getters.currentAuthorName == author.name
 
     # Publishers
 

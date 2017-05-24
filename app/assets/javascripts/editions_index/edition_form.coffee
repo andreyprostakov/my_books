@@ -17,7 +17,7 @@ Vue.component 'edition-form',
 
   computed: Vuex.mapState
     preselectedAuthor: ->
-      @$store.getters.authorName
+      @$store.getters.currentAuthorName
     preselectedPublisher: ->
       @$store.getters.publisherName
     preselectedCategory: ->

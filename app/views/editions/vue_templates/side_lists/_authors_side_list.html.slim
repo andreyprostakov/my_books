@@ -1,19 +1,12 @@
 script#authors_side_list_template[type='text/x-document']
-  side-list[
-    v-if='!authorName'
+  side-list[v-if='!currentAuthor'
+    id='authors_side_list'
     title=(t('authors.index'))
-    load-method-name='loadAuthors'
-    set-all-method-name='setFilteredAuthors'
-    select-item-method-name='setAuthorName'
-    current-item-method-name='authorName'
-    collection-name='filteredAuthors'
-    pascal-item-name='Author'
-    single-item-name='author'
-    plural-item-name='authors'
-    item-key-attribute='name'
-    preselected-item=(current_author_name)
     any-item-label=(t('authors.any'))
-    :api-index-url='routes.authors_path'
-    :api-item-url='routes.author_path'
-    :select-item-url='pageState.urlForAuthor'
+
+    :item-url='authorUrl'
+    :items='items'
+
+    @select='onSelect'
+    @submit:new-item='createAuthor'
   ]

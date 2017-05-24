@@ -7,9 +7,19 @@ Vue.component 'authors-side-list',
   computed: Vuex.mapState
     allAuthors: 'allAuthors'
 
-    items: (state) ->
+    pageState: 'pageState'
+
+    currentAuthor: ->
+      @$store.getters.currentAuthor
+
+    showedAuthors: (state) ->
       _.select state.allAuthors, (author) =>
         _.contains @showedAuthorIds, author.id
+
+    items: (state) ->
+      _.object(_.map(@showedAuthors, 'name'), @showedAuthors)
+
+    routes: -> Routes
 
   mounted: ->
     @refreshItems()
@@ -26,5 +36,25 @@ Vue.component 'authors-side-list',
       ).then (authors) =>
         @showedAuthorIds = _.map(authors, 'id')
 
-    onSelect: (authorName) ->
-      @$store.commit('setAuthor', authorName)
+    onSelect: (author) ->
+      @$store.commit('setCurrentAuthor', author)
+
+    authorUrl: (author) ->
+      @$store.state.pageState.urlForAuthor(author.name)
+
+    createAuthor: (authorName) ->
+      $.ajax(
+        type: 'POST'
+        url: Routes.authors_path()
+        dataType: 'json'
+        data:
+          author: { name: authorName }
+        success: (createdItem) =>
+          @$store.commit('addAuthor', createdItem)
+          @showedAuthorIds.push(createdItem.id)
+        error: @handleErrorResponse
+      )
+
+    handleErrorResponse: (response) ->
+      console.log('OOPS')
+      console.log(response)

@@ -2,6 +2,7 @@ ru:
   actions:
     edit: Редактировать
     remove: Удалить
+    cancel: Отмена
   authors:
     any: Любой
     index: Авторы

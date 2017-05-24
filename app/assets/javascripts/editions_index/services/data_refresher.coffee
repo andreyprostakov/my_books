@@ -3,8 +3,8 @@ class window.DataRefresher
     $.when $.getJSON(
       Routes.editions_path(
         order: store.state.editionsOrder
-        author: store.getters.authorName
-        publisher: store.getters.publisherName
+        author_name: store.getters.currentAuthorName
+        publisher_name: store.getters.publisherName
         series_title: store.getters.seriesTitle
       )
     )

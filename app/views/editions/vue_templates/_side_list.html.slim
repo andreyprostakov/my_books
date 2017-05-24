@@ -3,7 +3,7 @@ script#side_list_template[type='text/x-document']
     .side-block-heading
       span[v-html='title']
 
-      .actions[v-if='!selectedItem']
+      .actions
         a[v-if='!searchMode' @click='showSearchInput']
           i.fa.fa-search
         a.grey[v-else @click='hideSearchInput']
@@ -20,56 +20,38 @@ script#side_list_template[type='text/x-document']
           i.fa.fa-chevron-circle-up
 
     .side-block-content[v-if='expanded']
-      .side-list-selected-item[v-if='selectedItem']
-        template[v-if='selectedItem != editedItem']
-          .item-label[
-            @click='showEditInput(selectedItem)'
-            v-html='keyForItem(selectedItem)'
-          ]
-          .link-deselect[@click='deselect']
-            i.fa.fa-times
-
-        template[v-else]
-          td
-            form[@submit.prevent='updateItemName(selectedItem)']
-              .field
-                input.input[type='text' v-model='inputItemName' :ref='singleItemName + "-edit-" + selectedItem.id']
-
-      table.table.is-striped.is-narrow[v-else]
-        tr[v-if='creationMode']
+      table.table.is-striped.is-narrow
+        tr[v-show='creationMode']
           td
             form[@submit.prevent='createNewItem']
               .field
                 input.input[
                   type='text'
-                  v-model='newItemName'
-                  :ref='singleItemName + "-create"'
                   placeholder=(t('side_block.create'))
+                  v-model='newItemName'
+                  :ref='newItemFormRef'
                 ]
 
-        tr[v-if='searchMode']
+        tr[v-show='searchMode']
           td
             form[@submit.prevent='showSearchInput']
               .field
                 input.input[
                   type='text'
-                  v-model='searchKey'
-                  :ref='singleItemName + "-search"'
                   placeholder=(t('side_block.search'))
+                  v-model='searchKey'
+                  :ref='searchFormRef'
                 ]
 
-        tr[:class='{"is-active": currentItemIs(null)}' v-if='!creationMode && !searchMode']
+        tr[v-show='!creationMode && !searchMode']
           td
             a.list-item-label[@click='select(null)' v-html='anyItemLabel']
 
-        tr[v-for='item in filteredItems' :class='{"is-active": currentItemIs(item)}' :key='item.id']
+        tr[v-for='item, label in filteredItems' :key='item.id']
           template[v-if='item != editedItem']
             td
               a.list-item-label[
                 :href='urlForItem(item)'
                 @click.prevent=('select(item)')
-                v-html='keyForItem(item)'
+                v-html='label'
               ]
-            td
-              a.link-delete[@click='removeItem(item)']
-                i.fa.fa-times

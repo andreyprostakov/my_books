@@ -2,28 +2,18 @@ Vue.component 'side-list',
   template: '#side_list_template'
 
   props:
+    id: { required: true }
+
     title: { required: true }
-    preselectedItemValue: { default: null }
 
-    loadMethodName: { required: true }
-    collectionName: { required: true }
-    currentItemMethodName: { required: true }
-    setAllMethodName: { required: true }
-    selectItemMethodName: { require: true }
-
-    itemKeyAttribute: { required: true }
-    singleItemName: { required: true }
-    pascalItemName: { required: true }
-    pluralItemName: { required: true }
-
-    apiItemUrl: { required: true }
-    apiIndexUrl: { required: true }
-    selectItemUrl: { required: true }
+    itemUrl: { required: true }
 
     anyItemLabel: { required: true }
 
+    items: { type: Object, required: true }
+
   data: ->
-    toggledExpanded: true
+    expanded: true
     creationMode: false
     newItemName: null
 
@@ -34,71 +24,44 @@ Vue.component 'side-list',
     inputItemName: null
 
   computed: Vuex.mapState
-    authorName: ->
-      @$store.getters.authorName
-    publisherName: ->
-      @$store.getters.publisherName
-    seriesTitle: ->
-      @$store.getters.seriesTitle
-    selectedItemValue: ->
-      @$store.getters[@currentItemMethodName]
-
-    selectedItem: ->
-      return unless @selectedItemValue
-      _.find @items, (item) =>
-        item[@itemKeyAttribute] == @selectedItemValue
-
-    expanded: ->
-      @toggledExpanded || @selectedItemValue
-
     filteredItems: ->
       return @items if !@searchMode
-      @items.filter((i) => i[@itemKeyAttribute].match(new RegExp(@searchKey, 'i')))
+      _.pick @items, (item, label) => label.match(new RegExp(@searchKey, 'i'))
 
-    items: ->
-      @$store.getters[@collectionName]
+    newItemFormRef: ->
+      "#{@id}-create-form"
+
+    searchFormRef: ->
+      "#{@id}-search-form"
 
   mounted: ->
-    @$watch 'selectedItemValue', =>
-      @toggledExpanded = true if @selectedItemValue
+    @$watch 'items', =>
+      @hideCreationInput()
+      @hideEditInput()
+      @hideSearchInput()
 
   methods:
-    mounted: ->
-      @select(@preselectedItemValue)
-
-    keyForItem: (item) ->
-      item[@itemKeyAttribute]
-
-    currentItemIs: (item) ->
-      if item
-        item[@itemKeyAttribute] == @selectedItemValue
-      else
-        @selectedItemValue == null
-
     select: (item) ->
       @hideCreationInput()
       @hideEditInput()
-      if item
-        @$store.commit(@selectItemMethodName, item[@itemKeyAttribute])
-      else
-        @$store.commit(@selectItemMethodName, null)
-      @expand() if item
+      @$emit('select', item)
 
     expand: ->
-      @toggledExpanded = true
+      @hideCreationInput()
+      @hideEditInput()
+      @hideSearchInput()
+      @expanded = true
 
     hide: ->
-      @toggledExpanded = false
+      @expanded = false
       @select(null)
       @hideCreationInput()
       @hideEditInput()
 
     showCreationInput: ->
-      @hideEditInput()
-      @hideSearchInput()
-      @creationMode = true
       @expand()
-      @focusOn(@singleItemName + '-create')
+      @creationMode = true
+      @focusOn(@newItemFormRef)
 
     hideCreationInput: ->
       @creationMode = false
@@ -114,28 +77,16 @@ Vue.component 'side-list',
       @editedItem = null
 
     showSearchInput: ->
-      @hideEditInput()
-      @hideCreationInput()
       @searchKey = ''
-      @searchMode = true
       @expand()
-      @focusOn(@singleItemName + '-search')
+      @searchMode = true
+      @focusOn(@searchFormRef)
 
     hideSearchInput: ->
       @searchMode = false
 
     createNewItem: ->
-      $.ajax(
-        type: 'POST'
-        url: @apiIndexUrl()
-        dataType: 'json'
-        data: @requestDataWithItemName(@newItemName)
-        success: (createdItem) =>
-          @$store.commit("add#{@pascalItemName}", createdItem)
-          @hideCreationInput()
-          @newItemName = null
-        error: @handleErrorResponse
-      )
+      @$emit('submit:new-item', @newItemName)
 
     updateItemName: (item) ->
       $.ajax(
@@ -149,23 +100,6 @@ Vue.component 'side-list',
         error: @handleErrorResponse
       )
 
-    removeItem: (item) ->
-      return unless confirm("Удалить запись \"#{item[@itemKeyAttribute]}\"?")
-      $.ajax(
-        type: 'DELETE'
-        url: @apiItemUrl(item.id)
-        dataType: 'json'
-        success: =>
-          @$store.commit("remove#{@pascalItemName}", item)
-        error: @handleErrorResponse
-      )
-
-    requestDataWithItemName: (itemName) ->
-      data = {}
-      data[@singleItemName] = {}
-      data[@singleItemName][@itemKeyAttribute] = itemName
-      data
-
     handleErrorResponse: (response) ->
       console.log('OOPS')
       console.log(response)
@@ -177,7 +111,7 @@ Vue.component 'side-list',
         element.focus() if element
 
     urlForItem: (item) ->
-      @selectItemUrl(item[@itemKeyAttribute])
+      @itemUrl(item)
 
     deselect: ->
       @select(null)
