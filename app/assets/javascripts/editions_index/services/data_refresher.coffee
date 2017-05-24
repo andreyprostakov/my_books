@@ -5,7 +5,7 @@ class window.DataRefresher
         order: store.state.editionsOrder
         author_name: store.getters.currentAuthorName
         publisher_name: store.getters.currentPublisherName
-        series_title: store.getters.seriesTitle
+        series_title: store.getters.currentSeriesTitle
       )
     )
 

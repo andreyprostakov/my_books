@@ -70,8 +70,12 @@ window.Store = new Vuex.Store
     categoryCode: (state) ->
       state.pageState.state.categoryCode
 
-    seriesTitle: (state) ->
+    currentSeriesTitle: (state) ->
       state.pageState.state.seriesTitle
+
+    currentSeries: (state, getters) ->
+      return null unless getters.currentSeriesTitle
+      _.find state.allSeries, title: getters.currentSeriesTitle
 
     filteredSeries: (state) ->
       series = _.select state.allSeries, (series) =>
@@ -192,19 +196,21 @@ window.Store = new Vuex.Store
     setFilteredSeries: (state, series) ->
       state.filteredSeriesIds = _.map series, 'id'
 
-    setSeriesTitle: (state, title) ->
-      state.pageState.goToSeries(title)
+    setCurrentSeries: (state, series) ->
+      state.pageState.goToSeries((series || {}).title)
       state.page = 1
 
     addSeries: (state, newSeries) ->
       state.allSeries.splice(0, 0, newSeries)
 
     updateSeries: (state, updatedSeries) ->
-      oldSeries = state.allSeries.find((p) => p.id == updatedSeries.id)
-      state.allSeries.splice(state.allSeries.indexOf(oldSeries), 1, updatedSeries)
+      oldSeries = updateItemInArray(state.allSeries, updatedSeries)
+      return unless oldSeries
+      state.pageState.goToSeries(updatedSeries.title) if Store.getters.currentSeriesTitle == oldSeries.title
 
     removeSeries: (state, series) ->
       state.allSeries.splice(state.allSeries.indexOf(series), 1)
+      state.pageState.goToSeries(null) if Store.getters.currentSeriesTitle == oldSeries.title
 
     # Categories
 

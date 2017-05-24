@@ -12,8 +12,8 @@ Vue.component 'publishers-side-list',
     currentAuthorName: ->
       @$store.getters.currentAuthorName
 
-    seriesTitle: ->
-      @$store.getters.seriesTitle
+    currentSeriesTitle: ->
+      @$store.getters.currentSeriesTitle
 
     currentPublisher: ->
       @$store.getters.currentPublisher
@@ -32,13 +32,13 @@ Vue.component 'publishers-side-list',
     EventsDispatcher.$on 'editionCreated', @refreshItems
     EventsDispatcher.$on 'editionUpdated', @refreshItems
     @$watch 'currentAuthorName', @refreshItems
-    @$watch 'seriesTitle', @refreshItems
+    @$watch 'currentSeriesTitle', @refreshItems
 
   methods:
     refreshItems: ->
       DataRefresher.loadPublishers(
         author_name: @currentAuthorName
-        series_title: @seriesTitle
+        series_title: @currentSeriesTitle
       ).then (publishers) =>
         @showedPublisherIds = _.map(publishers, 'id')
 

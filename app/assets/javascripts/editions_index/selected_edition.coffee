@@ -58,4 +58,4 @@ Vue.component 'selected-edition',
 
     openSeries: ->
       return unless @edition.series
-      @$store.commit('setSeriesTitle', @edition.series.title)
+      @$store.commit('setCurrentSeries', @edition.series.title)

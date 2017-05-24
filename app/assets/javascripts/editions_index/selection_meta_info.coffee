@@ -10,15 +10,9 @@ Vue.component 'selection-meta-info',
   computed: Vuex.mapState
     editions: 'editions'
 
-    seriesTitle: ->
-      @$store.getters.seriesTitle
-
     editionsCount: ->
       @$store.getters.filteredEditions.length
 
   methods:
     addNewEdition: ->
       EventsDispatcher.$emit('addNewEdition')
-
-    deselectSeries: ->
-      @$store.commit('setSeriesTitle', null)

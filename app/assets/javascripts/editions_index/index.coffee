@@ -15,7 +15,7 @@ Vue.component 'editions-index',
     @$watch 'currentOrder', @loadEditions
     @$watch 'currentAuthorName', @loadEditions
     @$watch 'currentPublisherName', @loadEditions
-    @$watch 'seriesTitle', @loadEditions
+    @$watch 'currentSeriesTitle', @loadEditions
     EventsDispatcher.$on 'reloadEditions', =>
       @loadEditions()
 
@@ -26,8 +26,8 @@ Vue.component 'editions-index',
       @$store.getters.currentAuthorName
     currentPublisherName: ->
       @$store.getters.currentPublisherName
-    seriesTitle: ->
-      @$store.getters.seriesTitle
+    currentSeriesTitle: ->
+      @$store.getters.currentSeriesTitle
     currentOrder: 'editionsOrder'
     routes: -> Routes
 

@@ -4,13 +4,7 @@ script#selection_meta_info_template[type='text/x-document']
 
     publisher-info
 
-    .selection-meta-info-line[v-if='seriesTitle']
-      a.info-type[@click='deselectSeries'] = t('series.index')
-
-      =<> '|'
-
-      .info-value[v-html='seriesTitle']
-
+    series-info
 
     .editions-count
       => t('editions.count')

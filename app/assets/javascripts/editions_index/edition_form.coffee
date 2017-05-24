@@ -23,7 +23,7 @@ Vue.component 'edition-form',
     preselectedCategory: ->
       @$store.getters.categoryCode
     preselectedSeries: ->
-      @$store.getters.seriesTitle
+      @$store.getters.currentSeriesTitle
 
     canBeShown: ->
       @enabled

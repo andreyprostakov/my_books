@@ -4,7 +4,7 @@
   .selection-meta-info-line {
     &:hover {
       .info-actions {
-        display: block;
+        display: inline-block;
       }
     }
 
@@ -33,7 +33,7 @@
 
     .info-actions {
       display: none;
-      float: right;
+      margin-left: 20px;
 
       .info-action {
         display: inline-block;
