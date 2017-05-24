@@ -1,0 +1,23 @@
+script#selection_meta_info_template[type='text/x-document']
+  #selection_meta_info
+    .selection-meta-info-line[v-if='authorName']
+      a.info-type[@click='deselectAuthor'] = t('authors.index')
+      | /
+      .info-value[v-html='authorName']
+
+    .selection-meta-info-line[v-if='publisherName']
+      a.info-type[@click='deselectPublisher'] = t('publishers.index')
+      | /
+      .info-value[v-html='publisherName']
+
+    .selection-meta-info-line[v-if='seriesTitle']
+      a.info-type[@click='deselectSeries'] = t('series.index')
+      | /
+      .info-value[v-html='seriesTitle']
+
+    .editions-count
+      => t('editions.count')
+      span.editions-count-value[v-html='editionsCount']
+      => '.'
+      a.add-new-edition[@click='addNewEdition']
+        = t('editions.add_new')

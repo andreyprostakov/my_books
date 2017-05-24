@@ -26,7 +26,8 @@ script#side_list_template[type='text/x-document']
             @click='showEditInput(selectedItem)'
             v-html='keyForItem(selectedItem)'
           ]
-          .link-deselect[@click='deselect'] X
+          .link-deselect[@click='deselect']
+            i.fa.fa-times
 
         template[v-else]
           td
@@ -59,7 +60,7 @@ script#side_list_template[type='text/x-document']
 
         tr[:class='{"is-active": currentItemIs(null)}' v-if='!creationMode && !searchMode']
           td
-            a.name[@click='select(null)' v-html='anyItemLabel']
+            a.list-item-label[@click='select(null)' v-html='anyItemLabel']
 
         tr[v-for='item in filteredItems' :class='{"is-active": currentItemIs(item)}' :key='item.id']
           template[v-if='item != editedItem']
@@ -69,3 +70,6 @@ script#side_list_template[type='text/x-document']
                 @click.prevent=('select(item)')
                 v-html='keyForItem(item)'
               ]
+            td
+              a.link-delete[@click='removeItem(item)']
+                i.fa.fa-times

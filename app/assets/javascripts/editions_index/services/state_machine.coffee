@@ -54,11 +54,9 @@ class window.StateMachine
     @urlForState(@stateForAuthor(authorName))
 
   stateForAuthor: (authorName) ->
-    publisherName: null
     authorName: authorName
     categoryCode: null
     editionId: null
-    seriesTitle: null
 
   goToPublisher: (publisherName) ->
     @changeState(@stateForPublisher(publisherName))
@@ -68,10 +66,8 @@ class window.StateMachine
 
   stateForPublisher: (publisherName) ->
     publisherName: publisherName
-    authorName: null
     categoryCode: null
     editionId: null
-    seriesTitle: null
 
   goToSeries: (seriesTitle) ->
     @changeState(@stateForSeries(seriesTitle))
@@ -80,8 +76,6 @@ class window.StateMachine
     @urlForState(@stateForSeries(seriesTitle))
 
   stateForSeries: (seriesTitle) ->
-    publisherName: null
-    authorName: null
     categoryCode: null
     editionId: null
     seriesTitle: seriesTitle

@@ -1,6 +1,8 @@
 class SeriesController < ApplicationController
   def index
     all_series = Series.by_names
+    all_series = all_series.by_author(params[:author_name]) if params[:author_name]
+    all_series = all_series.by_publisher(params[:publisher_name]) if params[:publisher_name]
     render json: all_series
   end
 

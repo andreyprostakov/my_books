@@ -23,7 +23,7 @@ Vue.component 'side-list',
     anyItemLabel: { required: true }
 
   data: ->
-    toggledExpanded: false
+    toggledExpanded: true
     creationMode: false
     newItemName: null
 
@@ -34,6 +34,12 @@ Vue.component 'side-list',
     inputItemName: null
 
   computed: Vuex.mapState
+    authorName: ->
+      @$store.getters.authorName
+    publisherName: ->
+      @$store.getters.publisherName
+    seriesTitle: ->
+      @$store.getters.seriesTitle
     selectedItemValue: ->
       @$store.getters[@currentItemMethodName]
 
@@ -50,13 +56,9 @@ Vue.component 'side-list',
       @items.filter((i) => i[@itemKeyAttribute].match(new RegExp(@searchKey, 'i')))
 
     items: ->
-      @$store.state[@collectionName]
+      @$store.getters[@collectionName]
 
   mounted: ->
-    @loadItems()
-    EventsDispatcher.$on 'editionCreated', @loadItems
-    EventsDispatcher.$on 'editionUpdated', @loadItems
-
     @$watch 'selectedItemValue', =>
       @toggledExpanded = true if @selectedItemValue
 
@@ -66,10 +68,6 @@ Vue.component 'side-list',
 
     keyForItem: (item) ->
       item[@itemKeyAttribute]
-
-    loadItems: ->
-      DataRefresher[@loadMethodName]().then (items) =>
-        @$store.commit(@setAllMethodName, items)
 
     currentItemIs: (item) ->
       if item
@@ -152,6 +150,7 @@ Vue.component 'side-list',
       )
 
     removeItem: (item) ->
+      return unless confirm("Удалить запись \"#{item[@itemKeyAttribute]}\"?")
       $.ajax(
         type: 'DELETE'
         url: @apiItemUrl(item.id)

@@ -8,6 +8,7 @@ Vue.component 'editions-index',
   ]
 
   mounted: ->
+    @preloadLists()
     @presetInitialFilters()
 
     @loadEditions()
@@ -30,10 +31,15 @@ Vue.component 'editions-index',
     currentOrder: 'editionsOrder'
     routes: -> Routes
 
-    editionsCount: ->
-      @$store.getters.filteredEditions.length
-
   methods:
+    preloadLists: ->
+      DataRefresher.loadAuthors().then (authors) =>
+        @$store.commit('setAuthors', authors)
+      DataRefresher.loadPublishers().then (publishers) =>
+        @$store.commit('setPublishers', publishers)
+      DataRefresher.loadSeries().then (series) =>
+        @$store.commit('setAllSeries', series)
+
     presetInitialFilters: ->
       @$store.state.pageState.setState
         authorName: @initialAuthorName,
@@ -42,14 +48,8 @@ Vue.component 'editions-index',
         seriesTitle: @initialSeriesTitle
         editionId: parseInt(@initialSelectedEditionId)
 
-    editionsOfCategory: (categoryCode) ->
-      @editions.filter((e) => e.category.code == categoryCode)
-
     loadEditions: ->
       $('#editions_list').spin()
       DataRefresher.loadEditions(@$store).then (editions) =>
         $('#editions_list').spin(false)
         @$store.commit('setEditions', editions)
-
-    addNewEdition: ->
-      EventsDispatcher.$emit('addNewEdition')

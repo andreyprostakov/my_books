@@ -6,9 +6,12 @@ window.Store = new Vuex.Store
     selectedEditionId: null
     editionsOrder: null
 
-    authors: []
-    publishers: []
+    allAuthors: []
+    filteredAuthorIds: []
+    allPublishers: []
+    filteredPublisherIds: []
     allSeries: []
+    filteredSeriesIds: []
     series: null
 
     page: 1
@@ -30,20 +33,38 @@ window.Store = new Vuex.Store
     authorName: (state) ->
       state.pageState.state.authorName
 
+    filteredAuthors: (state) ->
+      authors = _.select state.allAuthors, (author) =>
+        _.contains state.filteredAuthorIds, author.id
+      _.sortBy authors, 'name'
+
     authorNames: (state) ->
-      _.map state.authors, 'name'
+      _.map state.allAuthors, 'name'
 
     publisherName: (state) ->
       state.pageState.state.publisherName
 
+    filteredPublishers: (state) ->
+      publishers = _.select state.allPublishers, (publisher) =>
+        _.contains state.filteredPublisherIds, publisher.id
+      _.sortBy publishers, 'name'
+
     publisherNames: (state) ->
-      _.map state.publishers, 'name'
+      _.map state.allPublishers, 'name'
 
     categoryCode: (state) ->
       state.pageState.state.categoryCode
 
     seriesTitle: (state) ->
       state.pageState.state.seriesTitle
+
+    filteredSeries: (state) ->
+      series = _.select state.allSeries, (series) =>
+        _.contains state.filteredSeriesIds, series.id
+      _.sortBy series, 'name'
+
+    seriesTitles: (state) ->
+      _.map state.allSeries, 'title'
 
   mutations:
     # Editions
@@ -102,46 +123,55 @@ window.Store = new Vuex.Store
 
     # Authors
 
-    setAuthors: (state, authors) ->
-      state.authors = authors
+    setAuthors: (state, allAuthors) ->
+      state.allAuthors = allAuthors
+
+    setFilteredAuthors: (state, authors) ->
+      state.filteredAuthorIds = _.map(authors, 'id')
 
     setAuthorName: (state, authorName) ->
       state.pageState.goToAuthor(authorName)
       state.page = 1
 
     addAuthor: (state, newAuthor) ->
-      state.authors.splice(0, 0, newAuthor)
+      state.allAuthors.splice(0, 0, newAuthor)
 
     updateAuthor: (state, updatedAuthor) ->
-      oldAuthor = state.authors.find((a) => a.id == updatedAuthor.id)
-      state.authors.splice(state.authors.indexOf(oldAuthor), 1, updatedAuthor)
+      oldAuthor = state.allAuthors.find((a) => a.id == updatedAuthor.id)
+      state.allAuthors.splice(state.allAuthors.indexOf(oldAuthor), 1, updatedAuthor)
 
     removeAuthor: (state, author) ->
-      state.authors.splice(state.authors.indexOf(author), 1)
+      state.allAuthors.splice(state.allAuthors.indexOf(author), 1)
 
     # Publishers
 
     setPublishers: (state, publishers) ->
-      state.publishers = publishers
+      state.allPublishers = publishers
+
+    setFilteredPublishers: (state, publishers) ->
+      state.filteredPublisherIds = _.map(publishers, 'id')
 
     setPublisherName: (state, publisherName) ->
       state.pageState.goToPublisher(publisherName)
       state.page = 1
 
     addPublisher: (state, newPublisher) ->
-      state.publishers.splice(0, 0, newPublisher)
+      state.allPublishers.splice(0, 0, newPublisher)
 
     updatePublisher: (state, updatedPublisher) ->
-      oldPublisher = state.publishers.find((p) => p.id == updatedPublisher.id)
-      state.publishers.splice(state.publishers.indexOf(oldPublisher), 1, updatedPublisher)
+      oldPublisher = state.allPublishers.find((p) => p.id == updatedPublisher.id)
+      state.allPublishers.splice(state.allPublishers.indexOf(oldPublisher), 1, updatedPublisher)
 
     removePublisher: (state, publisher) ->
-      state.publishers.splice(state.publishers.indexOf(publisher), 1)
+      state.allPublishers.splice(state.allPublishers.indexOf(publisher), 1)
 
     # Series
 
     setAllSeries: (state, allSeries) ->
       state.allSeries = allSeries
+
+    setFilteredSeries: (state, series) ->
+      state.filteredSeriesIds = _.map series, 'id'
 
     setSeriesTitle: (state, title) ->
       state.pageState.goToSeries(title)
@@ -151,7 +181,7 @@ window.Store = new Vuex.Store
       state.allSeries.splice(0, 0, newSeries)
 
     updateSeries: (state, updatedSeries) ->
-      oldSeries = state.publishers.find((p) => p.id == updatedSeries.id)
+      oldSeries = state.allSeries.find((p) => p.id == updatedSeries.id)
       state.allSeries.splice(state.allSeries.indexOf(oldSeries), 1, updatedSeries)
 
     removeSeries: (state, series) ->

@@ -1,0 +1,21 @@
+#selection_meta_info {
+  font-size: 32px;
+
+  .selection-meta-info-line {
+    .info-type {
+      display: inline-block;
+      font-size: 32px;
+    }
+
+    .info-value {
+      display: inline-block;
+      font-weight: bold;
+      font-size: 32px;
+    }
+  }
+
+  .add-edition-link {
+    display: inline-block;
+    margin-bottom: 30px;
+  }
+}

@@ -14,17 +14,17 @@ class window.DataRefresher
       Routes.edition_path(edition)
     )
 
-  @loadAuthors: ->
+  @loadAuthors: (params = {}) ->
     $.when $.getJSON(
-      Routes.authors_path()
+      Routes.authors_path(params)
     )
 
-  @loadPublishers: ->
+  @loadPublishers: (params = {}) ->
     $.when $.getJSON(
-      Routes.publishers_path()
+      Routes.publishers_path(params)
     )
 
-  @loadSeries: ->
+  @loadSeries: (params = {}) ->
     $.when $.getJSON(
-      Routes.series_index_path()
+      Routes.series_index_path(params)
     )

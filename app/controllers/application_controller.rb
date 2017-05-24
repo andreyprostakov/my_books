@@ -18,11 +18,11 @@ class ApplicationController < ActionController::Base
   end
 
   def current_author_name
-    params[:author]
+    params[:author_name]
   end
 
   def current_publisher_name
-    params[:publisher]
+    params[:publisher_name]
   end
 
   def current_series_title

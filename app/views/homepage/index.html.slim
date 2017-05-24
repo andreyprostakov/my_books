@@ -20,12 +20,13 @@
         order-select initial-order=(current_editions_order)
 
         side-list[
+          v-if='!authorName'
           title=(t('authors.index'))
           load-method-name='loadAuthors'
-          set-all-method-name='setAuthors'
+          set-all-method-name='setFilteredAuthors'
           select-item-method-name='setAuthorName'
           current-item-method-name='authorName'
-          collection-name='authors'
+          collection-name='filteredAuthors'
           pascal-item-name='Author'
           single-item-name='author'
           plural-item-name='authors'
@@ -38,12 +39,13 @@
         ]
 
         side-list[
+          v-if='!seriesTitle'
           title=(t('series.index'))
           load-method-name='loadSeries'
-          set-all-method-name='setAllSeries'
+          set-all-method-name='setFilteredSeries'
           select-item-method-name='setSeriesTitle'
           current-item-method-name='seriesTitle'
-          collection-name='allSeries'
+          collection-name='filteredSeries'
           pascal-item-name='Series'
           single-item-name='series'
           plural-item-name='series'
@@ -56,12 +58,13 @@
         ]
 
         side-list[
+          v-if='!publisherName'
           title=(t('publishers.index'))
           load-method-name='loadPublishers'
-          set-all-method-name='setPublishers'
+          set-all-method-name='setFilteredPublishers'
           select-item-method-name='setPublisherName'
           current-item-method-name='publisherName'
-          collection-name='publishers'
+          collection-name='filteredPublishers'
           pascal-item-name='Publisher'
           single-item-name='publisher'
           plural-item-name='publishers'
@@ -79,31 +82,7 @@
         edition-details
 
         template
-          #current_selection_info
-            template[v-if='authorName']
-              .type
-                = t('authors.one')
-                | :
-              .value[v-html='authorName']
-
-            template[v-if='seriesTitle']
-              .type
-                = t('series.one')
-                | :
-              .value[v-html='seriesTitle']
-
-            template[v-if='publisherName']
-              .type
-                = t('publishers.one')
-                | :
-              .value[v-html='publisherName']
-
-            .editions-count
-              => t('editions.count')
-              span.editions-count-value[v-html='editionsCount']
-              => '.'
-              a.add-new-edition[@click='addNewEdition']
-                = t('editions.add_new')
+          selection-meta-info
 
           categories-tabs
 
