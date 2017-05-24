@@ -17,11 +17,13 @@ Vue.component 'edition-form',
 
   computed: Vuex.mapState
     preselectedAuthor: ->
-      @$store.getters.authorName
+      @$store.getters.currentAuthorName
     preselectedPublisher: ->
-      @$store.getters.publisherName
+      @$store.getters.currentPublisherName
     preselectedCategory: ->
       @$store.getters.categoryCode
+    preselectedSeries: ->
+      @$store.getters.currentSeriesTitle
 
     canBeShown: ->
       @enabled
@@ -41,12 +43,13 @@ Vue.component 'edition-form',
     publisherNames: ->
       @$store.getters.publisherNames
 
+    seriesTitles: ->
+      _.map @$store.state.allSeries, 'title'
+
   methods:
     show: ->
       @clearErrors()
       @enabled = true
-      @updateAuthorsAutocompletes()
-      @updatePublisherAutocomplete()
 
     close: ->
       @enabled = false
@@ -62,18 +65,6 @@ Vue.component 'edition-form',
       book.authors.splice(authorIndex, 1)
       @clearErrors(@authorErrorPath(book, author))
 
-    updateAuthorsAutocompletes: ->
-      Vue.nextTick =>
-        $('[data-author-autocomplete]').autocomplete
-          source: @authorNames
-          minLength: 0
-
-    updatePublisherAutocomplete: ->
-      Vue.nextTick =>
-        $('[data-publisher-autocomplete]').autocomplete
-          source: @publisherNames
-          minLength: 0
-
     addBook: ->
       @edition.books.push @newBook()
 
@@ -87,6 +78,7 @@ Vue.component 'edition-form',
         books: [@newBook()]
         publisher: { name: @preselectedPublisher }
         category: { code: @preselectedCategory }
+        series: { title: @preselectedSeries }
         pages_count: 1
         publication_year: 2016
         remote_cover_url: null

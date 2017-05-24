@@ -1,0 +1,54 @@
+#selection_meta_info {
+  font-size: 32px;
+
+  .selection-meta-info-line {
+    &:hover {
+      .info-actions {
+        display: inline-block;
+      }
+    }
+
+    .info-type {
+      display: inline-block;
+      font-size: 32px;
+    }
+
+    .info-value {
+      display: inline-block;
+      font-weight: bold;
+      font-size: 32px;
+      cursor: default;
+    }
+
+    .info-edit-form {
+      display: inline-block;
+
+      input {
+        display: inline-block;
+        font-size: 32px;
+        padding: 0px 5px;
+        height: auto;
+        width: 350px;
+      }
+    }
+
+    .info-actions {
+      display: none;
+      vertical-align: top;
+      padding: 13px 0px 8px 10px;
+      font-size: 18px;
+
+      .info-action {
+        display: inline-block;
+        padding: 0 3px;
+        vertical-align: top;
+        text-transform: lowercase;
+      }
+    }
+  }
+
+  .add-edition-link {
+    display: inline-block;
+    margin-bottom: 30px;
+  }
+}

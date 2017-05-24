@@ -1,0 +1,56 @@
+script#side_list_template[type='text/x-document']
+  .side-block.side-list
+    .side-block-heading
+      span[v-html='title']
+
+      .actions
+        template[v-if='itemsAreMany']
+          a[v-if='!searchMode' @click='showSearchInput']
+            i.fa.fa-search
+          a.grey[v-else @click='hideSearchInput']
+            i.fa.fa-search
+
+        a[v-if='!creationMode' @click='showCreationInput']
+          i.fa.fa-plus-circle
+        a.grey[v-else @click='hideCreationInput']
+          i.fa.fa-plus-circle
+
+    .side-block-content
+      table.table.is-striped.is-narrow
+        tr[v-show='creationMode']
+          td
+            form[@submit.prevent='createNewItem']
+              .field
+                input.input[
+                  type='text'
+                  placeholder=(t('side_block.create'))
+                  v-model='newItemName'
+                  :ref='newItemFormRef'
+                ]
+
+        tr[v-show='searchMode']
+          td
+            form[@submit.prevent='showSearchInput']
+              .field
+                input.input[
+                  type='text'
+                  placeholder=(t('side_block.search'))
+                  v-model='searchKey'
+                  :ref='searchFormRef'
+                ]
+
+        tr[v-show='showLinkToAny']
+          td.any-item
+            a[@click='select(null)' v-html='anyItemLabel']
+
+        tr[v-for='item, label in searchedItems' :key='item.id']
+          template
+            td.list-item
+              a[
+                :href='urlForItem(item)'
+                @click.prevent=('select(item)')
+                v-html='label'
+              ]
+
+        tr[v-show='listIsEmpty']
+          td.no-items = t('side_block.none')

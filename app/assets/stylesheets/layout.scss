@@ -21,15 +21,27 @@ body {
   }
 }
 
+.page-filters-block {
+  margin-bottom: 25px;
+  border-radius: 3px;
+  border-bottom: 1px solid #dbdbdb;
+
+  .side-block {
+    margin-bottom: 0;
+    border-radius: 0;
+    border-bottom: none;
+  }
+}
+
 .side-block {
-  margin-bottom: 40px;
+  margin-bottom: 25px;
   border: 1px solid #dbdbdb;
   border-radius: 3px 3px 0 0;
   background-color: whitesmoke;
   overflow: hidden;
 
   .side-block-heading {
-    padding: 10px 15px;
+    padding: 5px 13px;
     border-bottom: 1px solid #dbdbdb;
     font-size: 21px;
     font-weight: 200;

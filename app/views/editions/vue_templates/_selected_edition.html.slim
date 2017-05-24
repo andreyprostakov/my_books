@@ -3,6 +3,8 @@ script#selected_edition_template[type='text/x-document']
     .side-block-content
       .selected-edition-title[@click='openEdition' v-html='edition.title']
 
+      .selected-edition-series[@click='openSeries' v-html='seriesTitle']
+
       .selected-edition-cover[@click='openEdition']
         img[:src='edition.cover_url']
 

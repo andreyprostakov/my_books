@@ -6,6 +6,7 @@ Vue.component 'selected-editions',
       read: null
       category: {}
       publisher: {}
+      series: {}
     errors: {}
 
   computed: Vuex.mapState
@@ -15,19 +16,15 @@ Vue.component 'selected-editions',
     publisherNames: ->
       @$store.getters.publisherNames
 
-  methods:
-    updatePublisherAutocomplete: ->
-      Vue.nextTick =>
-        $('[data-publisher-autocomplete]').autocomplete
-          source: @publisherNames
-          minLength: 0
+    seriesTitles: ->
+      _.map @$store.state.allSeries, 'title'
 
+  methods:
     toggleSelectionMode: ->
       if @selectionMode
         @$store.commit('stopSelectingEditions')
       else
         @$store.commit('startSelectingEditions')
-        @updatePublisherAutocomplete()
 
     updateBatchReadStatus: (status) ->
       @sendUpdates(read: status)

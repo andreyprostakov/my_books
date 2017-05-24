@@ -2,7 +2,9 @@ ru:
   actions:
     edit: Редактировать
     remove: Удалить
+    cancel: Отмена
   authors:
+    any: Любой
     index: Авторы
     one: Автор
     add_new: Добавить автора
@@ -40,6 +42,7 @@ ru:
       new_first: Сначала новые
       last_updated: По последнему обновлению
   publishers:
+    any: Любое
     index: Издательства
     one: Издательство
     add_new: Добавить издательство
@@ -54,11 +57,18 @@ ru:
       not_read: Не прочитано
     category: Категория
     publisher: Издательство
+    series: Серия
     apply_updates: Применить
+  series:
+    any: Любая
+    index: Серии
+    one: Серия
+    add_new: Добавить серию
   side_block:
     search: Поиск
     create: Новая запись
     any: Любой
+    none: Нет
   status:
     nothing_here: Пусто
   title: Книги

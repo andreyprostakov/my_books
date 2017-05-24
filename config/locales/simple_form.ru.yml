@@ -35,6 +35,7 @@ ru:
         remote_cover_url: Обложка
         publication_year: Год
         pages_count: 'Кол-во'
+        series: Серия
         books:
           title: Название
           author: Автор

@@ -11,6 +11,7 @@ class EditionFormHandler
     :read,
     category: [:code],
     publisher: [:name],
+    series: [:title],
     books: BOOKS_PARAMS
   ].freeze
   EDITION_RAW_PARAMS = %i(
@@ -47,31 +48,32 @@ class EditionFormHandler
   def apply_attributes_to_edition(edition)
     edition.assign_attributes(filtered_params.slice(*EDITION_RAW_PARAMS))
 
-    if filtered_params[:books]
-      assign_books_params_to_edition(edition, filtered_params[:books])
-    end
-
-    if filtered_params[:category]
-      assign_category_params_to_edition(edition, filtered_params[:category])
-    end
-
-    if filtered_params[:publisher]
-      assign_publisher_params_to_edition(edition, filtered_params[:publisher])
-    end
+    assign_books_params_to_edition(edition, filtered_params[:books])
+    assign_category_to_edition(edition, filtered_params.dig(:category, :code))
+    assign_publisher_to_edition(edition, filtered_params.dig(:publisher, :name))
+    assign_series_to_edition(edition, filtered_params.dig(:series, :title))
   end
 
   def assign_books_params_to_edition(edition, books_params)
+    return unless books_params.present?
     books_params.values.map do |book_params|
       create_book_for_edition(edition, book_params)
     end
   end
 
-  def assign_category_params_to_edition(edition, category_params)
-    edition.category = EditionCategory.find_by(code: category_params[:code])
+  def assign_category_to_edition(edition, code)
+    return unless code
+    edition.category = EditionCategory.find_by(code: code)
   end
 
-  def assign_publisher_params_to_edition(edition, publisher_params)
-    edition.publisher = Publisher.where(name: publisher_params[:name]).first_or_initialize
+  def assign_publisher_to_edition(edition, name)
+    return unless name
+    edition.publisher = Publisher.where(name: name).first_or_initialize
+  end
+
+  def assign_series_to_edition(edition, title)
+    return unless title
+    edition.series = Series.where(title: title).first_or_initialize
   end
 
   def create_book_for_edition(edition, book_params)

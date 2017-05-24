@@ -6,15 +6,25 @@
   }
 
   .selected-edition-title {
-    margin-bottom: 10px;
     font-weight: bold;
     text-align: center;
+  }
+
+  .selected-edition-series {
+    font-size: 14px;
+    text-align: center;
+    font-style: italic;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .selected-edition-cover {
     display: block;
     width: 140px;
-    margin: 0 auto 10px;
+    margin: 10px auto 10px;
     cursor: pointer;
   }
 

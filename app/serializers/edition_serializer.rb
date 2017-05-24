@@ -6,6 +6,7 @@ class EditionSerializer < ActiveModel::Serializer
     :read
 
   has_many :authors
+  has_one :series
 
   def title
     object.title.presence ||

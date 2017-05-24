@@ -1,0 +1,12 @@
+script#authors_side_list_template[type='text/x-document']
+  side-list[v-if='!currentAuthor'
+    id='authors_side_list'
+    title=(t('authors.index'))
+    any-item-label=(t('authors.any'))
+
+    :item-url='authorUrl'
+    :items='items'
+
+    @select='onSelect'
+    @submit:new-item='createAuthor'
+  ]

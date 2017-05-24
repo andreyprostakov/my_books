@@ -41,4 +41,8 @@ FactoryGirl.define do
   factory :publisher do
     sequence(:name) { |n| "Publisher #{n}" }
   end
+
+  factory :series do
+    sequence(:title) { |n| "Series #{n}" }
+  end
 end

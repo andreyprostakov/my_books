@@ -7,40 +7,25 @@
   editions-index[
     inline-template
     initial-selected-edition-id=(params[:edition_id])
-    initial-author-name=(params[:author_name])
-    initial-publisher-name=(params[:publisher_name])
+    initial-author-name=(current_author_name)
+    initial-publisher-name=(current_publisher_name)
     initial-category-code=(params[:category_code])
+    initial-series-title=(current_series_title)
   ]
     div.columns.is-multiline
       .page-left-column.column.is-3
         selected-edition
-        selected-editions
+
+        .page-filters-block
+          authors-side-list
+
+          publishers-side-list
+
+          series-side-list
 
         order-select initial-order=(current_editions_order)
 
-        side-list[
-          title=(t('authors.index'))
-          load-method-name='loadAuthors'
-          items-name='authors'
-          selected-item-name='author'
-          mutation-item-name='Author'
-          preselected-item=(current_author_name)
-          :create-item-url='routes.authors_path'
-          :update-item-url='routes.author_path'
-          :remove-item-url='routes.author_path'
-        ]
-
-        side-list[
-          title=(t('publishers.index'))
-          load-method-name='loadPublishers'
-          items-name='publishers'
-          selected-item-name='publisher'
-          mutation-item-name='Publisher'
-          preselected-item=(current_publisher_name)
-          :create-item-url='routes.publishers_path'
-          :update-item-url='routes.publisher_path'
-          :remove-item-url='routes.publisher_path'
-        ]
+        selected-editions
 
       .page-right-column.column.is-9
         edition-form
@@ -48,25 +33,7 @@
         edition-details
 
         template
-          #current_selection_info
-            template[v-if='authorName']
-              .type
-                = t('authors.one')
-                | :
-              .value[v-html='authorName']
-
-            template[v-if='publisherName']
-              .type
-                = t('publishers.one')
-                | :
-              .value[v-html='publisherName']
-
-            .editions-count
-              => t('editions.count')
-              span.editions-count-value[v-html='editionsCount']
-              => '.'
-              a.add-new-edition[@click='addNewEdition']
-                = t('editions.add_new')
+          selection-meta-info
 
           categories-tabs
 

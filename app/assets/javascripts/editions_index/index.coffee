@@ -3,47 +3,53 @@ Vue.component 'editions-index',
     'initialSelectedEditionId',
     'initialAuthorName',
     'initialCategoryCode',
-    'initialPublisherName'
+    'initialPublisherName',
+    'initialSeriesTitle'
   ]
 
   mounted: ->
+    @preloadLists()
     @presetInitialFilters()
 
     @loadEditions()
     @$watch 'currentOrder', @loadEditions
-    @$watch 'authorName', @loadEditions
-    @$watch 'publisherName', @loadEditions
+    @$watch 'currentAuthorName', @loadEditions
+    @$watch 'currentPublisherName', @loadEditions
+    @$watch 'currentSeriesTitle', @loadEditions
     EventsDispatcher.$on 'reloadEditions', =>
       @loadEditions()
 
   computed: Vuex.mapState
+    pageState: 'pageState'
     editions: 'editions'
-    authorName: ->
-      @$store.getters.authorName
-    publisherName: ->
-      @$store.getters.publisherName
+    currentAuthorName: ->
+      @$store.getters.currentAuthorName
+    currentPublisherName: ->
+      @$store.getters.currentPublisherName
+    currentSeriesTitle: ->
+      @$store.getters.currentSeriesTitle
     currentOrder: 'editionsOrder'
     routes: -> Routes
 
-    editionsCount: ->
-      @$store.getters.filteredEditions.length
-
   methods:
+    preloadLists: ->
+      DataRefresher.loadAuthors().then (authors) =>
+        @$store.commit('setAuthors', authors)
+      DataRefresher.loadPublishers().then (publishers) =>
+        @$store.commit('setPublishers', publishers)
+      DataRefresher.loadSeries().then (series) =>
+        @$store.commit('setAllSeries', series)
+
     presetInitialFilters: ->
       @$store.state.pageState.setState
         authorName: @initialAuthorName,
         publisherName: @initialPublisherName
         categoryCode: @initialCategoryCode
+        seriesTitle: @initialSeriesTitle
         editionId: parseInt(@initialSelectedEditionId)
-
-    editionsOfCategory: (categoryCode) ->
-      @editions.filter((e) => e.category.code == categoryCode)
 
     loadEditions: ->
       $('#editions_list').spin()
       DataRefresher.loadEditions(@$store).then (editions) =>
         $('#editions_list').spin(false)
         @$store.commit('setEditions', editions)
-
-    addNewEdition: ->
-      EventsDispatcher.$emit('addNewEdition')

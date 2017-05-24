@@ -1,0 +1,12 @@
+script#series_side_list_template[type='text/x-document']
+  side-list[v-if='!currentSeries'
+    id='series_side_list'
+    title=(t('series.index'))
+    any-item-label=(t('series.any'))
+
+    :item-url='seriesUrl'
+    :items='items'
+
+    @select='onSelect'
+    @submit:new-item='createSeries'
+  ]

@@ -1,6 +1,8 @@
 class AuthorsController < ApplicationController
   def index
     authors = Author.by_names
+    authors = authors.for_publisher(params[:publisher_name]) if params[:publisher_name]
+    authors = authors.of_series(params[:series_title]) if params[:series_title]
     render json: authors
   end
 

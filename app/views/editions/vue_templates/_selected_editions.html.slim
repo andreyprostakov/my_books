@@ -38,7 +38,15 @@ script#selected_editions_template[type='text/x-document']
 
         .field.selected-editions-publisher
           label = t('selected_editions.publisher')
-          input.input[data-publisher-autocomplete v-model='updates.publisher.name']
+          autocomplete.input[v-model='updates.series.publisher'
+            :source='publisherNames'
+          ]
+
+        .field.selected-editions-series
+          label = t('selected_editions.series')
+          autocomplete.input[v-model='updates.series.title'
+            :source='seriesTitles'
+          ]
 
         .field.selected-editions-updates-submit
           input.button.is-primary[

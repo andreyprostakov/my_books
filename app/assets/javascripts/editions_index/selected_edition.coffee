@@ -5,13 +5,21 @@ Vue.component 'selected-edition',
     editions: 'editions'
     openedEdition: 'openedEdition'
     selectedEditionId: 'selectedEditionId'
+
     edition: ->
       _.find @editions, id: @selectedEditionId
+
     openedEditionId: ->
       @$store.getters.openedEditionId
+
     editionIsOpened: ->
       @selectedEditionId == @openedEditionId
+
     routes: -> Routes
+
+    seriesTitle: ->
+      return unless @edition.series
+      @edition.series.title
 
   methods:
     editEdition: ->
@@ -47,3 +55,7 @@ Vue.component 'selected-edition',
     handleErrorResponse: (response) ->
       console.log('OOPS')
       console.log(response)
+
+    openSeries: ->
+      return unless @edition.series
+      @$store.commit('setCurrentSeries', @edition.series.title)

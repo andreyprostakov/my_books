@@ -1,3 +1,10 @@
+updateItemInArray = (array, updatedItem) ->
+  index = _.findIndex array, id: updatedItem.id
+  return null if index < 0
+  oldItem = array[index]
+  array.splice(index, 1, updatedItem)
+  oldItem
+
 window.Store = new Vuex.Store
   state:
     editions: []
@@ -5,8 +12,11 @@ window.Store = new Vuex.Store
     selectedEditionIds: []
     selectedEditionId: null
     editionsOrder: null
-    authors: []
-    publishers: []
+
+    allAuthors: []
+    allPublishers: []
+    allSeries: []
+
     page: 1
     pageSize: 18
     pageState: new StateMachine()
@@ -23,20 +33,38 @@ window.Store = new Vuex.Store
     openedEditionId: (state) ->
       state.pageState.state.editionId
 
-    authorName: (state) ->
+    currentAuthorName: (state) ->
       state.pageState.state.authorName
 
-    authorNames: (state) ->
-      _.map state.authors, 'name'
+    currentAuthor: (state, getters) ->
+      return null unless getters.currentAuthorName
+      _.find state.allAuthors, name: getters.currentAuthorName
 
-    publisherName: (state) ->
+    authorNames: (state) ->
+      _.map state.allAuthors, 'name'
+
+    currentPublisherName: (state) ->
       state.pageState.state.publisherName
 
+    currentPublisher: (state, getters) ->
+      return null unless getters.currentPublisherName
+      _.find state.allPublishers, name: getters.currentPublisherName
+
     publisherNames: (state) ->
-      _.map state.publishers, 'name'
+      _.map state.allPublishers, 'name'
 
     categoryCode: (state) ->
       state.pageState.state.categoryCode
+
+    currentSeriesTitle: (state) ->
+      state.pageState.state.seriesTitle
+
+    currentSeries: (state, getters) ->
+      return null unless getters.currentSeriesTitle
+      _.find state.allSeries, title: getters.currentSeriesTitle
+
+    seriesTitles: (state) ->
+      _.map state.allSeries, 'title'
 
   mutations:
     # Editions
@@ -95,41 +123,69 @@ window.Store = new Vuex.Store
 
     # Authors
 
-    setAuthors: (state, authors) ->
-      state.authors = authors
+    setAuthors: (state, allAuthors) ->
+      state.allAuthors = allAuthors
 
-    setAuthorName: (state, authorName) ->
-      state.pageState.goToAuthor(authorName)
+    setCurrentAuthor: (state, author) ->
+      state.pageState.goToAuthor((author || {}).name)
       state.page = 1
 
     addAuthor: (state, newAuthor) ->
-      state.authors.splice(0, 0, newAuthor)
+      state.allAuthors.splice(0, 0, newAuthor)
+      state.pageState.goToAuthor(newAuthor.name)
 
     updateAuthor: (state, updatedAuthor) ->
-      oldAuthor = state.authors.find((a) => a.id == updatedAuthor.id)
-      state.authors.splice(state.authors.indexOf(oldAuthor), 1, updatedAuthor)
+      oldAuthor = updateItemInArray(state.allAuthors, updatedAuthor)
+      return unless oldAuthor
+      state.pageState.goToAuthor(updatedAuthor.name) if Store.getters.currentAuthorName == oldAuthor.name
 
     removeAuthor: (state, author) ->
-      state.authors.splice(state.authors.indexOf(author), 1)
+      state.allAuthors.splice(state.allAuthors.indexOf(author), 1)
+      state.pageState.goToAuthor(null) if Store.getters.currentAuthorName == author.name
 
     # Publishers
 
     setPublishers: (state, publishers) ->
-      state.publishers = publishers
+      state.allPublishers = publishers
 
-    setPublisherName: (state, publisherName) ->
-      state.pageState.goToPublisher(publisherName)
+    setCurrentPublisher: (state, publisher) ->
+      state.pageState.goToPublisher((publisher || {}).name)
       state.page = 1
 
     addPublisher: (state, newPublisher) ->
-      state.publishers.splice(0, 0, newPublisher)
+      state.allPublishers.splice(0, 0, newPublisher)
+      state.pageState.goToPublisher(newPublisher.name)
 
     updatePublisher: (state, updatedPublisher) ->
-      oldPublisher = state.publishers.find((p) => p.id == updatedPublisher.id)
-      state.publishers.splice(state.publishers.indexOf(oldPublisher), 1, updatedPublisher)
+      oldPublisher = updateItemInArray(state.allPublishers, updatedPublisher)
+      return unless oldPublisher
+      state.pageState.goToPublisher(updatedPublisher.name) if Store.getters.currentPublisherName == oldPublisher.name
 
     removePublisher: (state, publisher) ->
-      state.publishers.splice(state.publishers.indexOf(publisher), 1)
+      state.allPublishers.splice(state.allPublishers.indexOf(publisher), 1)
+      state.pageState.goToPublisher(null) if Store.getters.currentPublisherName == publisher.name
+
+    # Series
+
+    setAllSeries: (state, allSeries) ->
+      state.allSeries = allSeries
+
+    setCurrentSeries: (state, series) ->
+      state.pageState.goToSeries((series || {}).title)
+      state.page = 1
+
+    addSeries: (state, newSeries) ->
+      state.allSeries.splice(0, 0, newSeries)
+      state.pageState.goToSeries(newSeries.title)
+
+    updateSeries: (state, updatedSeries) ->
+      oldSeries = updateItemInArray(state.allSeries, updatedSeries)
+      return unless oldSeries
+      state.pageState.goToSeries(updatedSeries.title) if Store.getters.currentSeriesTitle == oldSeries.title
+
+    removeSeries: (state, series) ->
+      state.allSeries.splice(state.allSeries.indexOf(series), 1)
+      state.pageState.goToSeries(null) if Store.getters.currentSeriesTitle == series.title
 
     # Categories
 
