@@ -8,7 +8,7 @@ Vue.component 'editions-index',
   ]
 
   mounted: ->
-    @preloadLists()
+    @loadLists()
     @presetInitialFilters()
 
     @loadEditions()
@@ -16,8 +16,9 @@ Vue.component 'editions-index',
     @$watch 'currentAuthorName', @loadEditions
     @$watch 'currentPublisherName', @loadEditions
     @$watch 'currentSeriesTitle', @loadEditions
-    EventsDispatcher.$on 'reloadEditions', =>
-      @loadEditions()
+    EventsDispatcher.$on 'reloadEditions', @loadEditions
+    EventsDispatcher.$on 'editionCreated', @loadLists
+    EventsDispatcher.$on 'editionUpdated', @loadLists
 
   computed: Vuex.mapState
     pageState: 'pageState'
@@ -32,11 +33,20 @@ Vue.component 'editions-index',
     routes: -> Routes
 
   methods:
-    preloadLists: ->
+    loadLists: ->
+      @loadAuthors()
+      @loadPublishers()
+      @loadSeries()
+
+    loadAuthors: ->
       DataRefresher.loadAuthors().then (authors) =>
         @$store.commit('setAuthors', authors)
+
+    loadPublishers: ->
       DataRefresher.loadPublishers().then (publishers) =>
         @$store.commit('setPublishers', publishers)
+
+    loadSeries: ->
       DataRefresher.loadSeries().then (series) =>
         @$store.commit('setAllSeries', series)
 

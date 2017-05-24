@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170522110801) do
+ActiveRecord::Schema.define(version: 20170524192117) do
 
   create_table "authors", force: :cascade do |t|
-    t.string   "name",       null: false
+    t.string   "name",                       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "editions_count", default: 0, null: false
     t.index ["name"], name: "index_authors_on_name", unique: true
   end
 
@@ -69,14 +70,16 @@ ActiveRecord::Schema.define(version: 20170522110801) do
 
   create_table "publishers", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "editions_count", default: 0, null: false
   end
 
   create_table "series", force: :cascade do |t|
     t.string   "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "editions_count", default: 0, null: false
   end
 
 end

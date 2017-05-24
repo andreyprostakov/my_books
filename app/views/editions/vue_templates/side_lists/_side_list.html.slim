@@ -46,11 +46,9 @@ script#side_list_template[type='text/x-document']
         tr[v-for='item, label in searchedItems' :key='item.id']
           template
             td.list-item
-              a[
-                :href='urlForItem(item)'
-                @click.prevent=('select(item)')
-                v-html='label'
-              ]
+              a[:href='urlForItem(item)' @click.prevent=('select(item)')]
+                .item-label[v-html='label']
+                .item-editions-counter[v-html='item.editions_count']
 
         tr[v-show='listIsEmpty']
           td.no-items = t('side_block.none')

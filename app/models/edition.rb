@@ -29,11 +29,11 @@ class Edition < ApplicationRecord
   belongs_to :category,
     class_name: EditionCategory,
     foreign_key: :edition_category_id
-  belongs_to :publisher, optional: true
-  belongs_to :series, optional: true
+  belongs_to :publisher, optional: true, counter_cache: true
+  belongs_to :series, optional: true, counter_cache: true
   has_many :book_in_editions, inverse_of: :edition, dependent: :destroy
   has_many :books, through: :book_in_editions, inverse_of: :editions
-  has_many :authors, -> { group('authors.id') }, through: :books
+  has_many :authors, -> { group('authors.id') }, through: :books, inverse_of: :editions
 
   scope :with_category_code, lambda { |code|
     joins(:category).where(edition_categories: { code: code })

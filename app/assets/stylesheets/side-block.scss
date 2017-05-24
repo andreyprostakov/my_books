@@ -56,6 +56,18 @@
             padding: 2px 14px;
             font-size: 14px;
             color: #4a4a4a;
+
+            .item-label {
+              display: inline-block;
+              width: calc(100% - 30px);
+            }
+
+            .item-editions-counter {
+              display: inline-block;
+              text-align: right;
+              width: 30px;
+              vertical-align: top;
+            }
           }
 
           &:hover {

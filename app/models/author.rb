@@ -2,10 +2,11 @@
 #
 # Table name: authors
 #
-#  id         :integer          not null, primary key
-#  name       :string           not null
-#  created_at :datetime
-#  updated_at :datetime
+#  id             :integer          not null, primary key
+#  name           :string           not null
+#  created_at     :datetime
+#  updated_at     :datetime
+#  editions_count :integer          default(0), not null
 #
 # Indexes
 #
