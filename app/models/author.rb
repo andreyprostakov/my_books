@@ -22,6 +22,6 @@ class Author < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   scope :by_names, -> { order(:name) }
-  scope :for_publisher, -> (name) { includes(:publishers).where(publishers: { name: name}) }
+  scope :for_publisher, -> (name) { includes(:publishers).where(publishers: { name: name }) }
   scope :of_series, -> (title) { includes(:series).where(series: { title: title }) }
 end
