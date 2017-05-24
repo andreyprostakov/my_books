@@ -14,12 +14,7 @@ script#side_list_template[type='text/x-document']
         a.grey[v-else @click='hideCreationInput']
           i.fa.fa-plus-circle
 
-        a.grey[v-if='!expanded' @click='expand']
-          i.fa.fa-chevron-circle-down
-        a[v-else @click='hide']
-          i.fa.fa-chevron-circle-up
-
-    .side-block-content[v-if='expanded']
+    .side-block-content
       table.table.is-striped.is-narrow
         tr[v-show='creationMode']
           td
@@ -43,15 +38,18 @@ script#side_list_template[type='text/x-document']
                   :ref='searchFormRef'
                 ]
 
-        tr[v-show='!creationMode && !searchMode && filteredItems.length > 1']
+        tr[v-show='showLinkToAny']
           td
             a.list-item-label[@click='select(null)' v-html='anyItemLabel']
 
         tr[v-for='item, label in filteredItems' :key='item.id']
-          template[v-if='item != editedItem']
+          template
             td
               a.list-item-label[
                 :href='urlForItem(item)'
                 @click.prevent=('select(item)')
                 v-html='label'
               ]
+
+        tr[v-show='listIsEmpty']
+          td = t('side_block.none')

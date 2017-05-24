@@ -13,15 +13,11 @@ Vue.component 'side-list',
     items: { type: Object, required: true }
 
   data: ->
-    expanded: true
     creationMode: false
     newItemName: null
 
     searchMode: false
     searchKey: ''
-
-    editedItem: null
-    inputItemName: null
 
   computed: Vuex.mapState
     filteredItems: ->
@@ -34,51 +30,36 @@ Vue.component 'side-list',
     searchFormRef: ->
       "#{@id}-search-form"
 
+    listIsEmpty: ->
+      _.values(@filteredItems).length == 0
+
+    showLinkToAny: ->
+      !@creationMode && !@searchMode && _.values(@items).length > 1
+
   mounted: ->
     @$watch 'items', =>
-      @hideCreationInput()
-      @hideEditInput()
-      @hideSearchInput()
+      @hideForms()
 
   methods:
     select: (item) ->
-      @hideCreationInput()
-      @hideEditInput()
+      @hideForms()
       @$emit('select', item)
 
-    expand: ->
+    hideForms: ->
       @hideCreationInput()
-      @hideEditInput()
       @hideSearchInput()
-      @expanded = true
-
-    hide: ->
-      @expanded = false
-      @select(null)
-      @hideCreationInput()
-      @hideEditInput()
 
     showCreationInput: ->
-      @expand()
+      @hideForms()
       @creationMode = true
       @focusOn(@newItemFormRef)
 
     hideCreationInput: ->
       @creationMode = false
 
-    showEditInput: (item) ->
-      @hideCreationInput()
-      @hideSearchInput()
-      @inputItemName = item[@itemKeyAttribute]
-      @editedItem = item
-      @focusOn(@singleItemName + '-edit-' + item.id)
-
-    hideEditInput: ->
-      @editedItem = null
-
     showSearchInput: ->
       @searchKey = ''
-      @expand()
+      @hideForms()
       @searchMode = true
       @focusOn(@searchFormRef)
 

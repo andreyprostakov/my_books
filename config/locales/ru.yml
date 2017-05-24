@@ -68,6 +68,7 @@ ru:
     search: Поиск
     create: Новая запись
     any: Любой
+    none: Нет
   status:
     nothing_here: Пусто
   title: Книги

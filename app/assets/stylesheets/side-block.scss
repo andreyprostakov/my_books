@@ -18,7 +18,7 @@
 
   .side-block-content {
     width: 100%;
-    max-height: 200px;
+    max-height: 150px;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0;
@@ -51,7 +51,7 @@
         a.list-item-label {
           display: block;
           width: 100%;
-          padding: 2px 5px;
+          padding: 0px 5px;
           font-size: 14px;
         }
       }
