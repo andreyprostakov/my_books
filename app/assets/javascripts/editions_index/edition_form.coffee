@@ -19,7 +19,7 @@ Vue.component 'edition-form',
     preselectedAuthor: ->
       @$store.getters.currentAuthorName
     preselectedPublisher: ->
-      @$store.getters.publisherName
+      @$store.getters.currentPublisherName
     preselectedCategory: ->
       @$store.getters.categoryCode
     preselectedSeries: ->

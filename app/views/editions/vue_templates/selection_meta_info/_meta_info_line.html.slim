@@ -1,0 +1,21 @@
+.selection-meta-info-line[v-if='show']
+  a.info-type[@click='deselect'] = title
+
+  =<> '|'
+
+  template[v-if='editMode']
+    form.info-edit-form[@submit.prevent='update']
+      input.input[v-model='inputName']
+    .info-actions
+      |[
+      a.info-action[@click='cancelEditMode'] = t('actions.cancel')
+      |]
+
+  template[v-else]
+    .info-value[v-html='title']
+    .info-actions
+      |[
+      a.info-action[@click='edit'] = t('actions.edit')
+      = '|'
+      a.info-action[@click='remove'] = t('actions.remove')
+      |]

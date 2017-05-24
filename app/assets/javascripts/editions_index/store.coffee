@@ -52,8 +52,12 @@ window.Store = new Vuex.Store
     authorNames: (state) ->
       _.map state.allAuthors, 'name'
 
-    publisherName: (state) ->
+    currentPublisherName: (state) ->
       state.pageState.state.publisherName
+
+    currentPublisher: (state, getters) ->
+      return null unless getters.currentPublisherName
+      _.find state.allPublishers, name: getters.currentPublisherName
 
     filteredPublishers: (state) ->
       publishers = _.select state.allPublishers, (publisher) =>
@@ -164,19 +168,21 @@ window.Store = new Vuex.Store
     setFilteredPublishers: (state, publishers) ->
       state.filteredPublisherIds = _.map(publishers, 'id')
 
-    setPublisherName: (state, publisherName) ->
-      state.pageState.goToPublisher(publisherName)
+    setCurrentPublisher: (state, publisher) ->
+      state.pageState.goToPublisher((publisher || {}).name)
       state.page = 1
 
     addPublisher: (state, newPublisher) ->
       state.allPublishers.splice(0, 0, newPublisher)
 
     updatePublisher: (state, updatedPublisher) ->
-      oldPublisher = state.allPublishers.find((p) => p.id == updatedPublisher.id)
-      state.allPublishers.splice(state.allPublishers.indexOf(oldPublisher), 1, updatedPublisher)
+      oldPublisher = updateItemInArray(state.allPublishers, updatedPublisher)
+      return unless oldPublisher
+      state.pageState.goToPublisher(updatedPublisher.name) if Store.getters.currentPublisherName == oldPublisher.name
 
     removePublisher: (state, publisher) ->
       state.allPublishers.splice(state.allPublishers.indexOf(publisher), 1)
+      state.pageState.goToPublisher(null) if Store.getters.currentPublisherName == publisher.name
 
     # Series
 

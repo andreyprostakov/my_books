@@ -88,22 +88,6 @@ Vue.component 'side-list',
     createNewItem: ->
       @$emit('submit:new-item', @newItemName)
 
-    updateItemName: (item) ->
-      $.ajax(
-        type: 'PUT'
-        url: @apiItemUrl(item.id)
-        dataType: 'json'
-        data: @requestDataWithItemName(@inputItemName)
-        success: (updatedItem) =>
-          @$store.commit("update#{@pascalItemName}", updatedItem)
-          @hideEditInput()
-        error: @handleErrorResponse
-      )
-
-    handleErrorResponse: (response) ->
-      console.log('OOPS')
-      console.log(response)
-
     focusOn: (ref) ->
       Vue.nextTick =>
         element = @$refs[ref]

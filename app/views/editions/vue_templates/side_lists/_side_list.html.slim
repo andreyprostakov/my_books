@@ -43,7 +43,7 @@ script#side_list_template[type='text/x-document']
                   :ref='searchFormRef'
                 ]
 
-        tr[v-show='!creationMode && !searchMode']
+        tr[v-show='!creationMode && !searchMode && filteredItems.length > 1']
           td
             a.list-item-label[@click='select(null)' v-html='anyItemLabel']
 

@@ -53,7 +53,7 @@ Vue.component 'edition-details',
       @$store.commit('setCurrentAuthor', author)
 
     switchToPublisher: (publisher) ->
-      @$store.commit('setPublisherName', publisher.name)
+      @$store.commit('setCurrentPublisher', publisher)
 
     switchToCategory: (category) ->
       @$store.commit('setCategoryCode', category.code)

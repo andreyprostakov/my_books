@@ -4,7 +4,7 @@ class window.DataRefresher
       Routes.editions_path(
         order: store.state.editionsOrder
         author_name: store.getters.currentAuthorName
-        publisher_name: store.getters.publisherName
+        publisher_name: store.getters.currentPublisherName
         series_title: store.getters.seriesTitle
       )
     )
