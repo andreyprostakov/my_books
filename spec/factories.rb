@@ -4,6 +4,8 @@ FactoryGirl.define do
   end
 
   factory :book do
+    edition { build(:edition, books: []) }
+
     title { FFaker::Book.title }
     authors { build_list(:author, 1) }
 
@@ -33,9 +35,9 @@ FactoryGirl.define do
     sequence(:code) { |n| "EditionCategory #{n}" }
   end
 
-  factory :book_in_edition do
-    book
-    edition
+  factory :m2m_book_author do
+    book { build(:book, authors: []) }
+    author
   end
 
   factory :publisher do

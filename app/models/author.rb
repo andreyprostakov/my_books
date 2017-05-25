@@ -14,7 +14,7 @@
 #
 
 class Author < ActiveRecord::Base
-  has_many :m2m_book_authors, inverse_of: :author
+  has_many :m2m_book_authors, inverse_of: :author, dependent: :destroy
   has_many :books, through: :m2m_book_authors, inverse_of: :authors
   has_many :editions, through: :books, inverse_of: :authors
   has_many :publishers, through: :editions
