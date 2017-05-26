@@ -1,5 +1,7 @@
 module EvernoteData
   class HtmlToCsvConverter
+    COLUMNS_SEPARATOR = "\t".freeze
+
     def convert(html_path, csv_path)
       books_data = extract_books_data_from_html(html_path)
       save_books_data_as_csv(books_data, csv_path)
@@ -13,7 +15,7 @@ module EvernoteData
       parsed_html.css('h1').map do |book_title_node|
         cover_node = book_title_node.next_element.at_css('img')
         generate_book_data_from_raw_book_info(book_title_node.text).merge(
-          cover: generate_cover_path_from_cover_node(cover_node)
+          cover: generate_cover_path_from_cover_node(html_path, cover_node)
         )
       end
     end
@@ -31,18 +33,18 @@ module EvernoteData
       }
     end
 
-    def generate_cover_path_from_cover_node(cover_node)
+    def generate_cover_path_from_cover_node(html_path, cover_node)
       File.join(
-        File.dirname(args[:html_path]),
+        File.dirname(html_path),
         cover_node.attribute('src').text
       )
     end
 
     def save_books_data_as_csv(books_data, csv_path)
       File.open(csv_path, 'w') do |csv|
-        csv << books_data.first.keys.to_csv
+        csv << books_data.first.keys.to_csv(col_sep: COLUMNS_SEPARATOR)
         books_data.each do |book_data|
-          csv << book_data.values.to_csv
+          csv << book_data.values.to_csv(col_sep: COLUMNS_SEPARATOR)
         end
       end
     end

@@ -26,7 +26,6 @@ class M2mBookAuthor < ActiveRecord::Base
   private
 
   def update_author_editions_count
-    binding.pry
     author.update_editions_count
   end
 end

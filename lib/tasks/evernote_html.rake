@@ -5,7 +5,7 @@ namespace :evernote_html do
   end
 
   desc 'convern HTML into CSV'
-  task :convert_to_csv, %i(html_path csv_path) do |_t, args|
+  task :convert_to_csv, %i(html_path csv_path) => :environment do |_t, args|
     EvernoteData::HtmlToCsvConverter.new.convert(
       args.fetch(:html_path),
       args.fetch(:csv_path)

@@ -14,6 +14,7 @@ module TryRails5
     # -- all .rb files in that directory are automatically loaded.
     I18n.default_locale = :ru
 
-    config.autoload_paths += %W(#{config.root}/app/uploaders)
+    config.autoload_paths += %W(#{config.root}/app/uploaders #{config.root}/lib)
+    config.autoload_paths << Rails.root.join('lib')
   end
 end

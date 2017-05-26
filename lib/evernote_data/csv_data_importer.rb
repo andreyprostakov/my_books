@@ -5,7 +5,6 @@ module EvernoteData
         read_csv_lines(csv_path) do |book_data|
           generate_edition_by_book_data(book_data)
         end
-        raise 'stop right there!'
       end
     end
 
@@ -37,13 +36,18 @@ module EvernoteData
     end
 
     def generate_books_by_book_titles_data(book_titles_data, authors:)
+      titles = (book_titles_data || '').split(/;\s*/)
       (book_titles_data || '').split(/;\s*/).map do |book_title|
-        Book.create!(title: book_title, authors: authors)
+        Book.new(title: book_title, authors: authors)
       end
     end
 
     def read_csv_lines(csv_path, &_)
-      CSV.readlines(csv_path, headers: true).each do |book_data_line|
+      CSV.readlines(csv_path,
+        headers: true,
+        quote_char: '|',
+        col_sep: HtmlToCsvConverter::COLUMNS_SEPARATOR
+      ).each do |book_data_line|
         yield book_data_line
       end
     end
