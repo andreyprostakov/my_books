@@ -52,7 +52,7 @@ Vue.component 'selected-editions',
         dataType: 'json'
         data: { edition_ids: @editionIds, editions_batch: updates }
         success: (response) =>
-          EventsDispatcher.$emit('reloadEditions')
+          EventsDispatcher.$emit('editionUpdated')
         error: (response) =>
           @errors = response.responseJSON
       )

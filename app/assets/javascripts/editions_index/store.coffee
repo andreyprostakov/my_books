@@ -77,6 +77,7 @@ window.Store = new Vuex.Store
       state.pageState.goToEdition(id)
 
     setOpenedEditionId: (state, id) ->
+      state.selectedEditionId = id
       state.pageState.goToEdition(id)
 
     addEdition: (state, edition) ->
@@ -114,6 +115,7 @@ window.Store = new Vuex.Store
 
     selectFilteredEditions: (state) ->
       _.each Store.getters.filteredEditions, (edition) =>
+        return if _.contains state.selectedEditionIds, edition.id
         state.selectedEditionIds.push(edition.id)
 
     deselectFilteredEditions: (state) ->

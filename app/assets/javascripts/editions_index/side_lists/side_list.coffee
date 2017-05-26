@@ -61,7 +61,6 @@ Vue.component 'side-list',
       @creationMode = false
 
     showSearchInput: ->
-      @searchKey = ''
       @hideForms()
       @searchMode = true
       @focusOn(@searchFormRef)

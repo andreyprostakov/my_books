@@ -16,9 +16,12 @@ Vue.component 'editions-index',
     @$watch 'currentAuthorName', @loadEditions
     @$watch 'currentPublisherName', @loadEditions
     @$watch 'currentSeriesTitle', @loadEditions
-    EventsDispatcher.$on 'reloadEditions', @loadEditions
-    EventsDispatcher.$on 'editionCreated', @loadLists
-    EventsDispatcher.$on 'editionUpdated', @loadLists
+    EventsDispatcher.$on 'editionCreated', =>
+      @loadLists()
+      @loadEditions()
+    EventsDispatcher.$on 'editionUpdated', =>
+      @loadLists()
+      @loadEditions()
 
   computed: Vuex.mapState
     pageState: 'pageState'
