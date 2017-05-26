@@ -27,6 +27,6 @@ class Author < ActiveRecord::Base
   scope :of_series, -> (title) { includes(:series).where(series: { title: title }) }
 
   def update_editions_count
-    update!(editions_count: editions.size)
+    update!(editions_count: editions.count)
   end
 end
