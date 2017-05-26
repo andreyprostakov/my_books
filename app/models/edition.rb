@@ -77,4 +77,13 @@ class Edition < ApplicationRecord
   validates_presence_of :books
 
   mount_uploader :cover, ::BookCoverUploader
+
+  after_create :update_authors_editions_count
+  after_destroy :update_authors_editions_count
+
+  private
+
+  def update_authors_editions_count
+    authors.each(&:update_editions_count)
+  end
 end

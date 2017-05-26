@@ -14,9 +14,19 @@
 #
 
 class M2mBookAuthor < ActiveRecord::Base
-  belongs_to :author, inverse_of: :m2m_book_authors, counter_cache: :editions_count
+  belongs_to :author, inverse_of: :m2m_book_authors
   belongs_to :book, inverse_of: :m2m_book_authors
 
   validates_presence_of :author
   validates :book, presence: true, uniqueness: { scope: :author_id }
+
+  after_create :update_author_editions_count
+  after_destroy :update_author_editions_count
+
+  private
+
+  def update_author_editions_count
+    binding.pry
+    author.update_editions_count
+  end
 end

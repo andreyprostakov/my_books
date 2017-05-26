@@ -10,7 +10,8 @@
 #
 # Indexes
 #
-#  index_books_on_edition_id  (edition_id)
+#  index_books_on_edition_id            (edition_id)
+#  index_books_on_edition_id_and_title  (edition_id,title) UNIQUE
 #
 
 class Book < ApplicationRecord
@@ -22,6 +23,7 @@ class Book < ApplicationRecord
 
   validates :title, presence: true
   validates :edition, presence: true
+  validates_uniqueness_of :title, scope: [:edition_id]
 
   scope :by_titles, -> { order :title }
 end

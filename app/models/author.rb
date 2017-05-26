@@ -25,4 +25,8 @@ class Author < ActiveRecord::Base
   scope :by_names, -> { order(:name) }
   scope :for_publisher, -> (name) { includes(:publishers).where(publishers: { name: name }) }
   scope :of_series, -> (title) { includes(:series).where(series: { title: title }) }
+
+  def update_editions_count
+    update!(editions_count: editions.size)
+  end
 end
