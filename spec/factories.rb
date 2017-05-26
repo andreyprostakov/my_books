@@ -4,7 +4,7 @@ FactoryGirl.define do
   end
 
   factory :book do
-    edition { build(:edition, books: []) }
+    edition { build(:edition) }
 
     title { FFaker::Book.title }
     authors { build_list(:author, 1) }
@@ -15,7 +15,7 @@ FactoryGirl.define do
   end
 
   factory :edition do
-    books { build_list(:book, 1) }
+    books { build_list(:book, 1, edition: nil) }
     category { EditionCategory.first || build(:edition_category) }
     publisher
 
