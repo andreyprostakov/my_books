@@ -16,7 +16,7 @@
 class Author < ActiveRecord::Base
   has_many :m2m_book_authors, inverse_of: :author, dependent: :destroy
   has_many :books, through: :m2m_book_authors, inverse_of: :authors
-  has_many :editions, through: :books, inverse_of: :authors
+  has_many :editions, -> { group('editions.id') }, through: :books, inverse_of: :authors
   has_many :publishers, through: :editions
   has_many :series, through: :editions
 
@@ -27,6 +27,6 @@ class Author < ActiveRecord::Base
   scope :of_series, -> (title) { includes(:series).where(series: { title: title }) }
 
   def update_editions_count
-    update!(editions_count: editions.count)
+    update!(editions_count: editions.size)
   end
 end

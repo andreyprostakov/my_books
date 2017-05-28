@@ -27,11 +27,12 @@ script#edition_details_template[type='text/x-document']
             span[v-html='bookTitles']
             = ' : '
             a[@click='switchToCategory(edition.category)' v-html='edition.category.name.toLowerCase()']
-            = ' / '
-            template[v-for='(author, i) in edition.authors']
-              span[v-html='author.name']
-              template[v-if='i != (edition.authors.length - 1)']
-                = ', '
+            template[v-if='edition.authors.length']
+              = ' / '
+              template[v-for='(author, i) in edition.authors']
+                span[v-html='author.name']
+                template[v-if='i != (edition.authors.length - 1)']
+                  = ', '
             = '. - '
             a[@click='switchToPublisher(edition.publisher)' v-html='edition.publisher.name']
             = ', '

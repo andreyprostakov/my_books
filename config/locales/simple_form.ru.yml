@@ -32,7 +32,8 @@ ru:
         isbn: ISBN
         title: Название издания
         annotation: Аннотация
-        remote_cover_url: Обложка
+        remote_cover_url: URL обложки
+        cover: Обложка
         publication_year: Год
         pages_count: 'Кол-во'
         series: Серия

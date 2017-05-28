@@ -2,6 +2,19 @@
   position: relative;
   background-color: whitesmoke;
 
+  .list-info {
+    padding: 10px 15px 0;
+
+    .editions-count {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .add-edition-link {
+      display: inline-block;
+    }
+  }
+
   .editions-pagination {
     margin: 20px 0 !important;
   }
@@ -74,25 +87,6 @@
       i {
         font-size: 40px;
         color: darkred;
-      }
-    }
-  }
-
-  .add-new-edition {
-    border: 1px solid #dbdbdb;
-    border-radius: 3px;
-
-    a {
-      display: block;
-      height: 100%;;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 20px 10px;
-      text-align: center;
-      background-color: #363636;
-
-      &:hover {
-        background-color: rgba(255,255,255,0.3);
       }
     }
   }

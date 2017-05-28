@@ -2,17 +2,17 @@ script#edition_form_template[type='text/x-document']
   .modal[:class='{"is-active": canBeShown}']
     .modal-background
     #edition_form.modal-content
-      form[@submit.prevent='submit' v-if='edition']
+      form[@submit.prevent='submit' v-if='formData']
 
         .input-fields
           .books
             .field.edition-title[v-if='canShowEditionTitleInput']
               input.input[type='text'
                 placeholder=(t('simple_form.placeholders.edition.title'))
-                v-model='edition.title'
+                v-model='formData.title'
               ]
 
-            template[v-for='book in edition.books']
+            template[v-for='book in formData.books']
               .authors
                 .field.author[v-for='author in book.authors']
                   autocomplete.input[v-model='author.name'
@@ -38,11 +38,12 @@ script#edition_form_template[type='text/x-document']
 
           .edition-form-edition-info
             .cover[v-if='coverUrl' :style='coverStyle']
-            .field.cover-url
-              input.input[type='text'
-                placeholder=(t('simple_form.placeholders.edition.remote_cover_url'))
-                v-model='edition.remote_cover_url'
-              ]
+            .field.cover
+              .field-line
+                input.input.input-cover-url[type='text'
+                  placeholder=(t('simple_form.placeholders.edition.remote_cover_url'))
+                  v-model='formData.remoteCoverUrl'
+                ]
               .error v-html='coverError()'
 
             .edition-info-line
@@ -52,47 +53,47 @@ script#edition_form_template[type='text/x-document']
                       options_for_category_select,
                       placeholder: t('simple_form.placeholders.edition.category'),
                       include_blank: false,
-                      'v-model' => 'edition.category.code'
+                      'v-model' => 'formData.categoryCode'
                 .error v-html='categoryError()'
               = '. - '
               .field.publisher
-                autocomplete.input[v-model='edition.publisher.name'
+                autocomplete.input[v-model='formData.publisherName'
                   :source='publisherNames'
                   placeholder=(t('simple_form.placeholders.edition.publisher'))
                 ]
               = ', '
               input.input.publication-year[type='number'
                 placeholder=(t('simple_form.placeholders.edition.publication_year'))
-                v-model='edition.publication_year'
+                v-model='formData.publicationYear'
               ]
               = '. - '
               input.input.pages-count[type='number'
                 placeholder=(t('simple_form.placeholders.edition.pages_count'))
-                v-model='edition.pages_count'
+                v-model='formData.pagesCount'
               ]
               =< t('editions.pages_symbol')
 
             .field.annotation
               textarea.textarea[placeholder=(t('simple_form.placeholders.edition.annotation'))
-                v-model='edition.annotation'
+                v-model='formData.annotation'
               ]
 
             .field.isbn
               => 'ISBN'
               input.input[type='text'
                 placeholder=(t('simple_form.placeholders.edition.isbn'))
-                v-model='edition.isbn'
+                v-model='formData.isbn'
               ]
 
             .field.series
-              autocomplete.input[v-model='edition.series.title'
+              autocomplete.input[v-model='formData.seriesTitle'
                 :source='seriesTitles'
                 placeholder=(t('simple_form.placeholders.edition.series'))
               ]
 
         .form-controls
           input.button.is-primary[type='submit' value=(t('helpers.submit.create'))]
-          a.button.cancel-link[v-if='edition.id' @click='showEditionDetails(edition)']
+          a.button.cancel-link[v-if='formData.id' @click='showEditionDetails()']
             = t('helpers.cancel')
 
     button.modal-close[@click='close']
