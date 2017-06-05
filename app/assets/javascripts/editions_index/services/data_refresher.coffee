@@ -6,6 +6,7 @@ class window.DataRefresher
         author_name: store.getters.currentAuthorName
         publisher_name: store.getters.currentPublisherName
         series_title: store.getters.currentSeriesTitle
+        unread_only: store.state.showOnlyNotRead
       )
     )
 
