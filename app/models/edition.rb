@@ -26,6 +26,8 @@
 #
 
 class Edition < ApplicationRecord
+  include Elasticsearch::Model
+
   belongs_to :category,
     class_name: EditionCategory,
     foreign_key: :edition_category_id
@@ -80,6 +82,12 @@ class Edition < ApplicationRecord
 
   after_create :update_authors_editions_count
   after_destroy :update_authors_editions_count
+
+  def as_indexed_json(_options = nil)
+    as_json(only: %i(title annotation)).merge(
+      books: books.map(&:title).join('; ')
+    )
+  end
 
   private
 

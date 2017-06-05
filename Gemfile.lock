@@ -73,6 +73,19 @@ GEM
     concurrent-ruby (1.0.5)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
+    elasticsearch (5.0.4)
+      elasticsearch-api (= 5.0.4)
+      elasticsearch-transport (= 5.0.4)
+    elasticsearch-api (5.0.4)
+      multi_json
+    elasticsearch-model (5.0.1)
+      activesupport (> 3)
+      elasticsearch (~> 5)
+      hashie
+    elasticsearch-rails (5.0.1)
+    elasticsearch-transport (5.0.4)
+      faraday
+      multi_json
     erubis (2.7.0)
     execjs (2.7.0)
     factory_girl (4.7.0)
@@ -80,12 +93,15 @@ GEM
     factory_girl_rails (4.7.0)
       factory_girl (~> 4.7.0)
       railties (>= 3.0.0)
+    faraday (0.12.1)
+      multipart-post (>= 1.2, < 3)
     ffaker (2.3.0)
     ffi (1.9.14)
     font-awesome-rails (4.7.0.1)
       railties (>= 3.2, < 5.1)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    hashie (3.5.5)
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (0.8.1)
@@ -115,7 +131,9 @@ GEM
     mini_magick (4.6.0)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
+    multi_json (1.12.1)
     multi_xml (0.5.5)
+    multipart-post (2.0.0)
     nio4r (2.0.0)
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
@@ -245,6 +263,8 @@ DEPENDENCIES
   carrierwave (~> 1.0)
   cocoon
   coffee-rails (~> 4.2)
+  elasticsearch-model
+  elasticsearch-rails
   factory_girl_rails
   ffaker
   font-awesome-rails
