@@ -4,8 +4,16 @@ Vue.component 'editions-list',
   computed: Vuex.mapState
     editions: ->
       @$store.getters.currentPageEditions
+
+    filteredEditions: ->
+      @$store.getters.filteredEditions
+
     selectionMode: 'selectionMode'
+
     selectedEditionIds: 'selectedEditionIds'
+
+    editionsCount: ->
+      @filteredEditions.length
 
   methods:
     show: ->
@@ -26,8 +34,8 @@ Vue.component 'editions-list',
     editionIsSelected: (edition) ->
       _.contains @selectedEditionIds, edition.id
 
-    editionsCount: ->
-      @editions.length
-
     urlForEdition: (edition) ->
       @$store.state.pageState.urlForEdition(edition.id)
+
+    addNewEdition: ->
+      EventsDispatcher.$emit('addNewEdition')

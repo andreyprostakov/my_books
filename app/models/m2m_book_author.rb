@@ -19,4 +19,13 @@ class M2mBookAuthor < ActiveRecord::Base
 
   validates_presence_of :author
   validates :book, presence: true, uniqueness: { scope: :author_id }
+
+  after_create :update_author_editions_count
+  after_destroy :update_author_editions_count
+
+  private
+
+  def update_author_editions_count
+    author.update_editions_count
+  end
 end

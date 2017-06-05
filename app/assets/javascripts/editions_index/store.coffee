@@ -23,8 +23,8 @@ window.Store = new Vuex.Store
 
   getters:
     filteredEditions: (state, getters) ->
-      return state.editions unless getters.categoryCode
-      state.editions.filter((e) => e.category.code == getters.categoryCode)
+      return state.editions unless getters.currentCategory
+      state.editions.filter((e) => e.category.code == getters.currentCategory)
 
     currentPageEditions: (state, getters) ->
       startIndex = state.pageSize * (state.page - 1)
@@ -53,7 +53,7 @@ window.Store = new Vuex.Store
     publisherNames: (state) ->
       _.map state.allPublishers, 'name'
 
-    categoryCode: (state) ->
+    currentCategory: (state) ->
       state.pageState.state.categoryCode
 
     currentSeriesTitle: (state) ->
@@ -77,6 +77,7 @@ window.Store = new Vuex.Store
       state.pageState.goToEdition(id)
 
     setOpenedEditionId: (state, id) ->
+      state.selectedEditionId = id
       state.pageState.goToEdition(id)
 
     addEdition: (state, edition) ->
@@ -114,6 +115,7 @@ window.Store = new Vuex.Store
 
     selectFilteredEditions: (state) ->
       _.each Store.getters.filteredEditions, (edition) =>
+        return if _.contains state.selectedEditionIds, edition.id
         state.selectedEditionIds.push(edition.id)
 
     deselectFilteredEditions: (state) ->
@@ -189,6 +191,6 @@ window.Store = new Vuex.Store
 
     # Categories
 
-    setCategoryCode: (state, categoryCode) ->
+    setCurrentCategory: (state, categoryCode) ->
       state.pageState.goToCategory(categoryCode)
       state.page = 1

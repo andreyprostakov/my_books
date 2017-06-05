@@ -5,10 +5,3 @@ script#selection_meta_info_template[type='text/x-document']
     publisher-info
 
     series-info
-
-    .editions-count
-      => t('editions.count')
-      span.editions-count-value[v-html='editionsCount']
-      => '.'
-      a.add-new-edition[@click='addNewEdition']
-        = t('editions.add_new')

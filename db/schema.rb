@@ -10,28 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170522110801) do
+ActiveRecord::Schema.define(version: 20170526095216) do
 
   create_table "authors", force: :cascade do |t|
-    t.string   "name",       null: false
+    t.string   "name",                       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "editions_count", default: 0, null: false
     t.index ["name"], name: "index_authors_on_name", unique: true
-  end
-
-  create_table "book_in_editions", force: :cascade do |t|
-    t.integer "book_id",    null: false
-    t.integer "edition_id", null: false
-    t.string  "title"
-    t.string  "translator"
-    t.index ["book_id"], name: "index_book_in_editions_on_book_id"
-    t.index ["edition_id"], name: "index_book_in_editions_on_edition_id"
   end
 
   create_table "books", force: :cascade do |t|
     t.string   "title",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "edition_id", null: false
+    t.index ["edition_id", "title"], name: "index_books_on_edition_id_and_title", unique: true
+    t.index ["edition_id"], name: "index_books_on_edition_id"
   end
 
   create_table "edition_categories", force: :cascade do |t|
@@ -69,14 +64,16 @@ ActiveRecord::Schema.define(version: 20170522110801) do
 
   create_table "publishers", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "editions_count", default: 0, null: false
   end
 
   create_table "series", force: :cascade do |t|
     t.string   "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "editions_count", default: 0, null: false
   end
 
 end

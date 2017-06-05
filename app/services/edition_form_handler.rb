@@ -3,6 +3,7 @@ class EditionFormHandler
   EDITION_PARAMS = [
     :title,
     :remote_cover_url,
+    :cover,
     :annotation,
     :isbn,
     :publication_year,
@@ -17,6 +18,7 @@ class EditionFormHandler
   EDITION_RAW_PARAMS = %i(
     title
     remote_cover_url
+    cover
     annotation
     isbn
     publication_year

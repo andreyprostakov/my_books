@@ -3,12 +3,12 @@ Vue.component 'categories-tabs',
 
   computed: Vuex.mapState
     currentCategory: ->
-      @$store.getters.categoryCode
+      @$store.getters.currentCategory
     editions: 'editions'
 
   methods:
     switchToCategory: (categoryCode) ->
-      @$store.commit('setCategoryCode', categoryCode)
+      @$store.commit('setCurrentCategory', categoryCode)
 
     currentCategoryIs: (categoryToCheck) ->
       @currentCategory == categoryToCheck

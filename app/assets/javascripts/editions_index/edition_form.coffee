@@ -3,16 +3,16 @@ Vue.component 'edition-form',
 
   data: ->
     enabled: false
-    edition: null
+    formData: null
     errors: {}
 
   mounted: ->
     EventsDispatcher.$on 'addNewEdition', =>
-      @edition = @newEdition()
+      @formData = @newEdition()
       @show()
     EventsDispatcher.$on 'editEdition', (edition) =>
       DataRefresher.loadEditionDetails(edition).then (detailedEdition) =>
-        @edition = detailedEdition
+        @formData = @editionToFormData(detailedEdition)
         @show()
 
   computed: Vuex.mapState
@@ -21,7 +21,7 @@ Vue.component 'edition-form',
     preselectedPublisher: ->
       @$store.getters.currentPublisherName
     preselectedCategory: ->
-      @$store.getters.categoryCode
+      @$store.getters.currentCategory
     preselectedSeries: ->
       @$store.getters.currentSeriesTitle
 
@@ -29,13 +29,13 @@ Vue.component 'edition-form',
       @enabled
 
     canShowEditionTitleInput: ->
-      @edition.title || (@edition.books.length > 1)
+      @formData.title || (@formData.books.length > 1)
 
     coverStyle: ->
       'background-image: url(' + @coverUrl + ')'
 
     coverUrl: ->
-      @edition.remote_cover_url || @edition.cover_url
+      @formData.remote_cover_url || @formData.cover_url
 
     authorNames: ->
       @$store.getters.authorNames
@@ -54,9 +54,6 @@ Vue.component 'edition-form',
     close: ->
       @enabled = false
 
-    canAddAuthorToBook: (book) ->
-      book.authors.filter((a) => !a.name).length == 0
-
     addAuthor: (book) ->
       book.authors.push({})
 
@@ -66,33 +63,30 @@ Vue.component 'edition-form',
       @clearErrors(@authorErrorPath(book, author))
 
     addBook: ->
-      @edition.books.push @newBook()
+      @formData.books.push @newBook()
 
     removeBook: (book) ->
-      index = @edition.books.indexOf(book)
-      @edition.books.splice(index, 1)
+      index = @formData.books.indexOf(book)
+      @formData.books.splice(index, 1)
       @clearErrors(@bookErrorPath(book))
 
     newEdition: ->
-      {
-        books: [@newBook()]
-        publisher: { name: @preselectedPublisher }
-        category: { code: @preselectedCategory }
-        series: { title: @preselectedSeries }
-        pages_count: 1
-        publication_year: 2016
-        remote_cover_url: null
-        cover_url: null
-      }
+      books: [@newBook()]
+      publisherName: @preselectedPublisher
+      categoryCode: @preselectedCategory
+      seriesTitle: @preselectedSeries
+      pagesCount: 1
+      publicationYear: 2016
+      remoteCoverUrl: null
+      coverUrl: null
+      cover: null
 
     newBook: ->
-      {
-        authors: [{name: @preselectedAuthor}]
-      }
+      authors: [{name: @preselectedAuthor}]
 
     submit: ->
       @clearErrors()
-      if @edition.id
+      if @formData.id
         @updateEdition()
       else
         @createEdition()
@@ -102,7 +96,7 @@ Vue.component 'edition-form',
         type: 'POST'
         url: Routes.editions_path()
         dataType: 'json'
-        data: { edition: @editionFormData() }
+        data: @formDataToRequestData()
         success: (createdEdition) =>
           @$store.commit('addEdition', createdEdition)
           EventsDispatcher.$emit('editionCreated', createdEdition)
@@ -111,11 +105,13 @@ Vue.component 'edition-form',
       )
 
     updateEdition: ->
+      console.log 'updateEdition'
+      console.log @formDataToRequestData()
       $.ajax(
         type: 'PUT'
-        url: Routes.edition_path(@edition)
+        url: Routes.edition_path(@formData.id)
         dataType: 'json'
-        data: { edition: @editionFormData() }
+        data: @formDataToRequestData()
         success: (updatedEdition) =>
           @$store.commit('updateEdition', updatedEdition)
           EventsDispatcher.$emit('editionUpdated', updatedEdition)
@@ -137,7 +133,7 @@ Vue.component 'edition-form',
       @bookErrorPath book, "authors[#{authorIndex}].#{attribute}"
 
     bookErrorPath: (book, attribute) ->
-      bookIndex = @edition.books.indexOf(book)
+      bookIndex = @formData.books.indexOf(book)
       "books[#{bookIndex}].#{attribute}"
 
     coverError: ->
@@ -153,10 +149,30 @@ Vue.component 'edition-form',
       else
         @errors = {}
 
-    editionFormData: ->
-      _.extend(@edition, force_update_books: true)
+    editionToFormData: (edition) ->
+      data = _.clone edition
+      data.publicationYear = edition.publication_year
+      data.pagesCount = edition.pages_count
+      data.seriesTitle = edition.series.title if edition.series
+      data.categoryCode = edition.category.code if edition.category
+      data.publisherName = edition.publisher.name if edition.publisher
+      data
 
-    showEditionDetails: (edition) ->
+    formDataToRequestData: ->
+      edition:
+        title: @formData.title
+        books: @formData.books
+        cover: @formData.coverFile
+        remote_cover_url: @formData.remoteCoverUrl
+        publication_year: @formData.publicationYear
+        pages_count: @formData.pagesCount
+        annotation: @formData.annotation
+        isbn: @formData.isbn
+        category: { code: @formData.categoryCode } if @formData.categoryCode
+        publisher: { name: @formData.publisherName } if @formData.publisherName
+        series: { title: @formData.seriesTitle } if @formData.seriesTitle
+        force_update_books: true
+
+    showEditionDetails: ->
       @close()
-      return unless edition.id
-      @$store.commit('setSelectedEditionId', edition.id)
+      @$store.commit('setSelectedEditionId', @formData.id)

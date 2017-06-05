@@ -1,5 +1,13 @@
 script#editions_list_template[type='text/x-document']
   #editions_list.columns.is-multiline.is-gapless
+    .list-info.column.is-12
+      .editions-count
+        => t('editions.count')
+        span.editions-count-value[v-html='editionsCount']
+        => '.'
+      a.add-edition-link[@click='addNewEdition']
+        = t('editions.add_new')
+
     .edition.column.is-2[v-for='edition in editions']
       .edition-preview[:class='{"read": edition.read}']
         .edition-preview-selection-indicator[
