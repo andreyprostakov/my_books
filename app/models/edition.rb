@@ -70,6 +70,7 @@ class Edition < ApplicationRecord
       order('authors.name').
       group('editions.id')
   }
+  scope :unread_only, -> { where(read: false) }
 
   accepts_nested_attributes_for :books, allow_destroy: true
   accepts_nested_attributes_for :publisher

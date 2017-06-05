@@ -32,7 +32,16 @@
 
 #order_control {
   .side-block-content {
-    padding: 10px 0;
+    padding: 10px;
     text-align: center;
+
+    .order-control {
+      margin-bottom: 15px;
+    }
+
+    .read-status-control {
+      padding-left: 10px;
+      text-align: left;
+    }
   }
 }

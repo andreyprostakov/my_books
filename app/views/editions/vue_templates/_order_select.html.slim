@@ -2,8 +2,12 @@ script#order_select_template[type='text/x-document']
   #order_control.side-block[v-show='!openedEdition']
     .side-block-heading = t('editions.orders.ordering')
     .side-block-content
-      .select
+      .select.order-control
         = select_tag 'order',
           options_for_order_select,
           value: current_editions_order,
           '@change' => 'onSelect'
+      .field.read-status-control
+        label.checkbox
+          input[type='checkbox' v-model='notReadOnly']
+          = t('editions.status.not_read_only')

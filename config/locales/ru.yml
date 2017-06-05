@@ -41,6 +41,8 @@ ru:
       old_first: Сначала старые
       new_first: Сначала новые
       last_updated: По последнему обновлению
+    status:
+      not_read_only: Только непрочитанные
   publishers:
     any: Любое
     index: Издательства

@@ -16,6 +16,7 @@ Vue.component 'editions-index',
     @$watch 'currentAuthorName', @loadEditions
     @$watch 'currentPublisherName', @loadEditions
     @$watch 'currentSeriesTitle', @loadEditions
+    @$watch 'showOnlyNotRead', @loadEditions
     EventsDispatcher.$on 'editionCreated', =>
       @loadLists()
       @loadEditions()
@@ -26,6 +27,7 @@ Vue.component 'editions-index',
   computed: Vuex.mapState
     pageState: 'pageState'
     editions: 'editions'
+    showOnlyNotRead: 'showOnlyNotRead'
     currentAuthorName: ->
       @$store.getters.currentAuthorName
     currentPublisherName: ->

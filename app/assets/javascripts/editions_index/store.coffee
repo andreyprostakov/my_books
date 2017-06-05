@@ -12,6 +12,7 @@ window.Store = new Vuex.Store
     selectedEditionIds: []
     selectedEditionId: null
     editionsOrder: null
+    showOnlyNotRead: false
 
     allAuthors: []
     allPublishers: []
@@ -194,3 +195,8 @@ window.Store = new Vuex.Store
     setCurrentCategory: (state, categoryCode) ->
       state.pageState.goToCategory(categoryCode)
       state.page = 1
+
+    # Status
+
+    showOnlyNotRead: (state, status) ->
+      state.showOnlyNotRead = !!status
