@@ -36,7 +36,6 @@ module EvernoteData
     end
 
     def generate_books_by_book_titles_data(book_titles_data, authors:)
-      titles = (book_titles_data || '').split(/;\s*/)
       (book_titles_data || '').split(/;\s*/).map do |book_title|
         Book.new(title: book_title, authors: authors)
       end

@@ -22,7 +22,7 @@ script#edition_form_template[type='text/x-document']
                   a.link-remove-author[@click='removeAuthor(book, author)']
                     i.fa.fa-times
                   .error v-html='authorNameError(book, author)'
-                a.link-add-author[v-if='canAddAuthorToBook(book)' @click='addAuthor(book)']
+                a.link-add-author[@click='addAuthor(book)']
                   i.fa.fa-plus
 
               .field.title

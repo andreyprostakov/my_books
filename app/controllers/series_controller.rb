@@ -3,6 +3,7 @@ class SeriesController < ApplicationController
     all_series = Series.by_names
     all_series = all_series.by_author(params[:author_name]) if params[:author_name]
     all_series = all_series.by_publisher(params[:publisher_name]) if params[:publisher_name]
+    all_series = all_series.in_category(params[:category_code]) if params[:category_code]
     render json: all_series
   end
 

@@ -18,6 +18,9 @@ Vue.component 'publishers-side-list',
     currentPublisher: ->
       @$store.getters.currentPublisher
 
+    currentCategory: ->
+      @$store.getters.currentCategory
+
     showedPublishers: (state) ->
       _.select state.allPublishers, (publisher) =>
         _.contains @showedPublisherIds, publisher.id
@@ -33,12 +36,14 @@ Vue.component 'publishers-side-list',
     EventsDispatcher.$on 'editionUpdated', @refreshItems
     @$watch 'currentAuthorName', @refreshItems
     @$watch 'currentSeriesTitle', @refreshItems
+    @$watch 'currentCategory', @refreshItems
 
   methods:
     refreshItems: ->
       DataRefresher.loadPublishers(
         author_name: @currentAuthorName
         series_title: @currentSeriesTitle
+        category_code: @currentCategory
       ).then (publishers) =>
         @showedPublisherIds = _.map(publishers, 'id')
 

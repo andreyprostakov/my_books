@@ -3,6 +3,7 @@ class AuthorsController < ApplicationController
     authors = Author.by_names
     authors = authors.for_publisher(params[:publisher_name]) if params[:publisher_name]
     authors = authors.of_series(params[:series_title]) if params[:series_title]
+    authors = authors.in_category(params[:category_code]) if params[:category_code]
     render json: authors
   end
 

@@ -21,7 +21,7 @@ Vue.component 'edition-form',
     preselectedPublisher: ->
       @$store.getters.currentPublisherName
     preselectedCategory: ->
-      @$store.getters.categoryCode
+      @$store.getters.currentCategory
     preselectedSeries: ->
       @$store.getters.currentSeriesTitle
 
@@ -53,9 +53,6 @@ Vue.component 'edition-form',
 
     close: ->
       @enabled = false
-
-    canAddAuthorToBook: (book) ->
-      book.authors.filter((a) => !a.name).length == 0
 
     addAuthor: (book) ->
       book.authors.push({})

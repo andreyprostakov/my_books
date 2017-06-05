@@ -13,10 +13,14 @@ class Series < ApplicationRecord
   has_many :editions
   has_many :authors, through: :editions
   has_many :publishers, through: :editions
+  has_many :categories, through: :editions
 
   validates :title, presence: true
 
   scope :by_names, -> { order(:title) }
   scope :by_author, -> (name) { includes(:authors).where(authors: { name: name }) }
   scope :by_publisher, -> (name) { includes(:publishers).where(publishers: { name: name }) }
+  scope :in_category, -> (category_code) do
+    includes(:categories).where(edition_categories: { code: category_code })
+  end
 end

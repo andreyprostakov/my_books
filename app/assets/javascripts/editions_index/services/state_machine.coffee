@@ -55,7 +55,6 @@ class window.StateMachine
 
   stateForAuthor: (authorName) ->
     authorName: authorName
-    categoryCode: null
     editionId: null
 
   goToPublisher: (publisherName) ->
@@ -66,7 +65,6 @@ class window.StateMachine
 
   stateForPublisher: (publisherName) ->
     publisherName: publisherName
-    categoryCode: null
     editionId: null
 
   goToSeries: (seriesTitle) ->
@@ -76,9 +74,8 @@ class window.StateMachine
     @urlForState(@stateForSeries(seriesTitle))
 
   stateForSeries: (seriesTitle) ->
-    categoryCode: null
-    editionId: null
     seriesTitle: seriesTitle
+    editionId: null
 
   changedStateUrl: (changes) ->
     filteredChanges = @filterStateAttributes(changes)
