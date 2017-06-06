@@ -3,6 +3,7 @@ class EditionSerializer < ActiveModel::Serializer
     :title,
     :cover_url,
     :category,
+    :annotation,
     :read
 
   has_many :authors

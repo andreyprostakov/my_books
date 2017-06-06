@@ -8,21 +8,49 @@ script#editions_list_template[type='text/x-document']
       a.add-edition-link[@click='addNewEdition']
         = t('editions.add_new')
 
-    .edition.column.is-2[v-for='edition in editions']
-      .edition-preview[:class='{"read": edition.read}']
-        .edition-preview-selection-indicator[
-          v-if='selectionMode'
-          @click='toggleEditionFromSelection(edition)'
-        ]
-          template[v-if='editionIsSelected(edition)']
-            i.fa.fa-check-circle
-          template[v-else]
-            i.fa.fa-circle-o
+      .layout-controls
+        a[v-if='layout == "list"' @click='switchToGrid'] = t('editions.list.switch_to_grid')
+        a[v-if='layout == "grid"' @click='switchToList'] = t('editions.list.switch_to_list')
+
+    template[v-if='layout == "grid"']
+      .edition.column.is-2.grid-layout-item[v-for='edition in editions']
+        .edition-preview[:class='{"read": edition.read}']
+          .edition-preview-selection-indicator[
+            v-if='selectionMode'
+            @click='toggleEditionFromSelection(edition)'
+          ]
+            template[v-if='editionIsSelected(edition)']
+              i.fa.fa-check-circle
+            template[v-else]
+              i.fa.fa-circle-o
+          a.edition-preview-cover[
+            :href="urlForEdition(edition)"
+            @click.prevent='selectEdition(edition)'
+          ]
+            img[:src='edition.cover_url']
+
+    template[v-if='layout == "list"']
+      .edition.column.is-6.list-layout-item[v-for='edition in editions']
         a.edition-preview-cover[
           :href="urlForEdition(edition)"
           @click.prevent='selectEdition(edition)'
         ]
           img[:src='edition.cover_url']
+        .edition-preview-info
+          a.edition-preview-title[
+            v-html='edition.title'
+            :href="urlForEdition(edition)"
+            @click.prevent='selectEdition(edition)'
+          ]
+          edition-authors-list.edition-preview-authors[
+            :edition='edition'
+            @click='goToAuthor'
+          ]
+          .edition-preview-annotation[
+            v-html='edition.annotation'
+            :href="urlForEdition(edition)"
+            @click.prevent='selectEdition(edition)'
+          ]
 
     .editions-pagination.column.is-12
       list-pagination

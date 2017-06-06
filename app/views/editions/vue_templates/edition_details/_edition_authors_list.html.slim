@@ -1,0 +1,10 @@
+script#edition_authors_list_template[type='text/x-document']
+  div[v-if='authors']
+    template[v-for='author, authorIndex in authors']
+      a[
+        v-html='author.name'
+        :href='urlForAuthor(author)'
+        @click.prevent='clickOnAuthor(author)'
+      ]
+      span[v-if='authorIndex != (authors.length - 1)']
+        = ', '

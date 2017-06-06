@@ -5,6 +5,9 @@ updateItemInArray = (array, updatedItem) ->
   array.splice(index, 1, updatedItem)
   oldItem
 
+LIST_LAYOUT = 'list'
+GRID_LAYOUT = 'grid'
+
 window.Store = new Vuex.Store
   state:
     editions: []
@@ -20,6 +23,8 @@ window.Store = new Vuex.Store
     page: 1
     pageSize: 18
     pageState: new StateMachine()
+
+    layout: LIST_LAYOUT
 
   getters:
     filteredEditions: (state, getters) ->
@@ -194,3 +199,11 @@ window.Store = new Vuex.Store
     setCurrentCategory: (state, categoryCode) ->
       state.pageState.goToCategory(categoryCode)
       state.page = 1
+
+    # Layout
+
+    switchToListLayout: (state) ->
+      state.layout = LIST_LAYOUT
+
+    switchToGridLayout: (state) ->
+      state.layout = GRID_LAYOUT

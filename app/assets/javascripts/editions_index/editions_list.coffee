@@ -2,6 +2,8 @@ Vue.component 'editions-list',
   template: '#editions_list_template'
 
   computed: Vuex.mapState
+    layout: 'layout'
+
     editions: ->
       @$store.getters.currentPageEditions
 
@@ -14,6 +16,11 @@ Vue.component 'editions-list',
 
     editionsCount: ->
       @filteredEditions.length
+
+  mounted: ->
+    @$watch 'editions', =>
+      Vue.nextTick =>
+        $('.edition-preview-annotation, .edition-preview-authors').dotdotdot()
 
   methods:
     show: ->
@@ -39,3 +46,12 @@ Vue.component 'editions-list',
 
     addNewEdition: ->
       EventsDispatcher.$emit('addNewEdition')
+
+    switchToList: ->
+      @$store.commit('switchToListLayout')
+
+    switchToGrid: ->
+      @$store.commit('switchToGridLayout')
+
+    goToAuthor: (author) ->
+      @$store.commit('setCurrentAuthor', author)
