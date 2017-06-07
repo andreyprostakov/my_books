@@ -24,7 +24,7 @@ window.Store = new Vuex.Store
     pageSize: 18
     pageState: new StateMachine()
 
-    layout: LIST_LAYOUT
+    layout: GRID_LAYOUT
 
   getters:
     filteredEditions: (state, getters) ->
@@ -80,6 +80,7 @@ window.Store = new Vuex.Store
     setSelectedEditionId: (state, id) ->
       state.selectedEditionId = id
       state.pageState.goToEdition(id)
+      window.scrollTo(0, 0)
 
     setOpenedEditionId: (state, id) ->
       state.selectedEditionId = id
@@ -99,6 +100,7 @@ window.Store = new Vuex.Store
 
     setPage: (state, page) ->
       state.page = page
+      window.scrollTo(0, 0)
 
     # SelectionMode, SelectedEditionIds
 

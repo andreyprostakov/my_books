@@ -1,5 +1,5 @@
 script#edition_authors_list_template[type='text/x-document']
-  div[v-if='authors']
+  div[v-if='authors.length']
     template[v-for='author, authorIndex in authors']
       a[
         v-html='author.name'

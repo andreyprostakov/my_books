@@ -4,6 +4,8 @@ Vue.component 'editions-list',
   computed: Vuex.mapState
     layout: 'layout'
 
+    page: 'page'
+
     editions: ->
       @$store.getters.currentPageEditions
 
@@ -18,9 +20,8 @@ Vue.component 'editions-list',
       @filteredEditions.length
 
   mounted: ->
-    @$watch 'editions', =>
-      Vue.nextTick =>
-        $('.edition-preview-annotation, .edition-preview-authors').dotdotdot()
+    @$watch 'editions', @truncateAnnotations
+    @$watch 'layout', @truncateAnnotations
 
   methods:
     show: ->
@@ -55,3 +56,8 @@ Vue.component 'editions-list',
 
     goToAuthor: (author) ->
       @$store.commit('setCurrentAuthor', author)
+
+    truncateAnnotations: ->
+      return if @layout != 'list'
+      Vue.nextTick =>
+        $('.edition-preview-annotation, .edition-preview-authors').dotdotdot()
