@@ -9,8 +9,9 @@ script#editions_list_template[type='text/x-document']
         = t('editions.add_new')
 
       .layout-controls
-        a[v-if='layout == "list"' @click='switchToGrid'] = t('editions.list.switch_to_grid')
-        a[v-if='layout == "grid"' @click='switchToList'] = t('editions.list.switch_to_list')
+        a[:class='{"active": layout == "grid"}' @click='switchToGrid'] = t('editions.list.switch_to_grid')
+        a[:class='{"active": layout == "list"}' @click='switchToList'] = t('editions.list.switch_to_list')
+        a[:class='{"active": layout == "3d"}' @click='switchTo3d'] = t('editions.list.switch_to_3d')
 
     template[v-if='layout == "grid"']
       .edition.column.is-2.grid-layout-item[v-for='edition in editions']
@@ -28,6 +29,23 @@ script#editions_list_template[type='text/x-document']
             @click.prevent='selectEdition(edition)'
           ]
             img[:src='edition.cover_url']
+
+    template[v-if='layout == "3d"']
+      .book-3d-container[v-for='edition in editions']
+        .book-3d
+          .book-back
+            .book-annotation[v-html='edition.annotation']
+          .book-spine
+            .book-title[v-html='edition.title']
+          .book-front
+            .book-cover
+              edition-authors-list.book-authors[
+                :edition='edition'
+              ]
+              .book-title[v-html='edition.title']
+          .book-block-top
+          .book-block-bottom
+          .book-block-edge
 
     template[v-if='layout == "list"']
       .edition.column.is-6.list-layout-item[v-for='edition in editions']

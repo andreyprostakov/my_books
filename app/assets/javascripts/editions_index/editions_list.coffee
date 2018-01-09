@@ -54,6 +54,9 @@ Vue.component 'editions-list',
     switchToGrid: ->
       @$store.commit('switchToGridLayout')
 
+    switchTo3d: ->
+      @$store.commit('switchTo3d')
+
     goToAuthor: (author) ->
       @$store.commit('setCurrentAuthor', author)
 

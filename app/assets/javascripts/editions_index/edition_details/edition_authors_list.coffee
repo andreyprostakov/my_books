@@ -8,6 +8,9 @@ Vue.component 'edition-authors-list',
     authors: ->
       @edition.authors
 
+    activeClick: ->
+      !!@$listeners.click
+
   methods:
     clickOnAuthor: (author) ->
       @$emit('click', author)

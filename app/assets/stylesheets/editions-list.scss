@@ -17,6 +17,15 @@
 
     .layout-controls {
       float: right;
+
+      a {
+        margin: 0 5px;
+
+        &.active {
+          color: #4a4a4a;
+          cursor: default;
+        }
+      }
     }
   }
 

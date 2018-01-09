@@ -35,6 +35,7 @@ ru:
       publication_year: Год издания
       pages_count: Кол-во страниц
     list:
+      switch_to_3d: 3D
       switch_to_grid: Обложки
       switch_to_list: Список
     orders:

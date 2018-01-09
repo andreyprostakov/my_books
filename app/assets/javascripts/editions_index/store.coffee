@@ -7,6 +7,7 @@ updateItemInArray = (array, updatedItem) ->
 
 LIST_LAYOUT = 'list'
 GRID_LAYOUT = 'grid'
+THREE_D_LAYOUT = '3d'
 
 window.Store = new Vuex.Store
   state:
@@ -24,7 +25,7 @@ window.Store = new Vuex.Store
     pageSize: 18
     pageState: new StateMachine()
 
-    layout: GRID_LAYOUT
+    layout: THREE_D_LAYOUT
 
   getters:
     filteredEditions: (state, getters) ->
@@ -209,3 +210,6 @@ window.Store = new Vuex.Store
 
     switchToGridLayout: (state) ->
       state.layout = GRID_LAYOUT
+
+    switchTo3d: (state) ->
+      state.layout = THREE_D_LAYOUT
