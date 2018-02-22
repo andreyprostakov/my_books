@@ -8,6 +8,7 @@
   height: $cover-height;
   width: 21px;
   margin: 20px 10px;
+  transform-style: preserve-3d;
 
   .book-3d {
     position: relative;
@@ -15,6 +16,7 @@
     transform: rotate3d(0, 1, 0, 90deg) rotate3d(1, 0, 0, 4deg);
     transform-style: preserve-3d;
     transition: transform 1.0s;
+    cursor: pointer;
 
     .book-front {
       position: absolute;
@@ -129,6 +131,10 @@
         line-height: $spine-width;
         text-align: right;
       }
+
+      &:hover {
+        background-color: red;
+      }
     }
 
     .book-block-top {
@@ -163,12 +169,18 @@
       transform-origin: 100% 50%;
       transform: rotate3d(0, 1, 0, 90deg) translate3d(20px, 0px, -$pages-block-padding);
     }
+
+    &.selected {
+      transform: translate3d(0, 100px, 0) rotate3d(0, 1, 0, 4deg);
+      z-index: 2;
+    }
+
+    &:hover {
+      background-color: red !important;
+    }
   }
 
   &:hover {
-    .book-3d {
-      transform: rotate3d(0, 1, 0, 4deg) rotate3d(1, 0, 0, 4deg);
-      z-index: 2;
-    }
+    background-color: green !important;
   }
 }

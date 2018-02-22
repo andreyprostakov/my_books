@@ -1,6 +1,9 @@
 Vue.component 'editions-list',
   template: '#editions_list_template'
 
+  data: ->
+    selected3dBookId: null
+
   computed: Vuex.mapState
     layout: 'layout'
 
@@ -64,3 +67,6 @@ Vue.component 'editions-list',
       return if @layout != 'list'
       Vue.nextTick =>
         $('.edition-preview-annotation, .edition-preview-authors').dotdotdot()
+
+    select3dBook: (edition) ->
+      @selected3dBookId = edition.id
