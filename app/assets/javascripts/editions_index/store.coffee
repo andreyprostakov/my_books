@@ -5,6 +5,10 @@ updateItemInArray = (array, updatedItem) ->
   array.splice(index, 1, updatedItem)
   oldItem
 
+LIST_LAYOUT = 'list'
+GRID_LAYOUT = 'grid'
+THREE_D_LAYOUT = '3d'
+
 window.Store = new Vuex.Store
   state:
     editions: []
@@ -20,6 +24,8 @@ window.Store = new Vuex.Store
     page: 1
     pageSize: 18
     pageState: new StateMachine()
+
+    layout: THREE_D_LAYOUT
 
   getters:
     filteredEditions: (state, getters) ->
@@ -75,6 +81,7 @@ window.Store = new Vuex.Store
     setSelectedEditionId: (state, id) ->
       state.selectedEditionId = id
       state.pageState.goToEdition(id)
+      window.scrollTo(0, 0)
 
     setOpenedEditionId: (state, id) ->
       state.selectedEditionId = id
@@ -94,6 +101,7 @@ window.Store = new Vuex.Store
 
     setPage: (state, page) ->
       state.page = page
+      window.scrollTo(0, 0)
 
     # SelectionMode, SelectedEditionIds
 
@@ -194,3 +202,14 @@ window.Store = new Vuex.Store
     setCurrentCategory: (state, categoryCode) ->
       state.pageState.goToCategory(categoryCode)
       state.page = 1
+
+    # Layout
+
+    switchToListLayout: (state) ->
+      state.layout = LIST_LAYOUT
+
+    switchToGridLayout: (state) ->
+      state.layout = GRID_LAYOUT
+
+    switchTo3d: (state) ->
+      state.layout = THREE_D_LAYOUT

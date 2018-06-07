@@ -1,0 +1,186 @@
+.book-3d-container {
+  $spine-width: 40px;
+  $cover-height: 400px;
+  $cover-width: 290px;
+  $pages-block-padding: 5px;
+
+  display: inline-block;
+  height: $cover-height;
+  width: 21px;
+  margin: 20px 10px;
+  transform-style: preserve-3d;
+
+  .book-3d {
+    position: relative;
+    transform-origin: 100% 0;
+    transform: rotate3d(0, 1, 0, 90deg) rotate3d(1, 0, 0, 4deg);
+    transform-style: preserve-3d;
+    transition: transform 1.0s;
+    cursor: pointer;
+
+    .book-front {
+      position: absolute;
+      left: 0;
+      top: 0;
+      overflow: auto;
+      height: $cover-height;
+      width: $cover-width;
+      transform: translate3d(0, 0, 20px);
+      background-color: #439877;
+      box-shadow: inset 4px 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 0 3px 3px 0;
+
+      .book-cover {
+        text-align: center;
+
+        .book-authors {
+          overflow: hidden;
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          right: 20px;
+          bottom: 50%;
+          color: #fff;
+          font-size: 12px;
+          line-height: 14px;
+
+          a {
+            color: #fff;
+            font-size: 12px;
+            line-height: 14px;
+          }
+        }
+
+        .book-title {
+          overflow: hidden;
+          position: absolute;
+          bottom: 20px;
+          left: 20px;
+          right: 20px;
+          max-height: calc(50% - 20px);
+          font-weight: bold;
+          color: #fff;
+          font-size: 16px;
+        }
+      }
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 10px;
+        bottom: 0;
+        width: 3px;
+        background: rgba(0, 0, 0, 0.06);
+        box-shadow: 1px 0 3px rgba(255, 255, 255, 0.1);
+      }
+    }
+
+    .book-back {
+      position: absolute;
+      left: 0;
+      top: 0;
+      overflow: auto;
+      height: $cover-height;
+      width: $cover-width;
+      transform: rotate3d(0, 1, 0, 180deg) translate3d(0, 0, 20px);
+      background-color: #439877;
+      border-radius: 3px 0 0 3px;
+
+      .book-annotation {
+        overflow: hidden;
+        position: absolute;
+        top: 20px;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+      }
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 10px;
+        bottom: 0;
+        width: 3px;
+        background: rgba(0, 0, 0, 0.06);
+        box-shadow: 1px 0 3px rgba(255, 255, 255, 0.1);
+        left: auto;
+        right: 10px;
+      }
+    }
+
+    .book-spine {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: $cover-height;
+      width: $spine-width;
+      transform: rotate3d(0, 1, 0, -90deg) translate3d(-20px, 0px, 0px);
+      transform-origin: 0;
+      background-color: #121212;
+
+      .book-title {
+        overflow: hidden;
+        width: $cover-height;
+        height: $spine-width;
+        transform-origin: 20px 20px;
+        transform: rotate3d(0, 0, 1, 90deg);
+        padding: 0 20px;
+        color: #fff;
+        line-height: $spine-width;
+        text-align: right;
+      }
+
+      &:hover {
+        background-color: red;
+      }
+    }
+
+    .book-block-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: $pages-block-padding;
+      height: $spine-width;
+      transform-origin: 50% 0;
+      transform: rotate3d(1, 0, 0, 90deg) translate3d(0px, -20px, -$pages-block-padding);
+      background-color: white;
+    }
+
+    .book-block-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: $pages-block-padding;
+      background-color: white;
+      height: $spine-width;
+      transform-origin: 50% 100%;
+      transform: rotate3d(1, 0, 0, 90deg) translate3d(0px, 20px, $pages-block-padding);
+    }
+
+    .book-block-edge {
+      position: absolute;
+      top: $pages-block-padding;
+      bottom: $pages-block-padding;
+      right: 0;
+      background-color: white;
+      width: $spine-width;
+      transform-origin: 100% 50%;
+      transform: rotate3d(0, 1, 0, 90deg) translate3d(20px, 0px, -$pages-block-padding);
+    }
+
+    &.selected {
+      transform: translate3d(0, 100px, 0) rotate3d(0, 1, 0, 4deg);
+      z-index: 2;
+    }
+
+    &:hover {
+      background-color: red !important;
+    }
+  }
+
+  &:hover {
+    background-color: green !important;
+  }
+}

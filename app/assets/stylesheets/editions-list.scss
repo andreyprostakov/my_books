@@ -1,6 +1,7 @@
 #editions_list {
   position: relative;
   background-color: whitesmoke;
+  $cover-width: 140px;
 
   .list-info {
     padding: 10px 15px 0;
@@ -13,29 +14,30 @@
     .add-edition-link {
       display: inline-block;
     }
+
+    .layout-controls {
+      float: right;
+
+      a {
+        margin: 0 5px;
+
+        &.active {
+          color: #4a4a4a;
+          cursor: default;
+        }
+      }
+    }
   }
 
   .editions-pagination {
     margin: 20px 0 !important;
   }
 
-  .edition {
-    margin-bottom: 20px;
-  }
-
-  .edition-preview {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    padding: 15px 10px;
-    vertical-align: top;
-    border-radius: 2px;
-    overflow: hidden;
-
+  @mixin edition-preview-cover {
     .edition-preview-cover {
       display: inline-block;
       vertical-align: top;
-      width: 140px;
+      width: $cover-width;
       height: 190px;
       cursor: pointer;
 
@@ -45,48 +47,99 @@
         max-height: 100%;
       }
     }
+  }
+
+  .grid-layout-item {
+    .edition {
+      margin-bottom: 20px;
+    }
+
+    .edition-preview {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+      padding: 15px 10px;
+      vertical-align: top;
+      border-radius: 2px;
+      overflow: hidden;
+
+      @include edition-preview-cover;
+
+      &.read {
+        .edition-preview-cover {
+          @include read_edition_mark;
+        }
+      }
+
+      .edition-preview-selection-indicator {
+        z-index: 1;
+        position: absolute;
+        left: 5px;
+        top: 5px;
+        bottom: 5px;
+        right: 5px;
+        padding-top: 90px;
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
+        background-color: rgba(255,255,255,0.3);
+
+        i {
+          font-size: 40px;
+          color: darkred;
+        }
+      }
+    }
+  }
+
+  .list-layout-item {
+    padding: 15px 10px;
+
+    @include edition-preview-cover;
 
     .edition-preview-info {
-      display: inline-block;
-      width: calc(100% - 140px);
+      float: right;
+      width: calc(100% - #{$cover-width} - 10px);
 
       .edition-preview-title {
         display: inline-block;
+        vertical-align: top;
         width: 100%;
-        font-size: 14px;
+        margin-bottom: 5px;
+        color: #4a4a4a;
+        font-weight: 500;
+        font-size: 18px;
         line-height: normal;
       }
 
       .edition-preview-authors {
+        display: inline-block;
+        vertical-align: top;
+        width: 100%;
+        max-height: 35px;
+        margin-bottom: 10px;
+
         &, a {
+          display: inline-block;
+          color: #4a4a4a;
           font-size: 14px;
           line-height: normal;
         }
+
+        a:hover {
+          text-decoration: underline;
+        }
       }
-    }
 
-    &.read {
-      .edition-preview-cover {
-        @include read_edition_mark;
-      }
-    }
-
-    .edition-preview-selection-indicator {
-      z-index: 1;
-      position: absolute;
-      left: 5px;
-      top: 5px;
-      bottom: 5px;
-      right: 5px;
-      padding-top: 90px;
-      border-radius: 5px;
-      text-align: center;
-      cursor: pointer;
-      background-color: rgba(255,255,255,0.3);
-
-      i {
-        font-size: 40px;
-        color: darkred;
+      .edition-preview-annotation {
+        position: relative;
+        padding: 0 10px;
+        max-height: 150px;
+        font-size: 12px;
+        font-style: italic;
+        white-space: pre-line;
+        overflow: hidden;
+        cursor: pointer;
       }
     }
   }

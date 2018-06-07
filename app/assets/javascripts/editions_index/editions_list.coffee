@@ -1,7 +1,14 @@
 Vue.component 'editions-list',
   template: '#editions_list_template'
 
+  data: ->
+    selected3dBookId: null
+
   computed: Vuex.mapState
+    layout: 'layout'
+
+    page: 'page'
+
     editions: ->
       @$store.getters.currentPageEditions
 
@@ -14,6 +21,10 @@ Vue.component 'editions-list',
 
     editionsCount: ->
       @filteredEditions.length
+
+  mounted: ->
+    @$watch 'editions', @truncateAnnotations
+    @$watch 'layout', @truncateAnnotations
 
   methods:
     show: ->
@@ -39,3 +50,23 @@ Vue.component 'editions-list',
 
     addNewEdition: ->
       EventsDispatcher.$emit('addNewEdition')
+
+    switchToList: ->
+      @$store.commit('switchToListLayout')
+
+    switchToGrid: ->
+      @$store.commit('switchToGridLayout')
+
+    switchTo3d: ->
+      @$store.commit('switchTo3d')
+
+    goToAuthor: (author) ->
+      @$store.commit('setCurrentAuthor', author)
+
+    truncateAnnotations: ->
+      return if @layout != 'list'
+      Vue.nextTick =>
+        $('.edition-preview-annotation, .edition-preview-authors').dotdotdot()
+
+    select3dBook: (edition) ->
+      @selected3dBookId = edition.id

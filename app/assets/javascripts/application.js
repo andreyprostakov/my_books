@@ -21,5 +21,6 @@
 //= require autolink-min
 //= require spin.min
 //= require jquery.spin
+//= require jquery.dotdotdot.min
 //
 //= require edition_form

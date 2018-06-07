@@ -8,21 +8,69 @@ script#editions_list_template[type='text/x-document']
       a.add-edition-link[@click='addNewEdition']
         = t('editions.add_new')
 
-    .edition.column.is-2[v-for='edition in editions']
-      .edition-preview[:class='{"read": edition.read}']
-        .edition-preview-selection-indicator[
-          v-if='selectionMode'
-          @click='toggleEditionFromSelection(edition)'
+      .layout-controls
+        a[:class='{"active": layout == "grid"}' @click='switchToGrid'] = t('editions.list.switch_to_grid')
+        a[:class='{"active": layout == "list"}' @click='switchToList'] = t('editions.list.switch_to_list')
+        a[:class='{"active": layout == "3d"}' @click='switchTo3d'] = t('editions.list.switch_to_3d')
+
+    template[v-if='layout == "grid"']
+      .edition.column.is-2.grid-layout-item[v-for='edition in editions']
+        .edition-preview[:class='{"read": edition.read}']
+          .edition-preview-selection-indicator[
+            v-if='selectionMode'
+            @click='toggleEditionFromSelection(edition)'
+          ]
+            template[v-if='editionIsSelected(edition)']
+              i.fa.fa-check-circle
+            template[v-else]
+              i.fa.fa-circle-o
+          a.edition-preview-cover[
+            :href="urlForEdition(edition)"
+            @click.prevent='selectEdition(edition)'
+          ]
+            img[:src='edition.cover_url']
+
+    template[v-if='layout == "3d"']
+      .book-3d-container[v-for='edition in editions']
+        .book-3d[ @click='alert(13)'
+          :class='{"selected": edition.id == selected3dBookId}'
         ]
-          template[v-if='editionIsSelected(edition)']
-            i.fa.fa-check-circle
-          template[v-else]
-            i.fa.fa-circle-o
+          .book-back
+            .book-annotation[v-html='edition.annotation']
+          .book-spine[@click='alert(13)']
+            .book-title[v-html='edition.title']
+          .book-front
+            .book-cover
+              edition-authors-list.book-authors[
+                :edition='edition'
+              ]
+              .book-title[v-html='edition.title']
+          .book-block-top
+          .book-block-bottom
+          .book-block-edge
+
+    template[v-if='layout == "list"']
+      .edition.column.is-6.list-layout-item[v-for='edition in editions']
         a.edition-preview-cover[
           :href="urlForEdition(edition)"
           @click.prevent='selectEdition(edition)'
         ]
           img[:src='edition.cover_url']
+        .edition-preview-info
+          a.edition-preview-title[
+            v-html='edition.title'
+            :href="urlForEdition(edition)"
+            @click.prevent='selectEdition(edition)'
+          ]
+          edition-authors-list.edition-preview-authors[
+            :edition='edition'
+            @click='goToAuthor'
+          ]
+          .edition-preview-annotation[
+            v-html='edition.annotation'
+            :href="urlForEdition(edition)"
+            @click.prevent='selectEdition(edition)'
+          ]
 
     .editions-pagination.column.is-12
       list-pagination
